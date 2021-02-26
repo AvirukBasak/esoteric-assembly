@@ -1,6 +1,9 @@
 # Esoteric-Assembler
 An interpreter with assembly like syntax.
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/AvirukBasak/Esoteric-Assembler?color=f&label=Version)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AvirukBasak/Esoteric-Assembler)
+
 ## Download links
 - Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.2.28). You'll find installation instructions there.
 
