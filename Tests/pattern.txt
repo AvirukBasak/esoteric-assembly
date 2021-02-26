@@ -1,0 +1,31 @@
+/* number of times to print */
+set %d,$a
+
+/* char to print */
+set &0,$0x40
+
+/* space bw chars */
+set &1,$0x20
+
+/* compare i and j reg ie %a and %b 
+ * with %d which is set to 10
+ */
+iLoop:
+    ieq %d,%a
+    jit iEnd
+    set %b,%a
+jLoop:
+    ieq %d,%b
+    jit jEnd
+    set %c,&0
+    prc %c
+    set %c,&1
+    prc %c
+    add %b,$1
+    jmp jLoop
+jEnd:
+    nwl
+    add %a,$1
+    jmp iLoop
+iEnd:
+    end

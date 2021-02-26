@@ -1,0 +1,22 @@
+/* implementing a function to 
+ * find the square of a number 
+ */
+jmp MAIN
+
+/* the function starts here */
+SQ:
+    mul &1024 &1024
+    set %a &1024
+    ret
+
+MAIN:
+    prs "Enter number: "
+    inp %a
+    set &1024 %a
+    call SQ
+    prs "Result = "
+    prn %a
+    nwl
+    jmp END
+
+END: end
