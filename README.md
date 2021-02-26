@@ -2,15 +2,16 @@
 An interpreter with assembly like syntax.
 
 ## Download links
-- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.2.28).
+- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.2.28). You'll find installation instructions there.
 
 ## How to use?
 - Once installed, run `asm path/to/file` where `asm` is the linux command (or the path to the binary executable).
-- Windows users need to compile the source and put it in their `C:` drive as of now.
+- Windows users need to compile the source manually as of now.
 - Enter `asm --help` or `asm -h` for help text.
 
 ## The test files
-Folder `Tests` contains codes for trial.
+- Folder `Tests` contains codes for trial.
+- Visit [ASM-Tests](https://github.com/AvirukBasak/ASM-Tests) repository for more test codes.
 
 ## How to code?
 ```
@@ -48,33 +49,33 @@ RAM:                  |
 Mnemonics:            |
   /*comment*/         | Multi line comment
   Label:              | Labels
-  jit lbl             | Jump if (FLAG) true to line after lbl
-  jif lbl             | Jump if (FLAG) false to line after lbl
-  jmp lbl             | Jump (unconditional) to a line after lbl
-  call lbl            | Call label as function
-  calt lbl            | Call label as function if FLAG true
   calf lbl            | Call label as function if FLAG false
   set op1 op2         | Set op1 to value of op2
   add op1 op2         | Add op2 to op1 and store in op1
   sub op1 op2         | Subtract op2 from op1 and store in op1
   mul op1 op2         | Multiply op1 by op2 and store in op1
-  div op1 op2         | Divide op1 by op1 and store in op1
+  div op1 op2         | Divide op1 by op2 and store in op1
   mod op1 op2         | Mod op1 by op2 and store in op1
   ieq op1 op2         | If operands are equal, set FLAG true
   ige op1 op2         | If op1 is greater or equal, set FLAG true
   ile op1 op2         | If op1 is lesser or equal, set FLAG true
   igt op1 op2         | If op1 is greater, set FLAG true
   ilt op1 op2         | If op1 is lesser, set FLAG true
-  and op1 op2         | Set op1 to and value of operands
-  or  op1 op2         | Set op1 to or value of operands
-  xor op1 op2         | Set op1 to xor value of operands
+  and op1 op2         | Set op1 to AND value of operands
+  or  op1 op2         | Set op1 to OR value of operands
+  xor op1 op2         | Set op1 to XOR value of operands
   com op              | Set operand to its 32 bit 1's complement
   inp op              | Input to operand
   prn op              | Print operand as number
   prc op              | Print operand as char
   prs "str"           | Print str as string
   nwl                 | Print new line character
-  ret                 | Return to a line after jump statement
+  jit lbl             | Jump if (FLAG) true to line after lbl
+  jif lbl             | Jump if (FLAG) false to line after lbl
+  jmp lbl             | Jump (unconditional) to a line after lbl
+  call lbl            | Call label as function
+  calt lbl            | Call label as function if FLAG true
+  ret                 | Return from function
   end                 | End execution
 
 NOTE: $20 will be parsed as decimal. For hex, use $0x20. This is
