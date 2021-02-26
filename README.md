@@ -2,7 +2,7 @@
 An assembly simulator. It was meant to be close to an assembler but feels more like a high level programming language.
 
 ## Download links
-- Get out our latest release [here](https://github.com/CodesterClub/Assembly-Sim/releases/tag/v2021.2.28).
+- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.2.28).
 
 ## How to use?
 - Once installed, run `asm path/to/file` where `asm` is the linux command (or the path to the binary executable).
