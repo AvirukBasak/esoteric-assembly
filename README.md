@@ -49,7 +49,6 @@ RAM:                  |
 Mnemonics:            |
   /*comment*/         | Multi line comment
   Label:              | Labels
-  calf lbl            | Call label as function if FLAG false
   set op1 op2         | Set op1 to value of op2
   add op1 op2         | Add op2 to op1 and store in op1
   sub op1 op2         | Subtract op2 from op1 and store in op1
@@ -75,6 +74,7 @@ Mnemonics:            |
   jmp lbl             | Jump (unconditional) to a line after lbl
   call lbl            | Call label as function
   calt lbl            | Call label as function if FLAG true
+  calf lbl            | Call label as function if FLAG false
   ret                 | Return from function
   end                 | End execution
 
