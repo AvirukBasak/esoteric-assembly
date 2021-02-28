@@ -1,5 +1,5 @@
-/* Author: CodesterClub
- * Version: 2021.3.1
+/* Author: AvirukBasak
+ * Version: 2021.2.28
  * Description: Another assembly simulator
  */
 
@@ -29,7 +29,7 @@ void evalOptions(char **args, int indx) {
     // if indx argument is version
     else if (!strcmp(args[indx], "--version") || !strcmp(args[indx], "-v")) {
         printf("Package: assembly-simulator\n");
-        printf("Version: 2021.3.1\n");
+        printf("Version: 2021.2.28 (End of month release)\n");
         printf("Command: asm\n");
         exit(0);
     }
