@@ -99,8 +99,8 @@ E8     8       input,
 E9     9       interpreter   Invalid register name
 E10    10      interpreter   Invalid RAM address
 E11    11      interpreter   Address out of bounds
-E12    12      interpreter   Can't assign to literal
-E13    13      interpreter   Invalid literal
+E12    12      interpreter   Invalid literal
+E13    13      interpreter   Can't assign to literal
 E14    14      interpreter   Invalid operand
 E15    15      interpreter   Duplicate labels
 E16    16      interpreter   No such label

@@ -16,6 +16,7 @@ int *selOprnd(char *oprnd, bool w) {
         else {
             E9: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid register name: '%s'\n", lineNo, &oprnd[1]);
             quit(9);
+            return ptr;
         }
     }
     else if (oprnd[0] == '&') {
@@ -35,12 +36,14 @@ int *selOprnd(char *oprnd, bool w) {
                 if (*endptr) {
                     E10: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid address value: '%s'\n", lineNo, substr(oprnd, 1, -1));
                     quit(10);
+                    return ptr;
                 }
             }
         }
         if (ramIndex < 0 || ramIndex >= 1048576) {
             E11: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Address out of bounds for: '%s'\n", lineNo, substr(oprnd, 1, -1));
             quit(11);
+            return ptr;
         }
         ptr = &RAM[ramIndex];
     }
@@ -50,11 +53,6 @@ int *selOprnd(char *oprnd, bool w) {
             ptr = &dataPtr;
         }
         else {
-            // if writable flag disabled by calling function for safety reasons
-            if (!w) {
-                E12: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Cannot assign to literal\n", lineNo);
-                quit(12);
-            }
             // try converting from decimal
             intBuffer = (int)strtol(substr(oprnd, 1, -1), &endptr, 10);
             // if from dec conversion fails
@@ -63,16 +61,24 @@ int *selOprnd(char *oprnd, bool w) {
                 intBuffer = (int)strtol(substr(oprnd, 1, -1), &endptr, 16);
                 // if even that fails, surely the input number is invalid
                 if (*endptr) {
-                    E13: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid literal value: '%s'\n", lineNo, substr(oprnd, 1, -1));
-                    quit(13);
+                    E12: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid literal value: '%s'\n", lineNo, substr(oprnd, 1, -1));
+                    quit(12);
+                    return ptr;
                 }
             }
+            // if writable flag disabled by calling function for safety reasons
+            if (!w) {
+                E13: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Cannot assign to literal\n", lineNo);
+                quit(13);
+                return ptr;
+            }
+            ptr = &intBuffer;
         }
-        ptr = &intBuffer;
     }
     else {
         E14: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid operand: '%s' for opcode: '%s'\n", lineNo, oprnd, opcode);
         quit(14);
+        return ptr;
     }
     return ptr;
 }
@@ -245,6 +251,7 @@ void evaluate(char *opcode) {
         if (strlen(oprnd2) > 10) {
             E8b: fprintf(stderr, RED "ERR> " RST "Input too long\n");
             quit(8);
+            return;
         }
         if (dev) printf("\n");
         char *endptr;
@@ -258,7 +265,7 @@ void evaluate(char *opcode) {
         scanStr(file, oprnd1, 64);
         if (dev) printf(YEL "\nOUT> " RST);
         else if (console) printf(YEL "OUT> " RST);
-        printf("%d", *selOprnd(oprnd1, 0));
+        printf("%d", *selOprnd(oprnd1, 1));
         if (dev) printf("\n\n");
         else if (console) printf("\n");
     }
@@ -266,7 +273,7 @@ void evaluate(char *opcode) {
         scanStr(file, oprnd1, 64);
         if (dev) printf(YEL "\nOUT> " RST);
         else if (console) printf(YEL "OUT> " RST);
-        printf("%c", *selOprnd(oprnd1, 0));
+        printf("%c", *selOprnd(oprnd1, 1));
         if (dev) printf("\n\n");
         else if (console) printf("\n");
     }
