@@ -2,15 +2,15 @@
 void openFile(char *path) {
     file = fopen(path, "r");     // r means read mode
     if (file == NULL) {
-        E4: fprintf(stderr, RED "E4> Can't read file '%s'\n", path);
-        fprintf(stderr, "E4> Check if file path exists and has read permission\n" RST);
+        E4: fprintf(stderr, RED "ERR> " RST "Can't read file '%s'\n", path);
+        fprintf(stderr, RED "ERR> " RST "Check if file path exists and has read permission\n");
         exit(4);
     }
 }
 
 //handles EOF encounters
 void eof() {
-    E5: fprintf(stderr, RED "E5> [LINE: %u] Unexpected end of file\n" RST, lineNo);
+    E5: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Unexpected end of file\n", lineNo);
     quit(5);
 }
 
@@ -147,18 +147,18 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
             else if (c == 't') c = '\t';
             else if (c == 'b') c = ' ';
             else if (c == 10) {
-                E6: fprintf(stderr, RED "E6> [LINE: %u-%u] Newline must be escaped with '\\n'\n" RST, lineNo, lineNo + 1);
+                E6: fprintf(stderr, RED "ERR> " RST "[LINE: %u-%u] Newline must be escaped with '\\n'\n", lineNo, lineNo + 1);
                 quit(6);
             }
             else if (c == 13) {
-                E7: fprintf(stderr, RED "E7> [LINE: %u] Carriage return must be escaped with '\\r'\n" RST, lineNo);
+                E7: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Carriage return must be escaped with '\\r'\n", lineNo);
                 quit(7);
             }
         }
         // if index becomes equal to max size allowed for input
         if (i == size) {
             str[i] = '\0';
-            E8: fprintf(stderr, RED "E8> [LINE: %u] Exceeded %u character memory limit\nE8> For '%s...'\n" RST, lineNo, size, substr(str, 0, 16));
+            E8a: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character memory limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, substr(str, 0, 16));
             quit(8);
         }
         str[i++] = c;

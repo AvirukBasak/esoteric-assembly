@@ -1,5 +1,5 @@
 /* Author: AvirukBasak
- * Version: 2021.2.28
+ * Version: 2021.3.10
  * Description: Another assembly simulator
  */
 
@@ -7,9 +7,12 @@
 #include "input.c"
 #include "interpreter.c"
 
+#define VER "v2021.3.10"
+
 void initialize() {
     tab = NULL;
     tabIndex = 0;
+    console = false;
     printLbl = false;
     dev = false;
     file = NULL;
@@ -26,10 +29,17 @@ void evalOptions(char **args, int indx) {
         printHelp();
         exit(0);
     }
+    // if indx arg is console mode
+    else if (!strcmp(args[indx], "--console") || !strcmp(args[indx], "-c")) {
+        printf("Esoteric Assembler " VER " Console\n");
+        W1: printf(YEL "WRN> " RST "Function calls and jumps have been disabled.\n");
+        console = true;
+        lineNo = 0;
+    }
     // if indx argument is version
     else if (!strcmp(args[indx], "--version") || !strcmp(args[indx], "-v")) {
-        printf("Package: assembly-simulator\n");
-        printf("Version: 2021.2.28 (End of month release)\n");
+        printf("Esoteric Assembler\n");
+        printf("Version: " VER "\n");
         printf("Command: asm\n");
         exit(0);
     }
@@ -39,19 +49,19 @@ void evalOptions(char **args, int indx) {
          * in that case this error msg is printed
          */
         if (args[2] == NULL) {
-            E1: fprintf(stderr, RED "E2> No file path entered\n" RST);
+            E2a: fprintf(stderr, RED "ERR> " RST "No file path entered\n");
             exit(2);
         }
         // make sure dev isn't enabled accidentally
-        W1: printf(YEL "W1> DEVELOPER (DEBUG) MODE\n" RST);
+        W2: printf(YEL "WRN> DEVELOPER (DEBUG) MODE\n" RST);
         printf("  - This mode is for debugging the interpreter and not the asm\n    script.\n");
         printf("  - This mode prints every token the interpreter reads in.\n");
         printf("  - Label table is printed in this mode.\n");
         printf("  - I/O prompts of asm script will look ugly so removing them is\n    recommended.\n");
-        printf(YEL "W1> Enter 'n' for normal execution. Enable debugger? (y/n) " RST);
+        printf(YEL "Enter 'n' for normal execution. Enable debugger? (y/n) " RST);
         char s[8];
         scanStr(stdin, s, 8);
-        if (s[0] == 'y') {
+        if (s[0] == 'y' || s[0] == 'Y') {
             printLbl = true;
             dev = true;
         }
@@ -60,7 +70,7 @@ void evalOptions(char **args, int indx) {
     else if (!strcmp(args[indx], "--labels") || !strcmp(args[indx], "-l")) {
         // check if file path is not empty
         if (args[2] == NULL) {
-            E2: fprintf(stderr, RED "E2> No file path entered\n" RST);
+            E2b: fprintf(stderr, RED "ERR> " RST "No file path entered\n");
             exit(2);
         }
         // set label table printing flag on
@@ -68,8 +78,8 @@ void evalOptions(char **args, int indx) {
     }
     else {
         // if arg is invalid
-        E3: fprintf(stderr, RED "E3> Invalid option: '%s'\n", args[indx]);
-        fprintf(stderr, "E3> Use --help or -h for help text\n" RST);
+        E3: fprintf(stderr, RED "ERR> " RST "Invalid option: '%s'\n", args[indx]);
+        fprintf(stderr, RED "ERR> " RST "Use --help or -h for help text\n");
         exit(3);
     }
 }
@@ -96,6 +106,7 @@ int main(int argsc, char *args[]) {
         printf("Options:\n");
         printf("  -h, --help       Display extended help text\n");
         printf("  -l, --labels     Display declared labels in tabular form\n");
+        printf("  -c, --console    Console mode to execute codes from stdin\n");
         printf("  -v, --version    Display version information\n");
         printf("  -d, --dev        Developer mode to debug interpreter I/O\n");
         return 0;
@@ -117,16 +128,17 @@ int main(int argsc, char *args[]) {
         }
     }
     else {
-        fprintf(stderr, RED "E1> Too many arguments\n" RST);
+        E1: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
         exit(1);
     }
     // open file
-    openFile(args[arg]);
+    if (!console) openFile(args[arg]);
+    else file = stdin;
     // generate jump table
-    genJmpTable();
+    if (!console) genJmpTable();
     // goto file beginning
     fseek(file, 0, SEEK_SET);
-    lineNo = 1;
+    if (!console) lineNo = 1;
     // scan the file for codes and interpret them
     if (dev) printf(YEL "SCAN FILE FOR CODES\n" RST);
     interpret();

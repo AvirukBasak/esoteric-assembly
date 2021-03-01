@@ -113,7 +113,9 @@ E19    19      interpreter   Invalid opcode
 ``` 
 LBL    FILE          WARNING
 
-W1     main          Dev mode
-W2     interpreter   Opcode inv deprecated
+W1     main          Console mode
+W2     main          Dev mode
+W3     interpreter   Opcode is disabled in console mode
+W4     interpreter   Opcode 'inv' is deprecated
 
 ```

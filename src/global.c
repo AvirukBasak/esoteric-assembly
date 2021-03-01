@@ -17,6 +17,7 @@ struct TABLE {
 };
 struct TABLE *tab;               // this will allow us to access any label based on its cursor posn
 int tabIndex;                    // index of last label in table
+bool console;
 bool printLbl;
 bool dev;
 
@@ -44,6 +45,7 @@ void printHelp() {
     printf("Options:\n");
     printf("  -h, --help          | Display this message\n");
     printf("  -l, --labels        | Display declared labels\n");
+    printf("  -c, --console       | Console mode to execute codes from stdin\n");
     printf("  -v, --version       | Display version\n");
     printf("  -d, --dev           | Developer mode to debug interpreter I/O\n\n");
     printf("Operands:             | \n");
@@ -127,6 +129,8 @@ void prArray(char *s, unsigned int size) {
 }
 
 void quit(int exitcode) {
-    fclose(file);
-    exit(exitcode);
+    if (!console || exitcode == 5) {
+        if (!console) fclose(file);
+        exit(exitcode);
+    }
 }
