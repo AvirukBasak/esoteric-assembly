@@ -22,8 +22,9 @@ Usage:
 
 Options:
   -h, --help          | Display this message
-  -l, --labels        | Display declared labels
-  -v, --version       | Display version
+  -l, --labels        | Display declared labels in tabular form
+  -c, --console       | Console mode to execute codes from stdin
+  -v, --version       | Display version information
   -d, --dev           | Developer mode to debug interpreter I/O
 
 Operands:             |
@@ -53,7 +54,7 @@ Mnemonics:            |
   add op1 op2         | Add op2 to op1 and store in op1
   sub op1 op2         | Subtract op2 from op1 and store in op1
   mul op1 op2         | Multiply op1 by op2 and store in op1
-  div op1 op2         | Divide op1 by op2 and store in op1
+  div op1 op2         | Divide op1 by op1 and store in op1
   mod op1 op2         | Mod op1 by op2 and store in op1
   ieq op1 op2         | If operands are equal, set FLAG true
   ige op1 op2         | If op1 is greater or equal, set FLAG true
@@ -64,17 +65,17 @@ Mnemonics:            |
   or  op1 op2         | Set op1 to OR value of operands
   xor op1 op2         | Set op1 to XOR value of operands
   com op              | Set operand to its 32 bit 1's complement
+  jmp lbl             | Jump (unconditional) to a line after lbl
+  jit lbl             | Jump if (FLAG) true to line after lbl
+  jif lbl             | Jump if (FLAG) false to line after lbl
+  call lbl            | Call label as function
+  calt lbl            | Call label as function if FLAG true
+  calf lbl            | Call label as function if FLAG false
   inp op              | Input to operand
   prn op              | Print operand as number
   prc op              | Print operand as char
   prs "str"           | Print str as string
   nwl                 | Print new line character
-  jit lbl             | Jump if (FLAG) true to line after lbl
-  jif lbl             | Jump if (FLAG) false to line after lbl
-  jmp lbl             | Jump (unconditional) to a line after lbl
-  call lbl            | Call label as function
-  calt lbl            | Call label as function if FLAG true
-  calf lbl            | Call label as function if FLAG false
   ret                 | Return from function
   end                 | End execution
 

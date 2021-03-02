@@ -46,9 +46,9 @@ void printHelp() {
     printf("  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n");
     printf("Options:\n");
     printf("  -h, --help          | Display this message\n");
-    printf("  -l, --labels        | Display declared labels\n");
+    printf("  -l, --labels        | Display declared labels in tabular form\n");
     printf("  -c, --console       | Console mode to execute codes from stdin\n");
-    printf("  -v, --version       | Display version\n");
+    printf("  -v, --version       | Display version information\n");
     printf("  -d, --dev           | Developer mode to debug interpreter I/O\n\n");
     printf("Operands:             | \n");
     printf("  %%x                  | Indicates register 'x'\n");
@@ -69,12 +69,6 @@ void printHelp() {
     printf("Mnemonics:            | \n");
     printf("  /*comment*/         | Multi line comment\n");
     printf("  Label:              | Labels\n");
-    printf("  jit lbl             | Jump if (FLAG) true to line after lbl\n");
-    printf("  jif lbl             | Jump if (FLAG) false to line after lbl\n");
-    printf("  jmp lbl             | Jump (unconditional) to a line after lbl\n");
-    printf("  call lbl            | Call label as function\n");
-    printf("  calt lbl            | Call label as function if FLAG true\n");
-    printf("  calf lbl            | Call label as function if FLAG false\n");
     printf("  set op1 op2         | Set op1 to value of op2\n");
     printf("  add op1 op2         | Add op2 to op1 and store in op1\n");
     printf("  sub op1 op2         | Subtract op2 from op1 and store in op1\n");
@@ -86,16 +80,22 @@ void printHelp() {
     printf("  ile op1 op2         | If op1 is lesser or equal, set FLAG true\n");
     printf("  igt op1 op2         | If op1 is greater, set FLAG true\n");
     printf("  ilt op1 op2         | If op1 is lesser, set FLAG true\n");
-    printf("  and op1 op2         | Set op1 to and value of operands\n");
-    printf("  or  op1 op2         | Set op1 to or value of operands\n");
-    printf("  xor op1 op2         | Set op1 to xor value of operands\n");
+    printf("  and op1 op2         | Set op1 to AND value of operands\n");
+    printf("  or  op1 op2         | Set op1 to OR value of operands\n");
+    printf("  xor op1 op2         | Set op1 to XOR value of operands\n");
     printf("  com op              | Set operand to its 32 bit 1's complement\n");
+    printf("  jmp lbl             | Jump (unconditional) to a line after lbl\n");
+    printf("  jit lbl             | Jump if (FLAG) true to line after lbl\n");
+    printf("  jif lbl             | Jump if (FLAG) false to line after lbl\n");
+    printf("  call lbl            | Call label as function\n");
+    printf("  calt lbl            | Call label as function if FLAG true\n");
+    printf("  calf lbl            | Call label as function if FLAG false\n");
     printf("  inp op              | Input to operand\n");
     printf("  prn op              | Print operand as number\n");
     printf("  prc op              | Print operand as char\n");
     printf("  prs \"str\"           | Print str as string\n");
     printf("  nwl                 | Print new line character\n");
-    printf("  ret                 | Return to a line after jump statement\n");
+    printf("  ret                 | Return from function\n");
     printf("  end                 | End execution\n\n");
     printf("NOTE: $20 will be parsed as decimal. For hex, use $0x20. This is\n");
     printf("      not necessary for $0a. Same goes for &. Also, 'ptr' can be\n");
@@ -165,7 +165,7 @@ char *unEscape(char *str) {
 
 void quit(int exitcode) {
     if (!console || exitcode == 5) {
-        if (!console) fclose(file);
+        if (file != NULL) fclose(file);
         exit(exitcode);
     }
 }
