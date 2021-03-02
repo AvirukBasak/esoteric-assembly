@@ -77,7 +77,7 @@ void evalOptions(char **args, int indx) {
     }
     else {
         // if arg is invalid
-        E3: fprintf(stderr, RED "ERR> " RST "Invalid option: '%s'\n", args[indx]);
+        E3: fprintf(stderr, RED "ERR> " RST "Invalid option: '%s'\n", unEscape(args[indx]));
         fprintf(stderr, RED "ERR> " RST "Use --help or -h for help text\n");
         exit(3);
     }

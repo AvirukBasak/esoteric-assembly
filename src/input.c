@@ -2,7 +2,7 @@
 void openFile(char *path) {
     file = fopen(path, "r");     // r means read mode
     if (file == NULL) {
-        E4: fprintf(stderr, RED "ERR> " RST "Can't read file '%s'\n", path);
+        E4: fprintf(stderr, RED "ERR> " RST "Can't read file '%s'\n", unEscape(path));
         fprintf(stderr, RED "ERR> " RST "Check if file path exists and has read permission\n");
         exit(4);
     }
@@ -158,8 +158,9 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         // if index becomes equal to max size allowed for input
         if (i == size) {
             str[i] = '\0';
-            E8a: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character memory limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, substr(str, 0, 16));
+            E8a: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character memory limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, unEscape(substr(str, 0, 16)));
             quit(8);
+            exit(8);
         }
         str[i++] = c;
     }

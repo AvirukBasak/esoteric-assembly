@@ -14,7 +14,7 @@ int *selOprnd(char *oprnd, bool w) {
         else if (!strcmp(oprnd, "%c")) ptr = &c;
         else if (!strcmp(oprnd, "%d")) ptr = &d;
         else {
-            E9: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid register name: '%s'\n", lineNo, &oprnd[1]);
+            E9: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid register name: '%s'\n", lineNo, unEscape(&oprnd[1]));
             quit(9);
             return ptr;
         }
@@ -34,14 +34,14 @@ int *selOprnd(char *oprnd, bool w) {
                 ramIndex = (int)strtol(substr(oprnd, 1, -1), &endptr, 16);
                 // if even that fails, surely the input number is invalid
                 if (*endptr) {
-                    E10: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid address value: '%s'\n", lineNo, substr(oprnd, 1, -1));
+                    E10: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid address value: '%s'\n", lineNo, unEscape(substr(oprnd, 1, -1)));
                     quit(10);
                     return ptr;
                 }
             }
         }
         if (ramIndex < 0 || ramIndex >= 1048576) {
-            E11: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Address out of bounds for: '%s'\n", lineNo, substr(oprnd, 1, -1));
+            E11: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Address out of bounds for: '%s'\n", lineNo, unEscape(substr(oprnd, 1, -1)));
             quit(11);
             return ptr;
         }
@@ -61,7 +61,7 @@ int *selOprnd(char *oprnd, bool w) {
                 intBuffer = (int)strtol(substr(oprnd, 1, -1), &endptr, 16);
                 // if even that fails, surely the input number is invalid
                 if (*endptr) {
-                    E12: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid literal value: '%s'\n", lineNo, substr(oprnd, 1, -1));
+                    E12: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid literal value: '%s'\n", lineNo, unEscape(substr(oprnd, 1, -1)));
                     quit(12);
                     return ptr;
                 }
@@ -76,7 +76,7 @@ int *selOprnd(char *oprnd, bool w) {
         }
     }
     else {
-        E14: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid operand: '%s' for opcode: '%s'\n", lineNo, oprnd, opcode);
+        E14: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid operand: '%s' for opcode: '%s'\n", lineNo, unEscape(oprnd), unEscape(opcode));
         quit(14);
         return ptr;
     }
@@ -102,7 +102,7 @@ void genJmpTable() {
             strcpy(tab[tabIndex].lbl, substr(opcode, 0, strlen(opcode) - 1));
             for (int i = 0; i < tabIndex; i++) {
                 if (!strcmp(tab[tabIndex].lbl, tab[i].lbl)) {
-                    E15: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Script contains duplicate of label: '%s'\n", lineNo, tab[i].lbl);
+                    E15: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Script contains duplicate of label: '%s'\n", lineNo, unEscape(tab[i].lbl));
                     quit(15);
                 }
             }
@@ -133,7 +133,7 @@ void gotoLabel(char *label) {
             return;
         }
     }
-    E16: fprintf(stderr, RED "ERR> " RST "[LINE: %u] No such label: '%s'\n", lineNoBackup, label);
+    E16: fprintf(stderr, RED "ERR> " RST "[LINE: %u] No such label: '%s'\n", lineNoBackup, unEscape(label));
     quit(16);
 }
 
@@ -147,7 +147,7 @@ void evaluate(char *opcode) {
     else if (!strcmp(opcode, "jmp") || !strcmp(opcode, "jit") || !strcmp(opcode, "jif")) {
         scanStr(file, oprnd1, 64);
         if (console) {
-            W3b: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, opcode);
+            W3b: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, unEscape(opcode));
             return;
         }
         if (!strcmp(opcode, "jmp") || (!strcmp(opcode, "jit") && FLAG) || (!strcmp(opcode, "jif") && !FLAG)) {
@@ -251,13 +251,13 @@ void evaluate(char *opcode) {
         if (strlen(oprnd2) > 10) {
             E8b: fprintf(stderr, RED "ERR> " RST "Input too long\n");
             quit(8);
-            return;
+            exit(8);
         }
         if (dev) printf("\n");
         char *endptr;
         *selOprnd(oprnd1, 0) = (int)strtol(oprnd2, &endptr, 10);
         if (*endptr) {
-            E18: fprintf(stderr, RED "ERR> " RST "Invalid decimal input: '%s'\n", oprnd2);
+            E18: fprintf(stderr, RED "ERR> " RST "Invalid decimal input: '%s'\n", unEscape(oprnd2));
             quit(18);
         }
     }
@@ -301,7 +301,7 @@ void evaluate(char *opcode) {
     else if (!strcmp(opcode, "end")) return;
     // Invalid opcode
     else {
-        E19: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid opcode: '%s'\n", lineNo, opcode);
+        E19: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid opcode: '%s'\n", lineNo, unEscape(opcode));
         quit(19);
     }
 }
@@ -317,7 +317,7 @@ void interpret() {
             char label[65];
             scanStr(file, label, 64);
             if (console) {
-                W3a: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, opcode);
+                W3a: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, unEscape(opcode));
                 continue;
             }
             if (!strcmp(opcode, "call") || (!strcmp(opcode, "calt") && FLAG) || (!strcmp(opcode, "calf") && !FLAG)) {

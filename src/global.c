@@ -128,6 +128,39 @@ void prArray(char *s, unsigned int size) {
     }
 }
 
+char *unEscape(char *str) {
+    char *out = calloc(1, sizeof(char));
+    int iSize = 1, i = 0, j = 0;
+    char c = str[i];
+    while (c != '\0') {
+        if (c == 9) {
+            out[j++] = '\\';
+            out = realloc(out, (++iSize) * sizeof(char));
+            out[j++] = 't';
+            out = realloc(out, (++iSize) * sizeof(char));
+        }
+        else if (c == 10) {
+            out[j++] = '\\';
+            out = realloc(out, (++iSize) * sizeof(char));
+            out[j++] = 'n';
+            out = realloc(out, (++iSize) * sizeof(char));
+        }
+        else if (c == 13) {
+            out[j++] = '\\';
+            out = realloc(out, (++iSize) * sizeof(char));
+            out[j++] = 'r';
+            out = realloc(out, (++iSize) * sizeof(char));
+        }
+        else {
+            out[j++] = c;
+            out = realloc(out, (++iSize) * sizeof(char));
+        }
+        c = str[++i];
+    }
+    out[j] = '\0';
+    return out;
+}
+
 void quit(int exitcode) {
     if (!console || exitcode == 5) {
         if (!console) fclose(file);
