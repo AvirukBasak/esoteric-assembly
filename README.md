@@ -108,6 +108,7 @@ E16    16      interpreter   No such label
 E17    17      interpreter   Can't divide by zero
 E18    18      interpreter   Invalid decimal input
 E19    19      interpreter   Invalid opcode
+E20    20      global        Ran out of memory
 ```
 
 ## List Of All Warnings

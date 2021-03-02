@@ -102,6 +102,33 @@ void printHelp() {
     printf("      modified as $ptr and used as &ptr.\n");
 }
 
+void quit(int exitcode) {
+    if (!console || exitcode == 5) {
+        if (file != NULL) fclose(file);
+        exit(exitcode);
+    }
+}
+
+void *allocateMem(size_t blocks, size_t size, bool initialize) {
+    void *ptr;
+    if (initialize) ptr = calloc(blocks, size);
+    else ptr = malloc(blocks * size);
+    if (ptr == NULL) {
+        fprintf(stderr, RED "ERR> " RST "Ran out of memory\n");
+        quit(20);
+    }
+    return ptr;
+}
+
+void *reallocateMem(void *ptr, size_t size) {
+    ptr = realloc(ptr, size);
+    if (ptr == NULL) {
+        fprintf(stderr, RED "ERR> " RST "Ran out of memory\n");
+        quit(20);
+    }
+    return ptr;
+}
+
 void prArray(char *s, unsigned int size) {
     if (dev) {
         if (size == 0) {
@@ -131,41 +158,34 @@ void prArray(char *s, unsigned int size) {
 }
 
 char *unEscape(char *str) {
-    char *out = calloc(1, sizeof(char));
+    char *out = allocateMem(1, sizeof(char), false);
     int iSize = 1, i = 0, j = 0;
     char c = str[i];
     while (c != '\0') {
         if (c == 9) {
             out[j++] = '\\';
-            out = realloc(out, (++iSize) * sizeof(char));
+            out = reallocateMem(out, (++iSize) * sizeof(char));
             out[j++] = 't';
-            out = realloc(out, (++iSize) * sizeof(char));
+            out = reallocateMem(out, (++iSize) * sizeof(char));
         }
         else if (c == 10) {
             out[j++] = '\\';
-            out = realloc(out, (++iSize) * sizeof(char));
+            out = reallocateMem(out, (++iSize) * sizeof(char));
             out[j++] = 'n';
-            out = realloc(out, (++iSize) * sizeof(char));
+            out = reallocateMem(out, (++iSize) * sizeof(char));
         }
         else if (c == 13) {
             out[j++] = '\\';
-            out = realloc(out, (++iSize) * sizeof(char));
+            out = reallocateMem(out, (++iSize) * sizeof(char));
             out[j++] = 'r';
-            out = realloc(out, (++iSize) * sizeof(char));
+            out = reallocateMem(out, (++iSize) * sizeof(char));
         }
         else {
             out[j++] = c;
-            out = realloc(out, (++iSize) * sizeof(char));
+            out = reallocateMem(out, (++iSize) * sizeof(char));
         }
         c = str[++i];
     }
     out[j] = '\0';
     return out;
-}
-
-void quit(int exitcode) {
-    if (!console || exitcode == 5) {
-        if (file != NULL) fclose(file);
-        exit(exitcode);
-    }
 }

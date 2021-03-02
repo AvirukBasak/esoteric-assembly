@@ -90,13 +90,12 @@ void genJmpTable() {
         scanStr(file, opcode, 64);              // input whatever is there
         if (opcode[strlen(opcode) - 1] == ':') {
             /* Memory reallocaton so that memory isn't overwritten by a growing array. 
-             | if insted I had used calloc just once in main() by keeping in mind that calloc
-             | automatically expands memory, arrays would've expanded dynamically, yes. But 
-             | expanded into where? In this case, cur[] would expand into line[] and overwrite 
-             | line numbers. So realloc() is used to copy the current array, add one cell to it 
-             | and place it in a new location. This way, no memory is overwritten.
+             | if instead I had used calloc just once, arrays would've expanded, yes, but
+             | expanded into where? In this case, cur[] would probably expand into line[] and
+             | overwrite line nos. So realloc() is used to copy the current array, add one cell
+             | to it and place it in a new location. This way, no memory is overwritten.
              */
-            tab = realloc(tab, (tabIndex + 1) * sizeof(struct TABLE));
+            tab = reallocateMem(tab, (tabIndex + 1) * sizeof(struct TABLE));
             // storing label, line and cursor posn
             strcpy(tab[tabIndex].lbl, substr(opcode, 0, strlen(opcode) - 1));
             for (int i = 0; i < tabIndex; i++) {
