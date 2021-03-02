@@ -23,20 +23,32 @@ void initialize() {
     lineNo = 1;
 }
 
-void evalOptions(char **args, int indx) {
+void evalOptions(int argsc, char **args, int indx) {
     // If indx argument is help
     if (!strcmp(args[indx], "--help") || !strcmp(args[indx], "-h")) {
+        if (argsc > 2) {
+            E1b: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+            exit(1);
+        }
         printHelp();
         exit(0);
     }
     // if indx arg is console mode
     else if (!strcmp(args[indx], "--console") || !strcmp(args[indx], "-c")) {
+        if (argsc > 2) {
+            E1c: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+            exit(1);
+        }
         printf("Esoteric Assembler " VER " Console\n");
         W1: printf(YEL "WRN> " RST "Function calls and jumps have been disabled.\n");
         console = true;
     }
     // if indx argument is version
     else if (!strcmp(args[indx], "--version") || !strcmp(args[indx], "-v")) {
+        if (argsc > 2) {
+            E1d: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+            exit(1);
+        }
         printf("Esoteric Assembler\n");
         printf("Version: " VER "\n");
         printf("Command: asm\n");
@@ -44,6 +56,10 @@ void evalOptions(char **args, int indx) {
     }
     // if it is dev
     else if (!strcmp(args[indx], "--dev") || !strcmp(args[indx], "-d")) {
+        if (argsc > 3) {
+            E1e: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+            exit(1);
+        }
         /* incase dev is 1st argument, ie indx is 1, indx 2 may be left empty
          * in that case this error msg is printed
          */
@@ -67,6 +83,10 @@ void evalOptions(char **args, int indx) {
     }
     // if indx arg is labels
     else if (!strcmp(args[indx], "--labels") || !strcmp(args[indx], "-l")) {
+        if (argsc > 2) {
+            E1f: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+            exit(1);
+        }
         // check if file path is not empty
         if (args[2] == NULL) {
             E2b: fprintf(stderr, RED "ERR> " RST "No file path entered\n");
@@ -113,21 +133,21 @@ int main(int argsc, char *args[]) {
     // If 0th char of 1st argument is a '-', ie 1st arg is option
     else if (argsc == 2) {
         if (args[1][0] == '-') {
-            evalOptions(args, 1);
+            evalOptions(argsc, args, 1);
             arg = 2;
         }
     }
     else if (argsc == 3) {
         if (args[2][0] == '-') {
-            evalOptions(args, 2);
+            evalOptions(argsc, args, 2);
         }
         else if (args[1][0] == '-') {
-            evalOptions(args, 1);
+            evalOptions(argsc, args, 1);
             arg = 2;
         }
     }
     else {
-        E1: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+        E1a: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
         exit(1);
     }
     // open file
