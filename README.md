@@ -22,8 +22,9 @@ Usage:
 
 Options:
   -h, --help          | Display this message
-  -l, --labels        | Display declared labels
-  -v, --version       | Display version
+  -l, --labels        | Display declared labels in tabular form
+  -c, --console       | Console mode to execute codes from stdin
+  -v, --version       | Display version information
   -d, --dev           | Developer mode to debug interpreter I/O
 
 Operands:             |
@@ -53,7 +54,7 @@ Mnemonics:            |
   add op1 op2         | Add op2 to op1 and store in op1
   sub op1 op2         | Subtract op2 from op1 and store in op1
   mul op1 op2         | Multiply op1 by op2 and store in op1
-  div op1 op2         | Divide op1 by op2 and store in op1
+  div op1 op2         | Divide op1 by op1 and store in op1
   mod op1 op2         | Mod op1 by op2 and store in op1
   ieq op1 op2         | If operands are equal, set FLAG true
   ige op1 op2         | If op1 is greater or equal, set FLAG true
@@ -64,17 +65,17 @@ Mnemonics:            |
   or  op1 op2         | Set op1 to OR value of operands
   xor op1 op2         | Set op1 to XOR value of operands
   com op              | Set operand to its 32 bit 1's complement
+  jmp lbl             | Jump (unconditional) to a line after lbl
+  jit lbl             | Jump if (FLAG) true to line after lbl
+  jif lbl             | Jump if (FLAG) false to line after lbl
+  call lbl            | Call label as function
+  calt lbl            | Call label as function if FLAG true
+  calf lbl            | Call label as function if FLAG false
   inp op              | Input to operand
   prn op              | Print operand as number
   prc op              | Print operand as char
   prs "str"           | Print str as string
   nwl                 | Print new line character
-  jit lbl             | Jump if (FLAG) true to line after lbl
-  jif lbl             | Jump if (FLAG) false to line after lbl
-  jmp lbl             | Jump (unconditional) to a line after lbl
-  call lbl            | Call label as function
-  calt lbl            | Call label as function if FLAG true
-  calf lbl            | Call label as function if FLAG false
   ret                 | Return from function
   end                 | End execution
 
@@ -99,21 +100,24 @@ E8     8       input,
 E9     9       interpreter   Invalid register name
 E10    10      interpreter   Invalid RAM address
 E11    11      interpreter   Address out of bounds
-E12    12      interpreter   Can't assign to literal
-E13    13      interpreter   Invalid literal
+E12    12      interpreter   Invalid literal
+E13    13      interpreter   Can't assign to literal
 E14    14      interpreter   Invalid operand
 E15    15      interpreter   Duplicate labels
 E16    16      interpreter   No such label
 E17    17      interpreter   Can't divide by zero
 E18    18      interpreter   Invalid decimal input
 E19    19      interpreter   Invalid opcode
+E20    20      global        Failed to allocate memory
 ```
 
 ## List Of All Warnings
 ``` 
 LBL    FILE          WARNING
 
-W1     main          Dev mode
-W2     interpreter   Opcode inv deprecated
+W1     main          Console mode
+W2     main          Dev mode
+W3     interpreter   Opcode is disabled in console mode
+W4     interpreter   Opcode 'inv' is deprecated
 
 ```

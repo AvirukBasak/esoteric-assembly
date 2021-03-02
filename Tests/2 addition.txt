@@ -1,0 +1,12 @@
+/* taking input of two numbers*/
+prs "Enter num 1: "
+inp %a
+prs "Enter num 2: "
+inp %b
+/* adding, result gets stored in first operand */
+add %a %b
+/* display */
+prs "Result = "
+prn %a
+nwl
+end

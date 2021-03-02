@@ -1,6 +1,7 @@
 // multi-type operand selector, selects b/w ram addr, reg or num and returns a pointer
 int *selOprnd(char *oprnd, bool w) {
-    int *ptr;
+    garbageBuffer = 0;
+    int *ptr = &garbageBuffer;
     /* strtol() is string to long converter. atoi() use is not suggested because 
      | atoi doesn't check if the input string is actually a number and hence returns 
      | no errors. strtol() sets endptr to NULL if conversion doesn't happen.
@@ -12,8 +13,9 @@ int *selOprnd(char *oprnd, bool w) {
         else if (!strcmp(oprnd, "%c")) ptr = &c;
         else if (!strcmp(oprnd, "%d")) ptr = &d;
         else {
-            E9: fprintf(stderr, RED "E9> [LINE: %u] Invalid register name: '%s'\n" RST, lineNo, &oprnd[1]);
+            E9: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid register name: '%s'\n", lineNo, unEscape(&oprnd[1]));
             quit(9);
+            return ptr;
         }
     }
     else if (oprnd[0] == '&') {
@@ -31,14 +33,16 @@ int *selOprnd(char *oprnd, bool w) {
                 ramIndex = (int)strtol(substr(oprnd, 1, -1), &endptr, 16);
                 // if even that fails, surely the input number is invalid
                 if (*endptr) {
-                    E10: fprintf(stderr, RED "E10> [LINE: %u] Invalid address value: '%s'\n" RST, lineNo, substr(oprnd, 1, -1));
+                    E10: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid address value: '%s'\n", lineNo, unEscape(substr(oprnd, 1, -1)));
                     quit(10);
+                    return ptr;
                 }
             }
         }
         if (ramIndex < 0 || ramIndex >= 1048576) {
-            E11: fprintf(stderr, RED "E11> [LINE: %u] Address out of bounds for: '%s'\n" RST, lineNo, substr(oprnd, 1, -1));
+            E11: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Address out of bounds for: '%s'\n", lineNo, unEscape(substr(oprnd, 1, -1)));
             quit(11);
+            return ptr;
         }
         ptr = &RAM[ramIndex];
     }
@@ -48,11 +52,6 @@ int *selOprnd(char *oprnd, bool w) {
             ptr = &dataPtr;
         }
         else {
-            // if writable flag disabled by calling function for safety reasons
-            if (!w) {
-                E12: fprintf(stderr, RED "E12> [LINE: %u] Cannot assign to literal\n" RST, lineNo);
-                quit(12);
-            }
             // try converting from decimal
             intBuffer = (int)strtol(substr(oprnd, 1, -1), &endptr, 10);
             // if from dec conversion fails
@@ -61,16 +60,24 @@ int *selOprnd(char *oprnd, bool w) {
                 intBuffer = (int)strtol(substr(oprnd, 1, -1), &endptr, 16);
                 // if even that fails, surely the input number is invalid
                 if (*endptr) {
-                    E13: fprintf(stderr, RED "E13> [LINE: %u] Invalid literal value: '%s'\n" RST, lineNo, substr(oprnd, 1, -1));
-                    quit(13);
+                    E12: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid literal value: '%s'\n", lineNo, unEscape(substr(oprnd, 1, -1)));
+                    quit(12);
+                    return ptr;
                 }
             }
+            // if writable flag disabled by calling function for safety reasons
+            if (!w) {
+                E13: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Cannot assign to literal\n", lineNo);
+                quit(13);
+                return ptr;
+            }
+            ptr = &intBuffer;
         }
-        ptr = &intBuffer;
     }
     else {
-        E14: fprintf(stderr, RED "E14> [LINE: %u] Invalid operand: '%s' for opcode: '%s'\n" RST, lineNo, oprnd, opcode);
+        E14: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid operand: '%s' for opcode: '%s'\n", lineNo, unEscape(oprnd), unEscape(opcode));
         quit(14);
+        return ptr;
     }
     return ptr;
 }
@@ -83,18 +90,17 @@ void genJmpTable() {
         scanStr(file, opcode, 64);              // input whatever is there
         if (opcode[strlen(opcode) - 1] == ':') {
             /* Memory reallocaton so that memory isn't overwritten by a growing array. 
-             | if insted I had used calloc just once in main() by keeping in mind that calloc
-             | automatically expands memory, arrays would've expanded dynamically, yes. But 
-             | expanded into where? In this case, cur[] would expand into line[] and overwrite 
-             | line numbers. So realloc() is used to copy the current array, add one cell to it 
-             | and place it in a new location. This way, no memory is overwritten.
+             | if instead I had used calloc just once, arrays would've expanded, yes, but
+             | expanded into where? In this case, cur[] would probably expand into line[] and
+             | overwrite line nos. So realloc() is used to copy the current array, add one cell
+             | to it and place it in a new location. This way, no memory is overwritten.
              */
-            tab = realloc(tab, (tabIndex + 1) * sizeof(struct TABLE));
+            tab = reallocateMem(tab, (tabIndex + 1) * sizeof(struct TABLE));
             // storing label, line and cursor posn
             strcpy(tab[tabIndex].lbl, substr(opcode, 0, strlen(opcode) - 1));
             for (int i = 0; i < tabIndex; i++) {
                 if (!strcmp(tab[tabIndex].lbl, tab[i].lbl)) {
-                    E15: fprintf(stderr, RED "E15> [LINE: %u] Script contains duplicate of label: '%s'\n" RST, lineNo, tab[i].lbl);
+                    E15: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Script contains duplicate of label: '%s'\n", lineNo, unEscape(tab[i].lbl));
                     quit(15);
                 }
             }
@@ -108,7 +114,7 @@ void genJmpTable() {
         for (; i < tabIndex; i++) {
             printf("%s\t%d\t%u\n", tab[i].lbl, tab[i].cur, tab[i].line);
         }
-        if (i == 0) printf(RED ">> No labels to print\n" RST);
+        if (i == 0) printf(RED "No labels to print\n" RST);
         printf("\n");
     }
 }
@@ -125,7 +131,7 @@ void gotoLabel(char *label) {
             return;
         }
     }
-    E16: fprintf(stderr, RED "E16> [LINE: %u] No such label: '%s'\n" RST, lineNoBackup, label);
+    E16: fprintf(stderr, RED "ERR> " RST "[LINE: %u] No such label: '%s'\n", lineNoBackup, unEscape(label));
     quit(16);
 }
 
@@ -136,32 +142,22 @@ void evaluate(char *opcode) {
     unsigned int retCur;                         // backup file cursor index for 'ret'
     unsigned int retLineNo;                      // line number backup for 'ret'
     if (opcode[strlen(opcode) - 1] == ':');      // LABELS
-    else if (!strcmp(opcode, "jit")) {           // JUMP_IF_TRUE (variable FLAG true)
-        scanStr(file, oprnd1, 64);               // read label value
-        if(FLAG) {
+    else if (!strcmp(opcode, "jmp") || !strcmp(opcode, "jit") || !strcmp(opcode, "jif")) {
+        scanStr(file, oprnd1, 64);
+        if (console) {
+            W3b: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, unEscape(opcode));
+            return;
+        }
+        if (!strcmp(opcode, "jmp") || (!strcmp(opcode, "jit") && FLAG) || (!strcmp(opcode, "jif") && !FLAG)) {
             retLineNo = lineNo;                  // backup the line index for 'ret' opcode
             retCur = ftell(file);                // backup the cursor index for 'ret' opcode
-            gotoLabel(oprnd1);
+            gotoLabel(oprnd1);                   // goto label, ie function declaration
         }
-    }
-    else if (!strcmp(opcode, "jif")) {           // JUMP_IF_FALSE (variable FLAG false)
-        scanStr(file, oprnd1, 64);               // read label value
-        if(!FLAG) {
-            retLineNo = lineNo;                  // backup the line index for 'ret' opcode
-            retCur = ftell(file);                // backup the cursor index for 'ret' opcode
-            gotoLabel(oprnd1);
-        }
-    }
-    else if (!strcmp(opcode, "jmp")) {           // JUMP (unconditional)
-        scanStr(file, oprnd1, 64);               // read label value
-        retLineNo = lineNo;                      // backup the line index for 'ret' opcode
-        retCur = ftell(file);                    // backup the cursor index for 'ret' opcode
-        gotoLabel(oprnd1);
     }
     else if (!strcmp(opcode, "inv")) {           // INVERT_FLAG
         FLAG = !FLAG;
-        W2: printf(YEL "W2> [LINE: %u] Opcode 'inv' is deprecated\n", lineNo);
-        printf("W2> Use 'jit' i.e. JUMP_IF_TRUE or 'jif' i.e. JUMP_IF_FALSE\n" RST);
+        W4: printf(YEL "WRN> " RST "[LINE: %u] Opcode 'inv' is deprecated\n", lineNo);
+        printf(YEL "WRN> " RST "Use 'jit' i.e. JUMP_IF_TRUE or 'jif' i.e. JUMP_IF_FALSE\n");
     }
     else if (!strcmp(opcode, "set")) {           // SET_VALUE
         scanStr(file, oprnd1, 64);
@@ -187,7 +183,7 @@ void evaluate(char *opcode) {
         scanStr(file, oprnd1, 64);
         scanStr(file, oprnd2, 64);
         if (!*selOprnd(oprnd2, 1)) {
-            E17: fprintf(stderr, RED "E17> [LINE: %u] Cannot divide by zero\n" RST, lineNo);
+            E17a: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Cannot divide by zero\n", lineNo);
             quit(17);
         }
         *selOprnd(oprnd1, 0) /= *selOprnd(oprnd2, 1);
@@ -196,7 +192,7 @@ void evaluate(char *opcode) {
         scanStr(file, oprnd1, 64);
         scanStr(file, oprnd2, 64);
         if (!*selOprnd(oprnd2, 1)) {
-            fprintf(stderr, RED "E17> [LINE: %u] Cannot divide by zero\n" RST, lineNo);
+            E17b: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Cannot divide by zero\n", lineNo);
             quit(17);
         }
         *selOprnd(oprnd1, 0) %= *selOprnd(oprnd2, 1);
@@ -248,52 +244,62 @@ void evaluate(char *opcode) {
     else if (!strcmp(opcode, "inp")) {           // INPUT (console, only numeric input)
         scanStr(file, oprnd1, 64);
         if (dev) printf(YEL "\nINP> " RST);
+        else if (console) printf(YEL "INP> " RST);
         scanStr(stdin, oprnd2, 64);              // input from console, NOT file
         if (strlen(oprnd2) > 10) {
-            fprintf(stderr, RED "E8> Input too long\n");
+            E8b: fprintf(stderr, RED "ERR> " RST "Input too long\n");
             quit(8);
+            exit(8);
         }
         if (dev) printf("\n");
         char *endptr;
         *selOprnd(oprnd1, 0) = (int)strtol(oprnd2, &endptr, 10);
         if (*endptr) {
-            E18: fprintf(stderr, RED "E18> Invalid decimal input: '%s'\n" RST, oprnd2);
+            E18: fprintf(stderr, RED "ERR> " RST "Invalid decimal input: '%s'\n", unEscape(oprnd2));
             quit(18);
         }
     }
     else if (!strcmp(opcode, "prn")) {           // PRINT_NUM (print as number)
         scanStr(file, oprnd1, 64);
         if (dev) printf(YEL "\nOUT> " RST);
-        printf("%d", *selOprnd(oprnd1, 0));
+        else if (console) printf(YEL "OUT> " RST);
+        printf("%d", *selOprnd(oprnd1, 1));
         if (dev) printf("\n\n");
+        else if (console) printf("\n");
     }
     else if (!strcmp(opcode, "prc")) {           // PRINT_CHAR (print as character)
         scanStr(file, oprnd1, 64);
         if (dev) printf(YEL "\nOUT> " RST);
-        printf("%c", *selOprnd(oprnd1, 0));
+        else if (console) printf(YEL "OUT> " RST);
+        printf("%c", *selOprnd(oprnd1, 1));
         if (dev) printf("\n\n");
+        else if (console) printf("\n");
     }
     else if (!strcmp(opcode, "prs")) {           // PRINT_STRING
         scanStr(file, oprnd1, 64);
         if (dev) printf(YEL "\nOUT> " RST);
+        else if (console) printf(YEL "OUT> " RST);
         printf("%s", oprnd1);
-        if (dev) {
+        if (dev || console) {
             if (oprnd1[strlen(oprnd1) - 1] != 10) printf(INV "%%" RST "\n");
-            printf("\n");
+            if (!console) printf("\n");
         }
     }
     else if (!strcmp(opcode, "nwl")) {           // NEWLINE FEED
-        if (!dev) printf("\n");
-        else {
-            printf(YEL "\nOUT> " BLU);
-            printf("NEW LINE\n\n" RST);
+        if (dev || console) {
+            if (dev) printf(YEL "\nOUT> " BLU);
+            else if (console) printf(YEL "OUT> " BLU); 
+            printf("NEW LINE" RST);
+            if (dev) printf("\n\n");
+            else if (console) printf("\n");
         }
+        else printf("\n");
     }
     // END
     else if (!strcmp(opcode, "end")) return;
     // Invalid opcode
     else {
-        E19: fprintf(stderr, RED "E19> [LINE: %u] Invalid opcode: '%s'\n" RST, lineNo, opcode);
+        E19: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid opcode: '%s'\n", lineNo, unEscape(opcode));
         quit(19);
     }
 }
@@ -302,11 +308,16 @@ void interpret() {
     unsigned int retLineNo = 1;
     unsigned int retCur = -1;
     do {
+        if (console) printf(GRN "ASM> " RST);
         scanStr(file, opcode, 64);
         // call label as a function
         if (!strcmp(opcode, "call") || !strcmp(opcode, "calt") || !strcmp(opcode, "calf")) {
             char label[65];
             scanStr(file, label, 64);
+            if (console) {
+                W3a: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, unEscape(opcode));
+                continue;
+            }
             if (!strcmp(opcode, "call") || (!strcmp(opcode, "calt") && FLAG) || (!strcmp(opcode, "calf") && !FLAG)) {
                 retLineNo = lineNo;              // backup the line index for 'ret' opcode
                 retCur = ftell(file);            // backup the cursor index for 'ret' opcode
@@ -320,5 +331,6 @@ void interpret() {
             return;
         }
         else evaluate(opcode);
+        ++steps;
     } while (strcmp("end", opcode));
 }
