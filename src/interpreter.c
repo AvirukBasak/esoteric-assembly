@@ -2,7 +2,8 @@
 int garbageBuffer;
 // multi-type operand selector, selects b/w ram addr, reg or num and returns a pointer
 int *selOprnd(char *oprnd, bool w) {
-    int *ptr = &garbageBuffer = 0;
+    garbageBuffer = 0;
+    int *ptr = &garbageBuffer;
     /* strtol() is string to long converter. atoi() use is not suggested because 
      | atoi doesn't check if the input string is actually a number and hence returns 
      | no errors. strtol() sets endptr to NULL if conversion doesn't happen.
