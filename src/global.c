@@ -30,8 +30,10 @@ int RAM[1048576];                // RAM 4MB
 
 int dataPtr;                     // RAM data ptr
 int intBuffer;                   // this global variable stores numeric inputs (after '#')
+int garbageBuffer;               // garbage buffer to initialise return pointer on event of an invalid register or address value
 
 unsigned int lineNo;             // lineNo counter
+unsigned long int steps;         // steps counter
 
 // cuts a string from position specified
 char *substr(char *str, int frm, int to) {
@@ -120,7 +122,7 @@ void prArray(char *s, unsigned int size) {
             else if (c == 13) printf("\\r");
             else printf("%c", c);
         }
-        printf(RST ">\t    {" YEL);
+        printf(RST ">\t\t{" YEL);
         for (int i = 0; i < size; i++) {
             printf(" %d", s[i]);
         }

@@ -1,7 +1,6 @@
-// garbage buffer to initialise return pointer on event of an invalid register or address value
-int garbageBuffer;
 // multi-type operand selector, selects b/w ram addr, reg or num and returns a pointer
 int *selOprnd(char *oprnd, bool w) {
+    garbageBuffer = 0;
     int *ptr = &garbageBuffer;
     /* strtol() is string to long converter. atoi() use is not suggested because 
      | atoi doesn't check if the input string is actually a number and hence returns 
@@ -333,5 +332,6 @@ void interpret() {
             return;
         }
         else evaluate(opcode);
+        ++steps;
     } while (strcmp("end", opcode));
 }

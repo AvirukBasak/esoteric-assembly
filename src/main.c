@@ -21,6 +21,7 @@ void initialize() {
     dataPtr = 0;
     intBuffer = 0;
     lineNo = 1;
+    steps = 0;
 }
 
 void evalOptions(int argsc, char **args, int indx) {
@@ -83,7 +84,7 @@ void evalOptions(int argsc, char **args, int indx) {
     }
     // if indx arg is labels
     else if (!strcmp(args[indx], "--labels") || !strcmp(args[indx], "-l")) {
-        if (argsc > 2) {
+        if (argsc > 3) {
             E1f: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
             exit(1);
         }
@@ -161,7 +162,7 @@ int main(int argsc, char *args[]) {
     // scan the file for codes and interpret them
     if (dev) printf(YEL "SCAN FILE FOR CODES\n" RST);
     interpret();
-    if (dev) printf(GRN "\nEXECUTION COMPLETE\n" RST);
+    if (dev) printf(GRN "\nEXECUTION COMPLETE | %lu Steps\n" RST, steps);
     // close file
     quit(0);
 }
