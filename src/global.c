@@ -103,7 +103,7 @@ void printHelp() {
 }
 
 void quit(int exitcode) {
-    if (!console || exitcode == 5) {
+    if (!console || (exitcode >= 1 && exitcode <= 8) || exitcode == 20) {
         if (file != NULL) fclose(file);
         exit(exitcode);
     }
@@ -157,6 +157,11 @@ void prArray(char *s, unsigned int size) {
     }
 }
 
+/* WARNING: value returned by unEscape() must be used immediately or before 
+ * doing another memory allocation as unEscape() returns a dangling pointer.
+ * This is done to free up space so that the caller function can be bothered
+ * only about implementation.
+ */
 char *unEscape(char *str) {
     char *out = allocateMem(1, sizeof(char), false);
     int iSize = 1, i = 0, j = 0;
@@ -187,5 +192,6 @@ char *unEscape(char *str) {
         c = str[++i];
     }
     out[j] = '\0';
+    free(out);
     return out;
 }
