@@ -45,7 +45,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         // updates lineNo if newline is spotted
         if (c == 10) {
             // updates line no
-            if (ptr != stdin) ++lineNo;
+            if (strcmp(opcode, "inp")) ++lineNo;
             // gets next character
             c = fgetc(ptr);
             // quit if eof
@@ -55,7 +55,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         }
         else if (c == 13) {
             // updates line no
-            if (ptr != stdin) ++lineNo;
+            if (strcmp(opcode, "inp")) ++lineNo;
             // gets next character
             c = fgetc(ptr);
             // quit if eof
@@ -71,12 +71,12 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
                     // updates lineNo if newline is spotted
                     if (c == 10) {
                         if ((c = fgetc(ptr)) != 13) ungetc(c, ptr);
-                        if (ptr != stdin) ++lineNo;
+                        if (strcmp(opcode, "inp")) ++lineNo;
                      }
                      else if (c == 13) {
                         // updates lineNo if newline is spotted
                         if ((c = fgetc(ptr)) != 10) ungetc(c, ptr);
-                        if (ptr != stdin) ++lineNo;
+                        if (strcmp(opcode, "inp")) ++lineNo;
                      }
                      else if (c == '*') {
                         if ((c = fgetc(ptr)) == '/') break;

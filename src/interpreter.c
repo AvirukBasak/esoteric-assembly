@@ -116,7 +116,7 @@ void genJmpTable() {
         for (; i < tabIndex; i++) {
             printf("%s\t%d\t%u\n", tab[i].lbl, tab[i].cur, tab[i].line);
         }
-        if (i == 0) printf(RED ">> No labels to print\n" RST);
+        if (i == 0) printf(RED "No labels to print\n" RST);
         printf("\n");
     }
 }
@@ -147,7 +147,7 @@ void evaluate(char *opcode) {
     else if (!strcmp(opcode, "jmp") || !strcmp(opcode, "jit") || !strcmp(opcode, "jif")) {
         scanStr(file, oprnd1, 64);
         if (console) {
-            W3b: printf(YEL "WRN> " RST "Opcode '%s' is disabled in console mode and is ignored\n", opcode);
+            W3b: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, opcode);
             return;
         }
         if (!strcmp(opcode, "jmp") || (!strcmp(opcode, "jit") && FLAG) || (!strcmp(opcode, "jif") && !FLAG)) {
@@ -317,7 +317,7 @@ void interpret() {
             char label[65];
             scanStr(file, label, 64);
             if (console) {
-                W3a: printf(YEL "WRN> " RST "Opcode '%s' is disabled in console mode and is ignored\n", opcode);
+                W3a: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, opcode);
                 continue;
             }
             if (!strcmp(opcode, "call") || (!strcmp(opcode, "calt") && FLAG) || (!strcmp(opcode, "calf") && !FLAG)) {

@@ -34,7 +34,6 @@ void evalOptions(char **args, int indx) {
         printf("Esoteric Assembler " VER " Console\n");
         W1: printf(YEL "WRN> " RST "Function calls and jumps have been disabled.\n");
         console = true;
-        lineNo = 0;
     }
     // if indx argument is version
     else if (!strcmp(args[indx], "--version") || !strcmp(args[indx], "-v")) {
@@ -138,7 +137,7 @@ int main(int argsc, char *args[]) {
     if (!console) genJmpTable();
     // goto file beginning
     fseek(file, 0, SEEK_SET);
-    if (!console) lineNo = 1;
+    lineNo = 1;
     // scan the file for codes and interpret them
     if (dev) printf(YEL "SCAN FILE FOR CODES\n" RST);
     interpret();
