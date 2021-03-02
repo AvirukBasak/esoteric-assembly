@@ -2,7 +2,7 @@
 An interpreter with assembly like syntax.
 
 ## Download links
-- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.2.28). You'll find installation instructions there.
+- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10). You'll find installation instructions there.
 
 ## How to use?
 - Once installed, run `asm path/to/file` where `asm` is the linux command (or the path to the binary executable).
