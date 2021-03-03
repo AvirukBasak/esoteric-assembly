@@ -161,6 +161,7 @@ int main(int argsc, char *args[]) {
     lineNo = 1;
     // scan the file for codes and interpret them
     if (dev) printf(YEL "SCAN FILE FOR CODES\n" RST);
+    if (console) printf(GRN "asm> " RST);
     interpret();
     if (dev) printf(GRN "\nEXECUTION COMPLETE | %lu Steps\n" RST, steps);
     // close file

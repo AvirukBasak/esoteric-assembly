@@ -30,6 +30,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
     int i = 0;
     signed char c;
     bool quoted = false;
+    bool escaped = false;
     /* This loop is for cases where there's stray spaces, indents, 
      | newlines before a string. It is to traverse thru those till 
      | a proper character is spotted.
@@ -44,6 +45,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
     while ((c = fgetc(ptr)) == EOF || c == 13 || c == 10 || c == '/' || isStrayChar(c)) {
         // updates lineNo if newline is spotted
         if (c == 10) {
+            if (console) printf(GRN "asm> " RST);
             // updates line no
             if (strcmp(opcode, "inp")) ++lineNo;
             // gets next character
@@ -70,6 +72,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
                     c = fgetc(ptr);
                     // updates lineNo if newline is spotted
                     if (c == 10) {
+                        if (console) printf("com> ");
                         if ((c = fgetc(ptr)) != 13) ungetc(c, ptr);
                         if (strcmp(opcode, "inp")) ++lineNo;
                      }
@@ -154,6 +157,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
                 E7: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Carriage return must be escaped with '\\r'\n", lineNo);
                 quit(7);
             }
+            escaped = true;
         }
         // if index becomes equal to max size allowed for input
         if (i == size) {
@@ -163,6 +167,10 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
             exit(8);
         }
         str[i++] = c;
+        if (c == 10 && (quoted || escaped) && console) {
+            printf("nwl> ");
+        }
+        escaped = false;
     }
     // null char string terminator
     str[i] = '\0';

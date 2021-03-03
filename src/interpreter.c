@@ -243,8 +243,8 @@ void evaluate(char *opcode) {
     }
     else if (!strcmp(opcode, "inp")) {           // INPUT (console, only numeric input)
         scanStr(file, oprnd1, 64);
-        if (dev) printf(YEL "\nINP> " RST);
-        else if (console) printf(YEL "INP> " RST);
+        if (dev) printf(YEL "\ninp> " RST);
+        else if (console) printf(YEL "inp> " RST);
         scanStr(stdin, oprnd2, 64);              // input from console, NOT file
         if (strlen(oprnd2) > 10) {
             E8b: fprintf(stderr, RED "ERR> " RST "Input too long\n");
@@ -261,24 +261,24 @@ void evaluate(char *opcode) {
     }
     else if (!strcmp(opcode, "prn")) {           // PRINT_NUM (print as number)
         scanStr(file, oprnd1, 64);
-        if (dev) printf(YEL "\nOUT> " RST);
-        else if (console) printf(YEL "OUT> " RST);
+        if (dev) printf(YEL "\nout> " RST);
+        else if (console) printf(YEL "out> " RST);
         printf("%d", *selOprnd(oprnd1, 1));
         if (dev) printf("\n\n");
         else if (console) printf("\n");
     }
     else if (!strcmp(opcode, "prc")) {           // PRINT_CHAR (print as character)
         scanStr(file, oprnd1, 64);
-        if (dev) printf(YEL "\nOUT> " RST);
-        else if (console) printf(YEL "OUT> " RST);
+        if (dev) printf(YEL "\nout> " RST);
+        else if (console) printf(YEL "out> " RST);
         printf("%c", *selOprnd(oprnd1, 1));
         if (dev) printf("\n\n");
         else if (console) printf("\n");
     }
     else if (!strcmp(opcode, "prs")) {           // PRINT_STRING
         scanStr(file, oprnd1, 64);
-        if (dev) printf(YEL "\nOUT> " RST);
-        else if (console) printf(YEL "OUT> " RST);
+        if (dev) printf(YEL "\nout> " RST);
+        else if (console) printf(YEL "out> " RST);
         printf("%s", oprnd1);
         if (dev || console) {
             if (oprnd1[strlen(oprnd1) - 1] != 10) printf(INV "%%" RST "\n");
@@ -287,8 +287,8 @@ void evaluate(char *opcode) {
     }
     else if (!strcmp(opcode, "nwl")) {           // NEWLINE FEED
         if (dev || console) {
-            if (dev) printf(YEL "\nOUT> " BLU);
-            else if (console) printf(YEL "OUT> " BLU); 
+            if (dev) printf(YEL "\nout> " BLU);
+            else if (console) printf(YEL "out> " BLU); 
             printf("NEW LINE" RST);
             if (dev) printf("\n\n");
             else if (console) printf("\n");
@@ -308,7 +308,6 @@ void interpret() {
     unsigned int retLineNo = 1;
     unsigned int retCur = -1;
     do {
-        if (console) printf(GRN "ASM> " RST);
         scanStr(file, opcode, 64);
         // call label as a function
         if (!strcmp(opcode, "call") || !strcmp(opcode, "calt") || !strcmp(opcode, "calf")) {
