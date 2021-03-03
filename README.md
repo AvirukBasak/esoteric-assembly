@@ -1,6 +1,13 @@
 # Esoteric-Assembler
 An interpreter with assembly like syntax.
 
+## Index
+1. [Download links](#download-links)
+2. [How to use?](#how-to-use)
+3. [The test files](the-test-files)
+4. [Source files](source-files)
+5. [How to code?](#how-to-code)
+
 ## Download links
 - Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10). You'll find installation instructions there.
 
@@ -10,8 +17,14 @@ An interpreter with assembly like syntax.
 - Enter `asm --help` or `asm -h` for help text.
 
 ## The test files
-- Folder `Tests` contains codes for trial.
+- Folder [Tests](https://github.com/AvirukBasak/Esoteric-Assembler/tree/main/Tests) contains codes for trial.
 - Visit [ASM-Tests](https://github.com/AvirukBasak/ASM-Tests) repository for more test codes.
+
+## Source files
+- [](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c) Global variable declaration and general functions.
+- [](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) File handling and input functions.
+- [](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/interpreter.c) Interpreter functions.
+- [](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) Main and CLI argument evaluation functions.
 
 ## How to code?
 ```
