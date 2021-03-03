@@ -176,7 +176,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
             quit(8);
         }
         str[i++] = c;
-        if (console && ( (c == 10 && quoted) || (c == 10 && escaped) )) {
+        if (console && c == 10 && (quoted || escaped)) {
             printf("nwl> ");
             quoted = true;
         }
