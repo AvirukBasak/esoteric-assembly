@@ -145,7 +145,6 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         }
         // escape sequence for inputting delimiters
         else if (c == '\\') {
-            escaped = true;
             c = fgetc(ptr);
             if (c == 'n') {
                 // if index becomes equal to max size allowed for input
@@ -168,6 +167,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
                 E7: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Carriage return must be escaped with '\\r'\n", lineNo);
                 quit(7);
             }
+            escaped = true;
         }
         // if index becomes equal to max size allowed for input
         if (i == size) {
