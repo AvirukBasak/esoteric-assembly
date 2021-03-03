@@ -22,10 +22,10 @@ An interpreter with assembly like syntax.
 - Visit [ASM-Tests](https://github.com/AvirukBasak/ASM-Tests) repository for more test codes.
 
 ## Source files
-- [](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c) Global variable declaration and general functions.
-- [](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) File handling and input functions.
-- [](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/interpreter.c) Interpreter functions.
-- [](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) Main and CLI argument evaluation functions.
+- [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c) Global variable declaration and general functions.
+- [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) Main and CLI argument evaluation functions.
+- [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) File handling and input functions.
+- [interpreter.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/interpreter.c) Interpreter functions.
 
 ## How to code?
 ```
