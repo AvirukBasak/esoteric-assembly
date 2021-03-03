@@ -153,7 +153,7 @@ void evaluate(char *opcode) {
     else if (!strcmp(opcode, "jmp") || !strcmp(opcode, "jit") || !strcmp(opcode, "jif")) {
         scanStr(file, oprnd1, 64);
         if (console) {
-            W3b: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, unEscape(opcode));
+            W2b: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, unEscape(opcode));
             return;
         }
         if (!strcmp(opcode, "jmp") || (!strcmp(opcode, "jit") && FLAG) || (!strcmp(opcode, "jif") && !FLAG)) {
@@ -164,7 +164,7 @@ void evaluate(char *opcode) {
     }
     else if (!strcmp(opcode, "inv")) {           // INVERT_FLAG
         FLAG = !FLAG;
-        W4: printf(YEL "WRN> " RST "[LINE: %u] Opcode 'inv' is deprecated\n", lineNo);
+        W3: printf(YEL "WRN> " RST "[LINE: %u] Opcode 'inv' is deprecated\n", lineNo);
         printf(YEL "WRN> " RST "Use 'jit' i.e. JUMP_IF_TRUE or 'jif' i.e. JUMP_IF_FALSE\n");
     }
     else if (!strcmp(opcode, "set")) {           // SET_VALUE
@@ -251,13 +251,20 @@ void evaluate(char *opcode) {
     }
     else if (!strcmp(opcode, "inp")) {           // INPUT (console, only numeric input)
         scanStr(file, oprnd1, 64);
+        // checks if operand is valid
+        if (selOprnd(oprnd1, 0) == &garbageBuffer)
+            return;
         if (dev) printf(YEL "\ninp> " RST);
         else if (console) {
             printf(YEL "inp> " RST);
             // disable asm prompt
             prompt = false;
         }
+        input = true;                            // disables lineNo update
         scanStr(stdin, oprnd2, 64);              // input from console, NOT file
+        // enables lineNo update and asm> prompt
+        input = false;
+        prompt = true;
         if (strlen(oprnd2) > 10) {
             E8b: fprintf(stderr, RED "ERR> " RST "Input too long\n");
             quit(8);
@@ -273,6 +280,9 @@ void evaluate(char *opcode) {
     }
     else if (!strcmp(opcode, "prn")) {           // PRINT_NUM (print as number)
         scanStr(file, oprnd1, 64);
+        // checks if operand is valid
+        if (selOprnd(oprnd1, 0) == &garbageBuffer)
+            return;
         if (dev) printf(YEL "\nout> " RST);
         else if (console) printf(YEL "out> " RST);
         printf("%d", *selOprnd(oprnd1, 1));
@@ -281,6 +291,9 @@ void evaluate(char *opcode) {
     }
     else if (!strcmp(opcode, "prc")) {           // PRINT_CHAR (print as character)
         scanStr(file, oprnd1, 64);
+        // checks if operand is valid
+        if (selOprnd(oprnd1, 0) == &garbageBuffer)
+            return;
         if (dev) printf(YEL "\nout> " RST);
         else if (console) printf(YEL "out> " RST);
         printf("%c", *selOprnd(oprnd1, 1));
@@ -326,7 +339,7 @@ void interpret() {
             char label[65];
             scanStr(file, label, 64);
             if (console) {
-                W3a: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, unEscape(opcode));
+                W2a: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, unEscape(opcode));
                 continue;
             }
             if (!strcmp(opcode, "call") || (!strcmp(opcode, "calt") && FLAG) || (!strcmp(opcode, "calf") && !FLAG)) {

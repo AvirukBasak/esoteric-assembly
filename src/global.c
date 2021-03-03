@@ -19,6 +19,7 @@ struct TABLE *tab;               // this will allow us to access any label based
 int tabIndex;                    // index of last label in table
 bool console;                    // console mode
 bool prompt;                     // if true, prints asm> in console mode
+bool input;                      // marks input, so that lineNo isn't upadated
 bool printLbl;                   // labels mode
 bool dev;                        // dev mode
 

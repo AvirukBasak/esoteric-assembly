@@ -42,7 +42,7 @@ void evalOptions(int argsc, char **args, int indx) {
             exit(1);
         }
         printf("Esoteric Assembler " VER " Console\n");
-        W1: printf(YEL "WRN> " RST "Function calls and jumps have been disabled.\n");
+        printf("NOTE: Function calls and jumps have been disabled.\n\n");
         console = true;
     }
     // if indx argument is version
@@ -70,7 +70,7 @@ void evalOptions(int argsc, char **args, int indx) {
             exit(2);
         }
         // make sure dev isn't enabled accidentally
-        W2: printf(YEL "WRN> DEVELOPER (DEBUG) MODE\n" RST);
+        W1: printf(YEL "WRN> DEVELOPER (DEBUG) MODE\n" RST);
         printf("  - This mode is for debugging the interpreter and not the asm\n    script.\n");
         printf("  - This mode prints every token the interpreter reads in.\n");
         printf("  - Label table is printed in this mode.\n");
