@@ -149,7 +149,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
             c = fgetc(ptr);
             if (c == 'n') {
                 c = '\n';
-                escaped = false;
+                quoted = escaped = false;
             }
             else if (c == 'r') c = '\r';
             else if (c == 't') c = '\t';
@@ -173,6 +173,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         str[i++] = c;
         if (console && ( (c == 10 && quoted) || (c == 10 && escaped) )) {
             printf("nwl> ");
+            quoted = true;
         }
         
         escaped = false;
