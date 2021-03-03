@@ -7,6 +7,7 @@ An interpreter with assembly like syntax.
 3. [The test files](#the-test-files)
 4. [Source files](#source-files)
 5. [How to code?](#how-to-code)
+6. [Contribute](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
 
 ## Download links
 - Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10). You'll find installation instructions there.
