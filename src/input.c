@@ -137,7 +137,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
          * this flag is like a switch that controls the reading
          * or ignoring of delimiters 
          */
-        else if (c == '"' || c == '\'') {
+        else if (c == '"') {
             quoted = !quoted;
             if (quoted) continue;
             // if quoted is made false, a string is read, so break
@@ -168,7 +168,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
             exit(8);
         }
         str[i++] = c;
-        if (c == 10 && (quoted || escaped) && console) {
+        if (c == 10 && !escaped && (quoted || escaped) && console) {
             printf("nwl> ");
         }
         escaped = false;

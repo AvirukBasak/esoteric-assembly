@@ -53,7 +53,6 @@ void evalOptions(int argsc, char **args, int indx) {
         }
         printf("Esoteric Assembler\n");
         printf("Version: " VER "\n");
-        printf("Command: asm\n");
         exit(0);
     }
     // if it is dev
