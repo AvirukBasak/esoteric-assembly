@@ -153,7 +153,6 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
                     str[i] = '\0';
                     E8a: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character input limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, unEscape(substr(str, 0, 16)));
                     quit(8);
-                    exit(8);
                 }
                 str[i++] = '\n';
                 continue;
@@ -175,7 +174,6 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
             str[i] = '\0';
             E8a: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character input limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, unEscape(substr(str, 0, 16)));
             quit(8);
-            exit(8);
         }
         str[i++] = c;
         if (console && ( (c == 10 && quoted) || (c == 10 && escaped) )) {
