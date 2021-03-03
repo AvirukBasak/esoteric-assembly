@@ -268,7 +268,6 @@ void evaluate(char *opcode) {
         if (strlen(oprnd2) > 10) {
             E8b: fprintf(stderr, RED "ERR> " RST "Input too long\n");
             quit(8);
-            exit(8);
         }
         if (dev) printf("\n");
         char *endptr;
