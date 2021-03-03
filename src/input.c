@@ -172,7 +172,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         // if index becomes equal to max size allowed for input
         if (i == size) {
             str[i] = '\0';
-            E8a: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character input limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, unEscape(substr(str, 0, 16)));
+            E8b: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character input limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, unEscape(substr(str, 0, 16)));
             quit(8);
         }
         str[i++] = c;
