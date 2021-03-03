@@ -4,8 +4,8 @@ An interpreter with assembly like syntax.
 ## Index
 1. [Download links](#download-links)
 2. [How to use?](#how-to-use)
-3. [The test files](the-test-files)
-4. [Source files](source-files)
+3. [The test files](#the-test-files)
+4. [Source files](#source-files)
 5. [How to code?](#how-to-code)
 
 ## Download links
