@@ -105,7 +105,7 @@ void printHelp() {
 }
 
 void quit(int exitcode) {
-    if (!console || (exitcode >= 1 && exitcode <= 8) || exitcode == 20) {
+    if (!console || (exitcode >= 0 && exitcode <= 8) || exitcode == 20) {
         if (file != NULL) fclose(file);
         exit(exitcode);
     }
