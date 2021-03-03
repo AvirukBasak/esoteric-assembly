@@ -251,13 +251,20 @@ void evaluate(char *opcode) {
     }
     else if (!strcmp(opcode, "inp")) {           // INPUT (console, only numeric input)
         scanStr(file, oprnd1, 64);
+        // checks if operand is valid
+        if (selOprnd(oprnd1, 0) == &garbageBuffer)
+            return;
         if (dev) printf(YEL "\ninp> " RST);
         else if (console) {
             printf(YEL "inp> " RST);
             // disable asm prompt
             prompt = false;
         }
+        input = true;                            // disables lineNo update
         scanStr(stdin, oprnd2, 64);              // input from console, NOT file
+        // enables lineNo update and asm> prompt
+        input = false;
+        prompt = true;
         if (strlen(oprnd2) > 10) {
             E8b: fprintf(stderr, RED "ERR> " RST "Input too long\n");
             quit(8);
@@ -273,6 +280,9 @@ void evaluate(char *opcode) {
     }
     else if (!strcmp(opcode, "prn")) {           // PRINT_NUM (print as number)
         scanStr(file, oprnd1, 64);
+        // checks if operand is valid
+        if (selOprnd(oprnd1, 0) == &garbageBuffer)
+            return;
         if (dev) printf(YEL "\nout> " RST);
         else if (console) printf(YEL "out> " RST);
         printf("%d", *selOprnd(oprnd1, 1));
@@ -281,6 +291,9 @@ void evaluate(char *opcode) {
     }
     else if (!strcmp(opcode, "prc")) {           // PRINT_CHAR (print as character)
         scanStr(file, oprnd1, 64);
+        // checks if operand is valid
+        if (selOprnd(oprnd1, 0) == &garbageBuffer)
+            return;
         if (dev) printf(YEL "\nout> " RST);
         else if (console) printf(YEL "out> " RST);
         printf("%c", *selOprnd(oprnd1, 1));
