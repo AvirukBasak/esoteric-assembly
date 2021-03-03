@@ -244,7 +244,11 @@ void evaluate(char *opcode) {
     else if (!strcmp(opcode, "inp")) {           // INPUT (console, only numeric input)
         scanStr(file, oprnd1, 64);
         if (dev) printf(YEL "\ninp> " RST);
-        else if (console) printf(YEL "inp> " RST);
+        else if (console) {
+            printf(YEL "inp> " RST);
+            // disable asm prompt
+            prompt = false;
+        }
         scanStr(stdin, oprnd2, 64);              // input from console, NOT file
         if (strlen(oprnd2) > 10) {
             E8b: fprintf(stderr, RED "ERR> " RST "Input too long\n");

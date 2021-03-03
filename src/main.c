@@ -13,6 +13,7 @@ void initialize() {
     tab = NULL;
     tabIndex = 0;
     console = false;
+    prompt = true;
     printLbl = false;
     dev = false;
     file = NULL;

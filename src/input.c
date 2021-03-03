@@ -45,9 +45,12 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
     while ((c = fgetc(ptr)) == EOF || c == 13 || c == 10 || c == '/' || isStrayChar(c)) {
         // updates lineNo if newline is spotted
         if (c == 10) {
-            if (console) printf(GRN "asm> " RST);
             // updates line no
             if (strcmp(opcode, "inp")) ++lineNo;
+            // setting prompt
+            if (console && prompt) printf(GRN "asm> " RST);
+            // enable asm prompt
+            prompt = true;
             // gets next character
             c = fgetc(ptr);
             // quit if eof

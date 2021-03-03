@@ -17,9 +17,10 @@ struct TABLE {
 };
 struct TABLE *tab;               // this will allow us to access any label based on its cursor posn
 int tabIndex;                    // index of last label in table
-bool console;
-bool printLbl;
-bool dev;
+bool console;                    // console mode
+bool prompt;                     // if true, prints asm> in console mode
+bool printLbl;                   // labels mode
+bool dev;                        // dev mode
 
 FILE *file;                      // input file pointer
 
