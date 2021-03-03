@@ -178,8 +178,8 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         str[i++] = c;
         if (console && c == 10 && (quoted || escaped)) {
             printf("nwl> ");
-            quoted = true;
         }
+        escaped = false;
     }
     // null char string terminator
     str[i] = '\0';
