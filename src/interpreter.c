@@ -75,7 +75,15 @@ int *selOprnd(char *oprnd, bool w) {
         }
     }
     else {
-        E14: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid operand: '%s' for opcode: '%s'\n", lineNo, unEscape(oprnd), unEscape(opcode));
+        /* backing up unEscape(oprnd) as a dangling pointer can't be trusted
+         * if this isn't done unEscape(oprnd) is overwritten by unEscape(opcode)
+         * as the former becomes a dangling pointer, meaning its memory is already
+         * freed
+         */
+        size_t size = strlen(unEscape(oprnd));
+        char tmp[size];
+        strcpy(tmp, unEscape(oprnd));
+        E14: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Invalid operand: '%s' for opcode: '%s'\n", lineNo, tmp, unEscape(opcode));
         quit(14);
         return ptr;
     }

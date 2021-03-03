@@ -159,8 +159,8 @@ void prArray(char *s, unsigned int size) {
 }
 
 /* WARNING: value returned by unEscape() must be used immediately or before 
- * doing another memory allocation as unEscape() returns a dangling pointer.
- * This is done to free up space so that the caller function can be bothered
+ * doing another unEscape() or memory allocation as unEscape() returns a dangling
+ * pointer. This is done to free up space so that the caller function can be bothered
  * only about implementation.
  */
 char *unEscape(char *str) {
