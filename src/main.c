@@ -13,6 +13,7 @@ void initialize() {
     tab = NULL;
     tabIndex = 0;
     console = false;
+    prompt = true;
     printLbl = false;
     dev = false;
     file = NULL;
@@ -41,7 +42,7 @@ void evalOptions(int argsc, char **args, int indx) {
             exit(1);
         }
         printf("Esoteric Assembler " VER " Console\n");
-        W1: printf(YEL "WRN> " RST "Function calls and jumps have been disabled.\n");
+        printf("NOTE: Function calls and jumps have been disabled.\n\n");
         console = true;
     }
     // if indx argument is version
@@ -52,7 +53,6 @@ void evalOptions(int argsc, char **args, int indx) {
         }
         printf("Esoteric Assembler\n");
         printf("Version: " VER "\n");
-        printf("Command: asm\n");
         exit(0);
     }
     // if it is dev
@@ -69,7 +69,7 @@ void evalOptions(int argsc, char **args, int indx) {
             exit(2);
         }
         // make sure dev isn't enabled accidentally
-        W2: printf(YEL "WRN> DEVELOPER (DEBUG) MODE\n" RST);
+        W1: printf(YEL "WRN> DEVELOPER (DEBUG) MODE\n" RST);
         printf("  - This mode is for debugging the interpreter and not the asm\n    script.\n");
         printf("  - This mode prints every token the interpreter reads in.\n");
         printf("  - Label table is printed in this mode.\n");
@@ -161,6 +161,7 @@ int main(int argsc, char *args[]) {
     lineNo = 1;
     // scan the file for codes and interpret them
     if (dev) printf(YEL "SCAN FILE FOR CODES\n" RST);
+    if (console) printf(GRN "asm> " RST);
     interpret();
     if (dev) printf(GRN "\nEXECUTION COMPLETE | %lu Steps\n" RST, steps);
     // close file
