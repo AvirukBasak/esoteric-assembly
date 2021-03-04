@@ -6,7 +6,7 @@ Become a contributor to `Esoteric-Assembler`.
 2. [Documentation](#documentation)
 3. [Creating functions](#creating-functions)
 4. [Global variables, macros and types](#global-variables-macros-and-types)
-5. [Other conventions]()
+5. [Coding conventions](#coding-conventions)
 
 ## GitHub conventions
 1. Any new function description should be added to [CONTRIBUTE.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) by the coder.
@@ -31,7 +31,7 @@ Become a contributor to `Esoteric-Assembler`.
 3. All `MACROS`, `types` and `global variables` must be defined only in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
 4. Every variable of an inbuilt type must be initialised in [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) in function `initialize`.
 
-## Other conventions
+## Coding conventions
 1. All identifier name should clearly convey its purpose.
 2. Use of `scanf()` and `gets()` for input is strictly forbidden.
 3. Use `scanStr()` in [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) in association with `strtol()` for integer inputs.
