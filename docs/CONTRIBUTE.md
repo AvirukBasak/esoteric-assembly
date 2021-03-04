@@ -2,14 +2,16 @@
 Become a contributor to `Esoteric-Assembler`.
 
 ## Index
-1. [Coding conventions](coding-conventions)
+1. [GitHub conventions](github-conventions)
 2. [Documentation](documentation)
 3. [Creating functions](creating-functions)
 4. [Global variables, macros and types](global-variables-macros-and-types)
 5. [Source code functions](source-code-functions)
 
-## Coding conventions
+## GitHub conventions
 1. All identifier name should clearly convey its purpose.
+2. Any new function description should be added to [CONTRIBUTE.md]() by the coder.
+3. [README.md]() and [CONTRIBUTE.md]() should be updated or checked for updates with every new commit.
 
 ## Documentation
 1. Most lines that don't follow a convention of `C` coding must be commented, even if you think its purpose is obvious.
@@ -36,7 +38,7 @@ Become a contributor to `Esoteric-Assembler`.
 3. `void quit(int exitcode)` Quits the program whith the exit code after closing any files if open.
 4. `void *allocateMem(size_t blocks, size_t size, bool initialize)` Wrapper for `malloc()` and `calloc()`.
 5. `void *reallocateMem(void *ptr, size_t size)` Wrapper for `realloc()`.
-6. void prArray(char *s, unsigned int size)
+6. `void prArray(char *s, unsigned int size)` Print a string as an array.
 
 
 
