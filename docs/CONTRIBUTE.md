@@ -6,6 +6,7 @@ Become a contributor to `Esoteric-Assembler`.
 2. [Documentation](#documentation)
 3. [Creating functions](#creating-functions)
 4. [Global variables, macros and types](#global-variables-macros-and-types)
+5. [Other conventions]()
 
 ## GitHub conventions
 1. All identifier name should clearly convey its purpose.
@@ -37,3 +38,4 @@ Become a contributor to `Esoteric-Assembler`.
 3. You cannot immediately use any dynamic memory allocation method (or any method that uses it) after using `unEscape()` in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
 4. You must use up or backup the value returned by `unEscape()` before doing so as it returns a `dangling pointer`.
 5. This is done to free up memory so that `free()` is not used after every call to `unEscape()`.
+6. Don't overuse this section for every new convention added.
