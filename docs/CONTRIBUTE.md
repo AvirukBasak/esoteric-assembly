@@ -9,9 +9,8 @@ Become a contributor to `Esoteric-Assembler`.
 5. [Other conventions]()
 
 ## GitHub conventions
-1. All identifier name should clearly convey its purpose.
-2. Any new function description should be added to [CONTRIBUTE.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) by the coder.
-3. [README.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/README.md) and [CONTRIBUTE.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) should be updated or checked for updates with every new commit.
+1. Any new function description should be added to [CONTRIBUTE.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) by the coder.
+2. [README.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/README.md) and [CONTRIBUTE.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) should be updated or checked for updates with every new commit.
 
 ## Documentation
 1. Most lines that don't follow a convention of `C` coding must be commented, even if you think its purpose is obvious.
@@ -33,9 +32,10 @@ Become a contributor to `Esoteric-Assembler`.
 4. Every variable of an inbuilt type must be initialised in [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) in function `initialize`.
 
 ## Other conventions
-1. Use of `scanf()` and `gets()` for input is strictly forbidden.
-2. Use `scanStr()` in [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) in association with `strtol()` for integer inputs.
-3. You cannot immediately use any dynamic memory allocation method (or any method that uses it) after using `unEscape()` in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
-4. You must use up or backup the value returned by `unEscape()` before doing so as it returns a `dangling pointer`.
-5. This is done to free up memory so that `free()` is not used after every call to `unEscape()`.
-6. Don't overuse this section for every new convention added.
+1. All identifier name should clearly convey its purpose.
+2. Use of `scanf()` and `gets()` for input is strictly forbidden.
+3. Use `scanStr()` in [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) in association with `strtol()` for integer inputs.
+4. You cannot immediately use any dynamic memory allocation method (or any method that uses it) after using `unEscape()` in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
+5. You must use up or backup the value returned by `unEscape()` before doing so as it returns a `dangling pointer`.
+6. This is done to free up memory so that `free()` is not used after every call to `unEscape()`.
+7. Don't overuse this section for every new convention added.
