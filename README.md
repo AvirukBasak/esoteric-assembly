@@ -11,6 +11,11 @@ An interpreter with assembly like syntax.
 
 ## Download links
 - Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10). You'll find installation instructions there.
+<a href = "https://github.com/avirukbasak/Esoteric-Assembler/archive/main.zip" style = "text-decoration: none">
+	<button id = "download" onclick = "document.getElementById('download').style.backgroundColor='#FFFFFF'; document.getElementById('download').style.color='#159957';" style = "color: white; height: 45px; background-color: #159957; border: 2px #159957 solid; border-color: #159957; border-radius: 5px;">
+		Download source ZIP
+	</button>
+</a>
 
 ## How to use?
 - Once installed, run `asm path/to/file` where `asm` is the linux command (or the path to the binary executable).
