@@ -9,8 +9,7 @@ Become a contributor to `Esoteric-Assembler`.
 5. [Coding conventions](#coding-conventions)
 
 ## GitHub conventions
-1. Any new function description should be added to [CONTRIBUTE.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) by the coder.
-2. [README.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/README.md) and [CONTRIBUTE.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) should be updated or checked for updates with every new commit.
+1. [README.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/README.md) and [CONTRIBUTE.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) should be updated or checked for updates with every new commit.
 
 ## Documentation
 1. Most lines that don't follow a convention of `C` coding must be commented, even if you think its purpose is obvious.
