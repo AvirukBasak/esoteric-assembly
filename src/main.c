@@ -30,16 +30,16 @@ void evalOptions(int argsc, char **args, int indx) {
     if (!strcmp(args[indx], "--help") || !strcmp(args[indx], "-h")) {
         if (argsc > 2) {
             E1b: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
-            exit(1);
+            quit(1);
         }
         printHelp();
-        exit(0);
+        quit(0);
     }
     // if indx arg is console mode
     else if (!strcmp(args[indx], "--console") || !strcmp(args[indx], "-c")) {
         if (argsc > 2) {
             E1c: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
-            exit(1);
+            quit(1);
         }
         printf("Esoteric Assembler " VER " Console\n");
         printf("NOTE: Function calls and jumps have been disabled.\n\n");
@@ -49,24 +49,24 @@ void evalOptions(int argsc, char **args, int indx) {
     else if (!strcmp(args[indx], "--version") || !strcmp(args[indx], "-v")) {
         if (argsc > 2) {
             E1d: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
-            exit(1);
+            quit(1);
         }
         printf("Esoteric Assembler\n");
         printf("Version: " VER "\n");
-        exit(0);
+        quit(0);
     }
     // if it is dev
     else if (!strcmp(args[indx], "--dev") || !strcmp(args[indx], "-d")) {
         if (argsc > 3) {
             E1e: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
-            exit(1);
+            quit(1);
         }
         /* incase dev is 1st argument, ie indx is 1, indx 2 may be left empty
          * in that case this error msg is printed
          */
         if (args[2] == NULL) {
             E2a: fprintf(stderr, RED "ERR> " RST "No file path entered\n");
-            exit(2);
+            quit(2);
         }
         // make sure dev isn't enabled accidentally
         W1: printf(YEL "WRN> DEVELOPER (DEBUG) MODE\n" RST);
@@ -86,12 +86,12 @@ void evalOptions(int argsc, char **args, int indx) {
     else if (!strcmp(args[indx], "--labels") || !strcmp(args[indx], "-l")) {
         if (argsc > 3) {
             E1f: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
-            exit(1);
+            quit(1);
         }
         // check if file path is not empty
         if (args[2] == NULL) {
             E2b: fprintf(stderr, RED "ERR> " RST "No file path entered\n");
-            exit(2);
+            quit(2);
         }
         // set label table printing flag on
         printLbl = true;
@@ -100,7 +100,7 @@ void evalOptions(int argsc, char **args, int indx) {
         // if arg is invalid
         E3: fprintf(stderr, RED "ERR> " RST "Invalid option: '%s'\n", unEscape(args[indx]));
         fprintf(stderr, RED "ERR> " RST "Use --help or -h for help text\n");
-        exit(3);
+        quit(3);
     }
 }
 
@@ -129,7 +129,7 @@ int main(int argsc, char *args[]) {
         printf("  -c, --console    Console mode to execute codes from stdin\n");
         printf("  -v, --version    Display version information\n");
         printf("  -d, --dev        Developer mode to debug interpreter I/O\n");
-        return 0;
+        quit(0);
     }
     // If 0th char of 1st argument is a '-', ie 1st arg is option
     else if (argsc == 2) {
@@ -149,7 +149,7 @@ int main(int argsc, char *args[]) {
     }
     else {
         E1a: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
-        exit(1);
+        quit(1);
     }
     // open file
     if (!console) openFile(args[arg]);

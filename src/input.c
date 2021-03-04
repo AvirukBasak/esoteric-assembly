@@ -145,8 +145,19 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         }
         // escape sequence for inputting delimiters
         else if (c == '\\') {
+            escaped = true;
             c = fgetc(ptr);
-            if (c == 'n') c = '\n';
+            if (c == 'n') {
+                // if index becomes equal to max size allowed for input
+                if (i == size) {
+                    str[i] = '\0';
+                    E8a: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character input limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, unEscape(substr(str, 0, 16)));
+                    quit(8);
+                }
+                str[i++] = '\n';
+                escaped = false;
+                continue;
+            }
             else if (c == 'r') c = '\r';
             else if (c == 't') c = '\t';
             else if (c == 'b') c = ' ';
@@ -158,17 +169,15 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
                 E7: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Carriage return must be escaped with '\\r'\n", lineNo);
                 quit(7);
             }
-            escaped = true;
         }
         // if index becomes equal to max size allowed for input
         if (i == size) {
             str[i] = '\0';
-            E8a: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character input limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, unEscape(substr(str, 0, 16)));
+            E8b: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character input limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, unEscape(substr(str, 0, 16)));
             quit(8);
-            exit(8);
         }
         str[i++] = c;
-        if (c == 10 && !escaped && (quoted || escaped) && console) {
+        if (console && c == 10 && (quoted || escaped)) {
             printf("nwl> ");
         }
         escaped = false;
