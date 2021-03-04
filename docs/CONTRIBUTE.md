@@ -6,6 +6,7 @@ Become a contributor to `Esoteric-Assembler`.
 2. [Documentation](documentation)
 3. [Creating functions](creating-functions)
 4. [Global variables, macros and types](global-variables-macros-and-types)
+5. [Source code functions](source-code-functions)
 
 ## Coding conventions
 
@@ -25,3 +26,5 @@ Become a contributor to `Esoteric-Assembler`.
 2. No library is to be included in other files. [main.c]() can only have the source files.
 3. All `MACROS`, `types` and `global variables` must be defined only in [global.c]().
 4. Every variable of an inbuilt type must be initialised in [main.c]() in function `initialize`.
+
+### Source code functions
