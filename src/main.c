@@ -1,5 +1,4 @@
-/* Author: AvirukBasak
- * Version: 2021.3.10
+/* Version: 2021.3.10
  * Description: Another assembly simulator
  */
 
