@@ -39,7 +39,8 @@ Become a contributor to `Esoteric-Assembler`.
 4. `void *allocateMem(size_t blocks, size_t size, bool initialize)` Wrapper for `malloc()` and `calloc()`.
 5. `void *reallocateMem(void *ptr, size_t size)` Wrapper for `realloc()`.
 6. `void prArray(char *s, unsigned int size)` Print a string as an array.
+7. `char *unEscape(char *str)` Return a string after un-escaping the delimiting characters `\t`, `\n`, `\r` and `space`.
 
-
-
+### [main.c]()
+1. 
 
