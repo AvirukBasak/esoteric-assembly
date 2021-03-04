@@ -28,3 +28,10 @@ Become a contributor to `Esoteric-Assembler`.
 2. No library is to be included in other files. [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) can only have the source files.
 3. All `MACROS`, `types` and `global variables` must be defined only in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
 4. Every variable of an inbuilt type must be initialised in [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) in function `initialize`.
+
+## Other conventions
+1. Use of `scanf()` and `gets()` for input is strictly forbidden.
+2. Use `scanStr()` in [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) in association with `strtol()` for integer inputs.
+3. You cannot immediately use any dynamic memory allocation method (or any method that uses it) after using `unEscape()` in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
+4. You must use up or backup the value returned by `unEscape()` before doing so as it returns a `dangling pointer`.
+5. This is done to free up memory so that `free()` is not used after every call to `unEscape()`.
