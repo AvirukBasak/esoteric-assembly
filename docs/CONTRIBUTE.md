@@ -27,4 +27,14 @@ Become a contributor to `Esoteric-Assembler`.
 3. All `MACROS`, `types` and `global variables` must be defined only in [global.c]().
 4. Every variable of an inbuilt type must be initialised in [main.c]() in function `initialize`.
 
-### Source code functions
+## Source code functions
+
+### [global.c]()
+1. `char *substr(char *str, int frm, int to)` Substring `str` from `frm` till `to`.
+2. `void printHelp()` Prints the help text you get with `--help` argument.
+3. `void quit(int exitcode)` Quits the program whith the exit code after closing any files if open.
+4. 
+
+
+
+
