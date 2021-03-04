@@ -8,17 +8,13 @@ assignees: ''
 ---
 
 ### Bug description
-```
-useful
-```
+(usefull)
+
 ### How to reproduce?
-```
-useful
-```
+(useful)
+
 ### Other helpful info
-```
-optional
-```
+(optional)
 
 ### Output
 ```
