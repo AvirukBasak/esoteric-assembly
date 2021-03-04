@@ -64,15 +64,17 @@ char *substr(char *str, int frm, int to) {
 }
 
 // prints asm help text
-void printHelp() {
-    printf("Usage:\n");
-    printf("  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n");
-    printf("Options:\n");
-    printf("  -h, --help          | Display this message\n");
-    printf("  -l, --labels        | Display declared labels in tabular form\n");
-    printf("  -c, --console       | Console mode to execute codes from stdin\n");
-    printf("  -v, --version       | Display version information\n");
-    printf("  -d, --dev           | Developer mode to debug interpreter I/O\n\n");
+void printHelp(bool usage) {
+    if (usage) {
+        printf("Usage:\n");
+        printf("  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n");
+        printf("Options:\n");
+        printf("  -h, --help          | Display this message\n");
+        printf("  -l, --labels        | Display declared labels in tabular form\n");
+        printf("  -c, --console       | Console mode to execute codes from stdin\n");
+        printf("  -v, --version       | Display version information\n");
+        printf("  -d, --dev           | Developer mode to debug interpreter I/O\n\n");
+    }
     printf("Operands:             | \n");
     printf("  %%x                  | Indicates register 'x'\n");
     printf("  &ad                 | Indicates address 'ad' of RAM\n");
@@ -119,6 +121,7 @@ void printHelp() {
     printf("  prs \"str\"           | Print str as string\n");
     printf("  nwl                 | Print new line character\n");
     printf("  ret                 | Return from function\n");
+    printf("  hlp                 | Display help text (only console mode)\n");
     printf("  end                 | End execution\n\n");
     printf("NOTE: $20 will be parsed as decimal. For hex, use $0x20. This is\n");
     printf("      not necessary for $0a. Same goes for &. Also, 'ptr' can be\n");

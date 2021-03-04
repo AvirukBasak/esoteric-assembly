@@ -131,7 +131,7 @@ E20    20      global        Failed to allocate memory
 LBL    FILE          WARNING
 
 W1     main          Dev mode
-W2     interpreter   Opcode is disabled in console mode
+W2     interpreter   Opcode is disabled
 W3     interpreter   Opcode 'inv' is deprecated
 
 ```

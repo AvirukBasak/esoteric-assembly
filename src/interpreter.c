@@ -178,7 +178,7 @@ void evaluate(char *opcode) {
         
         scanStr(file, oprnd1, 64);
         if (console) {                           // loops and functions disabled when code is read from stdin (console)
-            W2b: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, unEscape(opcode));
+            W2c: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode\n", lineNo, unEscape(opcode));
             return;
         }
         if (!strcmp(opcode, "jmp") || (!strcmp(opcode, "jit") && FLAG) || (!strcmp(opcode, "jif") && !FLAG)) {
@@ -309,7 +309,7 @@ void evaluate(char *opcode) {
     else if (!strcmp(opcode, "prn")) {           // PRINT_NUM (print as number)
         scanStr(file, oprnd1, 64);
         // checks if operand is valid, ie not a garbage
-        if (selOprnd(oprnd1, 0) == &garbageBuffer)
+        if (selOprnd(oprnd1, 1) == &garbageBuffer)
             return;
         
         if (dev) printf(YEL "\nout> " RST);
@@ -323,7 +323,7 @@ void evaluate(char *opcode) {
     else if (!strcmp(opcode, "prc")) {           // PRINT_CHAR (print as character)
         scanStr(file, oprnd1, 64);
         // checks if operand is valid, ie not a garbage
-        if (selOprnd(oprnd1, 0) == &garbageBuffer)
+        if (selOprnd(oprnd1, 1) == &garbageBuffer)
             return;
         
         if (dev) printf(YEL "\nout> " RST);
@@ -371,12 +371,17 @@ void interpret() {
     unsigned int retCur = -1;
     do {
         scanStr(file, opcode, 64);
+        if (!strcmp(opcode, "hlp")) {
+            if (console) printHelp(false);
+            else 
+                W2a: printf(YEL "WRN> " RST "[LINE: %u] Opcode 'hlp' is disabled without console mode\n", lineNo);
+        }
         // call label as a function
-        if (!strcmp(opcode, "call") || !strcmp(opcode, "calt") || !strcmp(opcode, "calf")) {
+        else if (!strcmp(opcode, "call") || !strcmp(opcode, "calt") || !strcmp(opcode, "calf")) {
             char label[65];
             scanStr(file, label, 64);
             if (console) {
-                W2a: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode and is ignored\n", lineNo, unEscape(opcode));
+                W2b: printf(YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode\n", lineNo, unEscape(opcode));
                 continue;
             }
             if (!strcmp(opcode, "call") || (!strcmp(opcode, "calt") && FLAG) || (!strcmp(opcode, "calf") && !FLAG)) {
