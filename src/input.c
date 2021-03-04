@@ -1,10 +1,10 @@
 // opens a file
 void openFile(char *path) {
     file = fopen(path, "r");     // r means read mode
-    if (file == NULL) {
+    if (file == NULL) {          // if NULL, means file not read
         E4: fprintf(stderr, RED "ERR> " RST "Can't read file '%s'\n", unEscape(path));
         fprintf(stderr, RED "ERR> " RST "Check if file path exists and has read permission\n");
-        exit(4);
+        quit(4);
     }
 }
 
@@ -31,6 +31,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
     signed char c;
     bool quoted = false;
     bool escaped = false;
+    
     /* This loop is for cases where there's stray spaces, indents, 
      | newlines before a string. It is to traverse thru those till 
      | a proper character is spotted.
@@ -43,6 +44,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
      */
      // VERY IMPORTANT WARNING: fgetc() will NOT update reader cursor once it reaches EOF.
     while ((c = fgetc(ptr)) == EOF || c == 13 || c == 10 || c == '/' || isStrayChar(c)) {
+        
         // updates lineNo if newline is spotted
         if (c == 10) {
             // updates line no
@@ -73,11 +75,15 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
                     c = fgetc(ptr);
                     // updates lineNo if newline is spotted
                     if (c == 10) {
+                        
+                        // comment prompt in console mode
                         if (console) printf("com> ");
+                        
                         if ((c = fgetc(ptr)) != 13) ungetc(c, ptr);
                         if (!input) ++lineNo;
                      }
                      else if (c == 13) {
+                         
                         // updates lineNo if newline is spotted
                         if ((c = fgetc(ptr)) != 10) ungetc(c, ptr);
                         if (!input) ++lineNo;
@@ -92,6 +98,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         }
         else if (c == EOF) eof();
     }
+    
     /* due to use of fgetc() in entry control mode, file pointer will 
      | spot a proper char befor exiting upper loop.
      | Eg: 
@@ -103,11 +110,13 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
      */
     ungetc(c, ptr);
     while ((c = fgetc(ptr)) != EOF) {
+        
         /* if quoted is true, it means string is within quotes and
          * so no stray character, newlines, spaces, etc are ignored
          * till a second closing quote is spotted
          */
         if ((c == 13 || c == 10 || isStrayChar(c)) && !quoted) {
+            
             /* once read and found the char is a dilimiter, push it back
              * into the stream and break. when scanStr() is called next,
              * it automatically ignores this character using the first loop
@@ -116,6 +125,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
             ungetc(c, ptr);
             break;
         }
+        
         /* if comment started, push the two comment start characters
          * ie '/' and '*' into the stream and break, just like what's done
          * for delimiting characters.
@@ -133,20 +143,23 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
                 c = '/';
             }
         }
+        
         /* if quote, invert current value of 'quoted' flag
          * this flag is like a switch that controls the reading
          * or ignoring of delimiters 
          */
         else if (c == '"') {
             quoted = !quoted;
-            if (quoted) continue;
             // if quoted is made false, a string is read, so break
+            if (quoted) continue;
             else break;
         }
         // escape sequence for inputting delimiters
         else if (c == '\\') {
+            
             escaped = true;
             c = fgetc(ptr);
+            
             if (c == 'n') {
                 // if index becomes equal to max size allowed for input
                 if (i == size) {
@@ -154,6 +167,8 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
                     E8a: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character input limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, unEscape(substr(str, 0, 16)));
                     quit(8);
                 }
+                
+                // this is done so that c is not set to 10 otherwise nwl> prompt will get activated at label NWL for inp> "str\n"
                 str[i++] = '\n';
                 escaped = false;
                 continue;
@@ -170,20 +185,27 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
                 quit(7);
             }
         }
+        
         // if index becomes equal to max size allowed for input
         if (i == size) {
             str[i] = '\0';
             E8b: fprintf(stderr, RED "ERR> " RST "[LINE: %u] Exceeded %u character input limit\n" RED "ERR> " RST "For '%s...'\n", lineNo, size, unEscape(substr(str, 0, 16)));
             quit(8);
         }
+        
+        // writing into string
         str[i++] = c;
-        if (console && c == 10 && (quoted || escaped)) {
+        
+        // if console mode is one and string is in quotes and enter is pressed, give new line prompt
+        NWL: if (console && c == 10 && (quoted || escaped)) {
             printf("nwl> ");
         }
         escaped = false;
     }
+    
     // null char string terminator
     str[i] = '\0';
+    
     /* print whatever is read in, prArray works only if 'dev' flag is on
      * see global.c
      */
