@@ -1,7 +1,7 @@
 // opens a file
 void openFile(char *path) {
-    file = fopen(path, "r");     // r means read mode
-    if (file == NULL) {          // if NULL, means file not read
+    file = fopen(path, "r");                                 // r means read mode
+    if (file == NULL) {                                      // if NULL, means file not read
         E4: fprintf(stderr, RED "ERR> " RST "Can't read file '%s'\n", unEscape(path));
         fprintf(stderr, RED "ERR> " RST "Check if file path exists and has read permission\n");
         quit(4);
@@ -14,11 +14,20 @@ void eof() {
     quit(5);
 }
 
+signed short int readC(FILE *ptr) {
+    signed short int c = fgetc(ptr);
+    if (c == 255) {
+        printf("\n");
+    }
+    return c;
+}
+
 bool isStrayChar(char c) {
     return (c == ' ' || 
             c == '\t'||
             c == ',' || 
-            c == ';' );
+            c == ';' ||
+            c  > 127 );
 }
 
 /* All this to incorporate line numbers counting
@@ -28,7 +37,7 @@ bool isStrayChar(char c) {
  */
 void scanStr(FILE *ptr, char *str, unsigned int size) {
     int i = 0;
-    signed char c;
+    signed short int c;
     bool quoted = false;
     bool escaped = false;
     
@@ -42,54 +51,42 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
      | 10 is '\n' or newline character.
      | 9 is '\t'.
      */
-     // VERY IMPORTANT WARNING: fgetc() will NOT update reader cursor once it reaches EOF.
-    while ((c = fgetc(ptr)) == EOF || c == 13 || c == 10 || c == '/' || isStrayChar(c)) {
-        
-        // updates lineNo if newline is spotted
-        if (c == 10) {
-            // updates line no
-            if (!input) ++lineNo;
-            // setting prompt
-            if (console && prompt) printf(GRN "asm> " RST);
-            // gets next character
-            c = fgetc(ptr);
-            // quit if eof
-            if (c == EOF) eof();
-            // else if c is not 13, bring read cursor back at location of c
-            else if (c != 13) ungetc(c, ptr);
+     // VERY IMPORTANT WARNING: readC() will NOT update reader cursor once it reaches EOF.
+    while ((c = readC(ptr)) == EOF || c == 13 || c == 10 || c == '/' || isStrayChar(c)) {
+         
+        if (c == 10 || c == 255) {                                    // updates lineNo if newline is spotted
+            if (!input) ++lineNo;                                     // updates line no
+            if (console && prompt) printf(GRN "asm> " RST);           // setting prompt
+            else if ((dev || console) && input) printf(YEL "inp> " RST);
+            c = readC(ptr);                                           // gets next character
+            if (c == EOF) eof();                                      // quit if eof
+            else if (c != 13) ungetc(c, ptr);                         // else if c is not 13, bring read cursor back at location of c 
         }
         else if (c == 13) {
-            // updates line no
-            if (!input) ++lineNo;
-            // gets next character
-            c = fgetc(ptr);
-            // quit if eof
-            if (c == EOF) eof();
-            // else if c is not 10, bring read cursor back at location of c
-            else if (c != 10) ungetc(c, ptr);
+            if (!input) ++lineNo;                                     // updates line no
+            c = readC(ptr);                                           // gets next character
+            if (c == EOF) eof();                                      // quit if eof
+            else if (c != 10) ungetc(c, ptr);                         // else if c is not 10, bring read cursor back at location of c
         }
-        else if (c == '/') {
-            if ((c = fgetc(ptr)) != '*') ungetc(c, ptr);
+        else if (c == '/') {                                          // checks if comment begins
+            if ((c = readC(ptr)) != '*') ungetc(c, ptr);              // comment not begins, unget the *
             else {
                 do {
-                    c = fgetc(ptr);
-                    // updates lineNo if newline is spotted
-                    if (c == 10) {
+                    c = readC(ptr);                                   // read comment character but ignore it
+                    if (c == 10 || c == 255) {                        // update lineNo on LF or (in case in console mode) CTRL+D ie 255
                         
-                        // comment prompt in console mode
-                        if (console) printf("com> ");
+                        if (console) printf("com> ");                 // new line prompt for console mode
                         
-                        if ((c = fgetc(ptr)) != 13) ungetc(c, ptr);
-                        if (!input) ++lineNo;
+                        if ((c = readC(ptr)) != 13) ungetc(c, ptr);
+                        if (!input) ++lineNo;                         // update lineNo if 'input' flag isn't on. this flag indicates 'inp' opcode
                      }
                      else if (c == 13) {
                          
-                        // updates lineNo if newline is spotted
-                        if ((c = fgetc(ptr)) != 10) ungetc(c, ptr);
+                        if ((c = readC(ptr)) != 10) ungetc(c, ptr);   // updates lineNo if newline is spotted
                         if (!input) ++lineNo;
                      }
-                     else if (c == '*') {
-                        if ((c = fgetc(ptr)) == '/') break;
+                     else if (c == '*') {                             // closing comments
+                        if ((c = readC(ptr)) == '/') break;
                         else ungetc(c, ptr);
                      }
                      else if (c == EOF) eof();
@@ -99,17 +96,17 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         else if (c == EOF) eof();
     }
     
-    /* due to use of fgetc() in entry control mode, file pointer will 
+    /* due to use of readC() in entry control mode, file pointer will 
      | spot a proper char befor exiting upper loop.
      | Eg: 
      | \n\n\nabc
-     |       ^___fgetc() gets this value to check if its a stray value 
+     |       ^___readC() gets this value to check if its a stray value 
      | in upper loop and immediately updates file pointer to point b.
-     | So doing fgetc() again fetches string from b. But string is abc.
+     | So doing readC() again fetches string from b. But string is abc.
      | So ungetc() is to move the file pointer to a, ie undo getc operation.
      */
     ungetc(c, ptr);
-    while ((c = fgetc(ptr)) != EOF) {
+    while ((c = readC(ptr)) != EOF) {
         
         /* if quoted is true, it means string is within quotes and
          * so no stray character, newlines, spaces, etc are ignored
@@ -131,7 +128,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
          * for delimiting characters.
          */
         else if (c == '/' && !quoted) {
-            if ((c = fgetc(ptr)) == '*') {
+            if ((c = readC(ptr)) == '*') {
                 ungetc('*', ptr);
                 ungetc('/', ptr);
                 break;
@@ -158,9 +155,10 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         else if (c == '\\') {
             
             escaped = true;
-            c = fgetc(ptr);
+            c = readC(ptr);
             
-            if (c == 'n') {
+            if (c == EOF) eof();
+            else if (c == 'n') {
                 // if index becomes equal to max size allowed for input
                 if (i == size) {
                     str[i] = '\0';
@@ -194,7 +192,7 @@ void scanStr(FILE *ptr, char *str, unsigned int size) {
         }
         
         // writing into string
-        str[i++] = c;
+        str[i++] = (char) c;
         
         // if console mode is one and string is in quotes and enter is pressed, give new line prompt
         NWL: if (console && c == 10 && (quoted || escaped)) {

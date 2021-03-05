@@ -282,9 +282,8 @@ void evaluate(char *opcode) {
         if (selOprnd(oprnd1, 0) == &garbageBuffer)
             return;
         
-        if (dev) printf(YEL "\ninp> " RST);      // in dev mode, prompts input
+        if (dev) printf(YEL "\n" RST);           // in dev mode, extra LF
         else if (console) {                      // inp prompt in console mode
-            printf(YEL "inp> " RST);             // inp prompt
             prompt = false;                      // disable asm> prompt
         }
         input = true;                            // disables lineNo update
