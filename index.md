@@ -15,7 +15,6 @@ An interpreter with assembly like syntax.
 
 ## How to use?
 - Once installed, run `asm path/to/file` where `asm` is the linux command (or the path to the binary executable).
-- Windows users need to compile the source manually as of now.
 - Enter `asm --help` or `asm -h` for help text.
 
 ## The test files
