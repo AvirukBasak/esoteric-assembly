@@ -31,7 +31,7 @@ void evalOptions(int argsc, char **args, int indx) {
             E1b: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
             quit(1);
         }
-        printHelp();
+        printHelp(true);
         quit(0);
     }
     // if indx arg is console mode
