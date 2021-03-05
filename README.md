@@ -92,6 +92,7 @@ Mnemonics:            |
   prs "str"           | Print str as string
   nwl                 | Print new line character
   ret                 | Return from function
+  hlp                 | Display help text (only console mode)
   end                 | End execution
 
 NOTE: $20 will be parsed as decimal. For hex, use $0x20. This is
