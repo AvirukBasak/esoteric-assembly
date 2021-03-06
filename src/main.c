@@ -2,8 +2,10 @@
  * Description: Another assembly simulator
  */
 
+#include "header.h"
 #include "global.c"
 #include "input.c"
+#include "output.c"
 #include "interpreter.c"
 
 #define VER "v2021.3.10"
@@ -16,6 +18,7 @@ void initialize() {
     printLbl = false;
     dev = false;
     file = NULL;
+    lastChar = 10;
     FLAG = false;
     a = b = c = d = 0;
     dataPtr = 0;
@@ -28,7 +31,7 @@ void evalOptions(int argsc, char **args, int indx) {
     // If indx argument is help
     if (!strcmp(args[indx], "--help") || !strcmp(args[indx], "-h")) {
         if (argsc > 2) {
-            E1b: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+            E1b: print (stderr, RED "ERR> " RST "Too many arguments\n");
             quit(1);
         }
         printHelp(true);
@@ -37,43 +40,43 @@ void evalOptions(int argsc, char **args, int indx) {
     // if indx arg is console mode
     else if (!strcmp(args[indx], "--console") || !strcmp(args[indx], "-c")) {
         if (argsc > 2) {
-            E1c: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+            E1c: print (stderr, RED "ERR> " RST "Too many arguments\n");
             quit(1);
         }
-        printf("Esoteric Assembler " VER " Console\n");
-        printf("NOTE: Function calls and jumps have been disabled.\n\n");
+        print (stdout, "Esoteric Assembler " VER " Console\n");
+        print (stdout, "NOTE: Function calls and jumps have been disabled.\n\n");
         console = true;
     }
     // if indx argument is version
     else if (!strcmp(args[indx], "--version") || !strcmp(args[indx], "-v")) {
         if (argsc > 2) {
-            E1d: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+            E1d: print (stderr, RED "ERR> " RST "Too many arguments\n");
             quit(1);
         }
-        printf("Esoteric Assembler\n");
-        printf("Version: " VER "\n");
+        print (stdout, "Esoteric Assembler\n");
+        print (stdout, "Version: " VER "\n");
         quit(0);
     }
     // if it is dev
     else if (!strcmp(args[indx], "--dev") || !strcmp(args[indx], "-d")) {
         if (argsc > 3) {
-            E1e: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+            E1e: print (stderr, RED "ERR> " RST "Too many arguments\n");
             quit(1);
         }
         /* incase dev is 1st argument, ie indx is 1, indx 2 may be left empty
          * in that case this error msg is printed
          */
         if (args[2] == NULL) {
-            E2a: fprintf(stderr, RED "ERR> " RST "No file path entered\n");
+            E2a: print (stderr, RED "ERR> " RST "No file path entered\n");
             quit(2);
         }
         // make sure dev isn't enabled accidentally
-        W1: printf(YEL "WRN> DEVELOPER (DEBUG) MODE\n" RST);
-        printf("  - This mode is for debugging the interpreter and not the asm\n    script.\n");
-        printf("  - This mode prints every token the interpreter reads in.\n");
-        printf("  - Label table is printed in this mode.\n");
-        printf("  - I/O prompts of asm script will look ugly so removing them is\n    recommended.\n");
-        printf(YEL "Enter 'n' for normal execution. Enable debugger? (y/n) " RST);
+        W1: print (stdout, YEL "WRN> DEVELOPER (DEBUG) MODE\n" RST);
+        print (stdout, "  - This mode is for debugging the interpreter and not the asm\n    script.\n");
+        print (stdout, "  - This mode prints every token the interpreter reads in.\n");
+        print (stdout, "  - Label table is printed in this mode.\n");
+        print (stdout, "  - I/O prompts of asm script will look ugly so removing them is\n    recommended.\n");
+        print (stdout, YEL "Enter 'n' for normal execution. Enable debugger? (y/n) " RST);
         char s[8];
         scanStr(stdin, s, 8);
         if (s[0] == 'y' || s[0] == 'Y') {
@@ -84,12 +87,12 @@ void evalOptions(int argsc, char **args, int indx) {
     // if indx arg is labels
     else if (!strcmp(args[indx], "--labels") || !strcmp(args[indx], "-l")) {
         if (argsc > 3) {
-            E1f: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+            E1f: print (stderr, RED "ERR> " RST "Too many arguments\n");
             quit(1);
         }
         // check if file path is not empty
         if (args[2] == NULL) {
-            E2b: fprintf(stderr, RED "ERR> " RST "No file path entered\n");
+            E2b: print (stderr, RED "ERR> " RST "No file path entered\n");
             quit(2);
         }
         // set label table printing flag on
@@ -97,8 +100,8 @@ void evalOptions(int argsc, char **args, int indx) {
     }
     else {
         // if arg is invalid
-        E3: fprintf(stderr, RED "ERR> " RST "Invalid option: '%s'\n", unEscape(args[indx]));
-        fprintf(stderr, RED "ERR> " RST "Use --help or -h for help text\n");
+        E3: print (stderr, RED "ERR> " RST "Invalid option: '%s'\n", unEscape(args[indx]));
+        print (stderr, RED "ERR> " RST "Use --help or -h for help text\n");
         quit(3);
     }
 }
@@ -120,14 +123,14 @@ int main(int argsc, char *args[]) {
      | 0th argument is the executive command itself.
      */
     if(argsc == 1) {
-        printf("Usage:\n");
-        printf("  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n");
-        printf("Options:\n");
-        printf("  -h, --help       Display extended help text\n");
-        printf("  -l, --labels     Display declared labels in tabular form\n");
-        printf("  -c, --console    Console mode to execute codes from stdin\n");
-        printf("  -v, --version    Display version information\n");
-        printf("  -d, --dev        Developer mode to debug interpreter I/O\n");
+        print (stdout, "Usage:\n");
+        print (stdout, "  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n");
+        print (stdout, "Options:\n");
+        print (stdout, "  -h, --help       Display extended help text\n");
+        print (stdout, "  -l, --labels     Display declared labels in tabular form\n");
+        print (stdout, "  -c, --console    Console mode to execute codes from stdin\n");
+        print (stdout, "  -v, --version    Display version information\n");
+        print (stdout, "  -d, --dev        Developer mode to debug interpreter I/O\n");
         quit(0);
     }
     // If 0th char of 1st argument is a '-', ie 1st arg is option
@@ -147,7 +150,7 @@ int main(int argsc, char *args[]) {
         }
     }
     else {
-        E1a: fprintf(stderr, RED "ERR> " RST "Too many arguments\n");
+        E1a: print (stderr, RED "ERR> " RST "Too many arguments\n");
         quit(1);
     }
     // open file
@@ -159,10 +162,10 @@ int main(int argsc, char *args[]) {
     fseek(file, 0, SEEK_SET);
     lineNo = 1;
     // scan the file for codes and interpret them
-    if (dev) printf(YEL "SCAN FILE FOR CODES\n" RST);
-    if (console) printf(GRN "asm> " RST);
+    if (dev) print (stdout, YEL "SCAN FILE FOR CODES\n" RST);
+    if (console) print (stdout, GRN "asm> " RST);
     interpret();
-    if (dev) printf(GRN "\nEXECUTION COMPLETE | %lu Steps\n" RST, steps);
+    if (dev) print (stdout, GRN "\nEXECUTION COMPLETE | %lu Steps\n" RST, steps);
     // close file
     quit(0);
 }
