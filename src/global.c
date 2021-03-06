@@ -12,13 +12,11 @@ struct TABLE {
 struct TABLE *tab;               // this will allow us to access any label based on its cursor posn
 int tabIndex;                    // index of last label in table
 bool console;                    // console mode
-bool prompt;                     // if true, prints asm> in console mode
 bool input;                      // marks input, so that lineNo isn't upadated
 bool printLbl;                   // labels mode
 bool dev;                        // dev mode
 
 FILE *file;                      // input file pointer
-char lastChar;                   // last read char from file
 
 bool FLAG;                       // boolean flag
 char opcode[65];                 // opcode of operation

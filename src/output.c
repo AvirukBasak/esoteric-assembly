@@ -1,6 +1,6 @@
 // ouputs a string like printf
 int print(FILE *ptr, const char *format, ...) {
-    if (input && lastChar != '\n') fprintf(ptr, "\n");
+    if (ptr == stderr) fprintf(stderr, "\r");
     va_list arg;
     int done;
     va_start(arg, format);

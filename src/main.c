@@ -2,7 +2,7 @@
  * Description: Another assembly simulator
  */
 
-#include "header.h"
+#include "headers.h"
 #include "global.c"
 #include "input.c"
 #include "output.c"
@@ -14,11 +14,10 @@ void initialize() {
     tab = NULL;
     tabIndex = 0;
     console = false;
-    prompt = true;
+    input = false;
     printLbl = false;
     dev = false;
     file = NULL;
-    lastChar = 10;
     FLAG = false;
     a = b = c = d = 0;
     dataPtr = 0;
@@ -162,8 +161,8 @@ int main(int argsc, char *args[]) {
     fseek(file, 0, SEEK_SET);
     lineNo = 1;
     // scan the file for codes and interpret them
-    if (dev) print (stdout, YEL "SCAN FILE FOR CODES\n" RST);
-    if (console) print (stdout, GRN "asm> " RST);
+    if (console && !input) printf(GRN "asm> " RST);
+    else if (dev) print (stdout, YEL "SCAN FILE FOR CODES\n" RST);
     interpret();
     if (dev) print (stdout, GRN "\nEXECUTION COMPLETE | %lu Steps\n" RST, steps);
     // close file

@@ -277,21 +277,19 @@ void evaluate(char *opcode) {
         FLAG = *selOprnd(oprnd1, 0) <= *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "inp")) {           // INPUT (console, only numeric input)
+    
         scanStr(file, oprnd1, 64);
+        
         // checks if operand is valid, ie not a garbage
         if (selOprnd(oprnd1, 0) == &garbageBuffer)
             return;
         
-        if (dev) print (stdout, YEL "\ninp> " RST);        // in dev mode, extra LF
-        else if (console) {                      // inp prompt in console mode
-            print (stdout, YEL "inp> " RST);
-            prompt = false;                      // disable asm> prompt
+        if (dev) {
+            print (stdout, YEL "\ninp> " RST);   // in dev mode, extra LF
         }
-        input = true;                            // disables lineNo update
+        input = true;
         scanStr(stdin, oprnd2, 64);              // input from console, NOT file
-        input = false;                           // enables lineNo update and asm> prompt
-        prompt = true;
-        
+        input = false;
         if (strlen(oprnd2) > 10) {               // an int is generally <= 10 digit long
             E8c: print (stderr, RED "ERR> " RST "Input too long\n");
             quit(8);
@@ -307,44 +305,42 @@ void evaluate(char *opcode) {
         }
     }
     else if (!strcmp(opcode, "prn")) {           // PRINT_NUM (print as number)
+    
         scanStr(file, oprnd1, 64);
         // checks if operand is valid, ie not a garbage
         if (selOprnd(oprnd1, 1) == &garbageBuffer)
             return;
         
-        if (dev) print (stdout, YEL "\nout> " RST);
-        else if (console) print (stdout, YEL "out> " RST);
-        
-        print (stdout, "%d", *selOprnd(oprnd1, 1));
-        
-        if (dev) print (stdout, "\n\n");
-        else if (console) print (stdout, "\n");
+        if (dev) fprintf (stdout, YEL "\nout> " RST);
+        fprintf (stdout, "%d", *selOprnd(oprnd1, 1));
+        if (dev) fprintf (stdout, "\n\n");
+        else if (console) fprintf (stdout, "\n");
     }
     else if (!strcmp(opcode, "prc")) {           // PRINT_CHAR (print as character)
+    
         scanStr(file, oprnd1, 64);
         // checks if operand is valid, ie not a garbage
         if (selOprnd(oprnd1, 1) == &garbageBuffer)
             return;
         
-        if (dev) print (stdout, YEL "\nout> " RST);
-        else if (console) print (stdout, YEL "out> " RST);
+        if (dev) fprintf (stdout, YEL "\nout> " RST);
         
-        print (stdout, "%c", *selOprnd(oprnd1, 1));
+        fprintf (stdout, "%c", *selOprnd(oprnd1, 1));
         
-        if (dev) print (stdout, "\n\n");
-        else if (console) print (stdout, "\n");
+        if (dev) fprintf (stdout, "\n\n");
+        else if (console) fprintf (stdout, "\n");
     }
     else if (!strcmp(opcode, "prs")) {           // PRINT_STRING
+    
         scanStr(file, oprnd1, 64);
         
-        if (dev) print (stdout, YEL "\nout> " RST);
-        else if (console) print (stdout, YEL "out> " RST);
+        if (dev) fprintf (stdout, YEL "\nout> " RST);
         
-        print (stdout, "%s", oprnd1);
+        fprintf (stdout, "%s", oprnd1);
         
         if (dev || console) {
-            if (oprnd1[strlen(oprnd1) - 1] != 10) print (stdout, INV "%%" RST "\n");
-            if (!console) print (stdout, "\n");
+            if (oprnd1[strlen(oprnd1) - 1] != 10) fprintf (stdout, INV "%%" RST "\n");
+            if (!console) fprintf (stdout, "\n");
         }
     }
     else if (!strcmp(opcode, "nwl")) {           // NEWLINE FEED
