@@ -1,11 +1,11 @@
-/* This header contains 
+/* This header contains
  * All function declarations from each and every source files
  * Every pre-processor to std/third-party libraries
  * Every macro
  */
 
-#ifndef HEADER
-#define HEADER
+#ifndef HEADERS
+#define HEADERS
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,8 +19,10 @@
 #define INV "\e[7;1m"
 #define RST "\e[0m"
 
+#ifdef EOF
 #undef EOF
-#define EOF 255
+#endif
+#define EOF(c) (c == -1 || c == 255)
 
 // main.c
 void initialize();
@@ -42,7 +44,6 @@ bool isStrayChar(signed short int c);
 void scanStr(FILE *ptr, char *str, unsigned int size);
 
 // output.c
-int print(FILE *ptr, const char *format, ...);
 void printHelp(bool usage);
 void prArray(char *s, unsigned int size);
 

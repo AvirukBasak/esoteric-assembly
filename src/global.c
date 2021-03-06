@@ -12,13 +12,11 @@ struct TABLE {
 struct TABLE *tab;               // this will allow us to access any label based on its cursor posn
 int tabIndex;                    // index of last label in table
 bool console;                    // console mode
-bool prompt;                     // if true, prints asm> in console mode
 bool input;                      // marks input, so that lineNo isn't upadated
 bool printLbl;                   // labels mode
 bool dev;                        // dev mode
 
 FILE *file;                      // input file pointer
-char lastChar;                   // last read char from file
 
 bool FLAG;                       // boolean flag
 char opcode[65];                 // opcode of operation
@@ -31,6 +29,9 @@ int garbageBuffer;               // garbage buffer to initialise selOprnd() poin
 
 unsigned int lineNo;             // lineNo counter
 unsigned long int steps;         // steps counter
+signed short int lastChar;       // last character read by scanStr()
+
+int errcode;
 
 /* OBSCURE: String was not copied for two reasons:
  *     This process saves the time taken to copy using a loop
@@ -46,8 +47,8 @@ unsigned long int steps;         // steps counter
  * @return The substringed string
  */
 char *substr(char *str, int frm, int to) {
-    if (to >= 0) str[to] = '\0'; // mark string ending using null char
-    return &str[frm];            // returns address of frm posn so that string data pointer is shifted
+    if (to >= 0) str[to] = '\0';                   // mark string ending using null char
+    return &str[frm];                              // returns address of frm posn so that string data pointer is shifted
 }
 
 /* Quits program after closing open file and returning exitcode
@@ -59,6 +60,7 @@ void quit(int exitcode) {
         if (file != NULL) fclose(file);            // if file is NULL, there's no meed to close it
         exit(exitcode);                            // exit with code
     }
+    errcode = exitcode;
 }
 
 /* OBSCURE: Wrapping malloc() and calloc() is useless as in an event of unavailable
@@ -79,7 +81,7 @@ void *allocateMem(size_t blocks, size_t size, bool initialize) {
     if (initialize) ptr = calloc(blocks, size);
     else ptr = malloc(blocks * size);
     if (ptr == NULL) {
-        print (stderr, RED "ERR> " RST "Failed to allocate memory\n");
+        fprintf (stderr, RED "ERR> " RST "Failed to allocate memory\n");
         quit(20);
     }
     return ptr;
@@ -94,7 +96,7 @@ void *allocateMem(size_t blocks, size_t size, bool initialize) {
 void *reallocateMem(void *ptr, size_t size) {
     ptr = realloc(ptr, size);
     if (ptr == NULL) {
-        print (stderr, RED "ERR> " RST "Failed to allocate memory\n");
+        fprintf (stderr, RED "ERR> " RST "Failed to allocate memory\n");
         quit(20);
     }
     return ptr;
