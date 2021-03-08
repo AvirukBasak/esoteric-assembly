@@ -48,6 +48,7 @@ void printHelp(bool usage);
 void prArray(char *s, unsigned int size);
 
 // interpreter.c
+bool ifReadOperandsAreGarbage(char *oprnd1, int size1, char *oprnd2, int size2);
 int *selOprnd(char *oprnd, bool w);
 void genJmpTable();
 void gotoLabel(char *label);

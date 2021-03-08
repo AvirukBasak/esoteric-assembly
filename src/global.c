@@ -29,9 +29,6 @@ int garbageBuffer;               // garbage buffer to initialise selOprnd() poin
 
 unsigned int lineNo;             // lineNo counter
 unsigned long int steps;         // steps counter
-signed short int lastChar;       // last character read by scanStr()
-
-int errcode;
 
 /* OBSCURE: String was not copied for two reasons:
  *     This process saves the time taken to copy using a loop
@@ -60,7 +57,6 @@ void quit(int exitcode) {
         if (file != NULL) fclose(file);            // if file is NULL, there's no meed to close it
         exit(exitcode);                            // exit with code
     }
-    errcode = exitcode;
 }
 
 /* OBSCURE: Wrapping malloc() and calloc() is useless as in an event of unavailable

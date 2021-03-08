@@ -24,8 +24,6 @@ void initialize() {
     intBuffer = 0;
     lineNo = 1;
     steps = 0;
-    lastChar= 0;
-    errcode = 0;
 }
 
 void evalOptions(int argsc, char **args, int indx) {

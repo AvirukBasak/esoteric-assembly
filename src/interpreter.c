@@ -1,3 +1,14 @@
+/* Reads operands and checks if garbage
+ * @param oprnd1, oprnd2 The operands to be read
+ * @param size1, size2 The available string size
+ * @return bool, true if garbage
+ */
+bool ifReadOperandsAreGarbage(char *oprnd1, int size1, char *oprnd2, int size2) {
+    scanStr(file, oprnd1, size1);                       // input 1st operand
+    scanStr(file, oprnd2, size2);                       // input 2nd operand
+    return (selOprnd(oprnd1, 0) == &garbageBuffer || selOprnd(oprnd2, 1) == &garbageBuffer);
+}
+
 /* multi-type operand selector, selects b/w ram addr, reg or num and returns a pointer
  * @param oprnd     The operand in string
  * @param w         If the operand is writable (in case it is a literal, it shouldn't be)
@@ -199,28 +210,28 @@ void evaluate(char *opcode) {
         printf (YEL "WRN> " RST "Use 'jit' i.e. JUMP_IF_TRUE or 'jif' i.e. JUMP_IF_FALSE\n");
     }
     else if (!strcmp(opcode, "set")) {                   // SET_VALUE
-        scanStr(file, oprnd1, 64);                       // input 1st operand
-        scanStr(file, oprnd2, 64);                       // input 2nd operand
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         *selOprnd(oprnd1, 0) = *selOprnd(oprnd2, 1);     // this method selects if the value is a reg, address, num or invalid
     }
     else if (!strcmp(opcode, "add")) {                   // ADD
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         *selOprnd(oprnd1, 0) += *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "sub")) {                   // SUBTRACT
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         *selOprnd(oprnd1, 0) -= *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "mul")) {                   // MULTIPLY
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         *selOprnd(oprnd1, 0) *= *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "div")) {                   // DIVIDE
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         if (!*selOprnd(oprnd2, 1)) {
             E17a: fprintf (stderr, RED "ERR> " RST "[LINE: %u] Cannot divide by zero\n", lineNo);
             quit(17);
@@ -228,8 +239,8 @@ void evaluate(char *opcode) {
         *selOprnd(oprnd1, 0) /= *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "mod")) {                   // MOD
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         if (!*selOprnd(oprnd2, 1)) {
             E17b: fprintf (stderr, RED "ERR> " RST "[LINE: %u] Cannot divide by zero\n", lineNo);
             quit(17);
@@ -237,18 +248,18 @@ void evaluate(char *opcode) {
         *selOprnd(oprnd1, 0) %= *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "and")) {                   // AND
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         *selOprnd(oprnd1, 0) &= *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "or")) {                    // OR
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         *selOprnd(oprnd1, 0) |= *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "xor")) {                   // XOR
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         *selOprnd(oprnd1, 0) ^= *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "com")) {                   // [sizeof(int) * 8] Bit 1's complement
@@ -256,28 +267,28 @@ void evaluate(char *opcode) {
         *selOprnd(oprnd1, 0) = ~*selOprnd(oprnd1, 0);
     }
     else if (!strcmp(opcode, "ieq")) {                   // IS_EQUAL?
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         FLAG = *selOprnd(oprnd1, 0) == *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "igt")) {                   // IS_GREATER_THAN?
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         FLAG = *selOprnd(oprnd1, 0) > *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "ilt")) {                   // IS_LESS_THAN?
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         FLAG = *selOprnd(oprnd1, 0) < *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "ige")) {                   // IS_GREATER_EQUAL?
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         FLAG = *selOprnd(oprnd1, 0) >= *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "ile")) {                   // IS_LESS_EQUAL?
-        scanStr(file, oprnd1, 64);
-        scanStr(file, oprnd2, 64);
+        if (ifReadOperandsAreGarbage(oprnd1, 64, oprnd2, 64))
+            return;
         FLAG = *selOprnd(oprnd1, 0) <= *selOprnd(oprnd2, 1);
     }
     else if (!strcmp(opcode, "inp")) {                   // INPUT (console, only numeric input)
