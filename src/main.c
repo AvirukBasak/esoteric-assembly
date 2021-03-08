@@ -8,7 +8,7 @@
 #include "output.c"
 #include "interpreter.c"
 
-#define VER "v2021.3.10"
+#define VER "v2021.3.10.3"
 
 void initialize() {
     tab = NULL;
