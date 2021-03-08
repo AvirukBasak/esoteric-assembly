@@ -8,14 +8,14 @@ An interpreter with assembly like syntax.
 4. [Source files](#source-files)
 5. [How to code?](#how-to-code)
 6. [Contribute](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
-7. [GitHub1s](https://github1s.com/AvirukBasak/Esoteric-Assembler/)
 
 ## Download links
-- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10). You'll find installation instructions there.
+- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.Beta3). You'll find installation instructions there.
 - Download a ZIP file from [here](https://github.com/avirukbasak/Esoteric-Assembler/archive/main.zip).
 
 ## How to use?
 - Once installed, run `asm path/to/file` where `asm` is the linux command (or the path to the binary executable).
+- Windows users need to compile the source manually as of now.
 - Enter `asm --help` or `asm -h` for help text.
 
 ## The test files
@@ -92,6 +92,7 @@ Mnemonics:            |
   prs "str"           | Print str as string
   nwl                 | Print new line character
   ret                 | Return from function
+  hlp                 | Display help text (only console mode)
   end                 | End execution
 
 NOTE: $20 will be parsed as decimal. For hex, use $0x20. This is
@@ -131,7 +132,7 @@ E20    20      global        Failed to allocate memory
 LBL    FILE          WARNING
 
 W1     main          Dev mode
-W2     interpreter   Opcode is disabled in console mode
+W2     interpreter   Opcode is disabled
 W3     interpreter   Opcode 'inv' is deprecated
 
 ```
