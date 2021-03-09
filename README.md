@@ -128,7 +128,6 @@ The following is invalid
 ```
 1. set "%a $5"
 ```
-<br>
 Output
 ```
 ERR> [LINE: 1] Invalid operand '%a $5' for opcode 'set'
