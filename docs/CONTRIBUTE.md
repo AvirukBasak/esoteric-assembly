@@ -14,7 +14,7 @@ Become a contributor to `Esoteric-Assembler`.
 ### Documentation
 1. Most lines that don't follow a convention of `C` coding must be commented, even if you think its purpose is obvious.
 2. Important functions must have a multi-line comment before the declaration, specifying its purpose, arguments, and return value.
-3. Single line comments if put after a line and must be aligned with all other S.L. comments.
+3. Single line comments if put on same line must be aligned with all other S.L. comments.
 4. Please don't put S.L. comments below your line of code.
 
 ### Creating functions
