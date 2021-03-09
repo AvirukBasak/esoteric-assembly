@@ -86,9 +86,9 @@ Mnemonics:            |
   call lbl            | Call label as function
   calt lbl            | Call label as function if FLAG true
   calf lbl            | Call label as function if FLAG false
-  inp op              | Input to operand
-  prn op              | Print operand as number
-  prc op              | Print operand as char
+  inp op              | Input decimal number to operand
+  prn op              | Print operand as decimal number
+  prc op              | Print operand as character
   prs "str"           | Print str as string
   nwl                 | Print new line character
   ret                 | Return from function
@@ -100,7 +100,44 @@ NOTE: $20 will be parsed as decimal. For hex, use $0x20. This is
       modified as $ptr and used as &ptr.
 ```
 
-## List Of All Errors
+## More notes
+1. Interpreter uses a top-to-bottom code interpretation.
+2. All codes are read directly from file buffer instead of a string.
+3. Jump and function calls are disabled in console mode.
+4. Opcode `inv` exists but has been deprecated since `jif` got introduced alongside `jit`.
+5. Although both `jumps` and `calls` operate on `labels`, using `ret` after a `jump` will terminate current function.
+6. If `ret` is used without a `call`, program will simply quit.
+7. Strings are supported as an operand only by `prs`.
+6. `hlp` is activated only in `console` mode.
+7. Not having `end` causes error `5`.
+
+## Delimiting characters
+Tabs, spaces, commas, newlines, carriage returns and 
+semicolons are used to delimit parts of the code. In 
+reality, these characters are ignored.
+
+## Strings
+The following code is valid
+```
+`1. "set" %a "$5"`
+```
+This code sets decimal 5 to register `a`.
+<br>
+<br>
+<br>
+The following code is invalid
+```
+1. set "%a $5"
+```
+Output
+```
+ERR> [LINE: 1] Invalid operand '%a $5' for opcode 'set'
+```
+The trouble is that the delimiting space b/w the two 
+operands of `set` doesn't get ignored and the whole 
+thing hence becomes a single operand.
+
+## List of all errors
 ```
 LBL    CODE    FILE          ERROR
 
@@ -127,7 +164,7 @@ E19    19      interpreter   Invalid opcode
 E20    20      global        Failed to allocate memory
 ```
 
-## List Of All Warnings
+## List of all warnings
 ``` 
 LBL    FILE          WARNING
 
