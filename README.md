@@ -136,8 +136,7 @@ ERR> [LINE: 1] Invalid operand '%a $5' for opcode 'set'
 The trouble is that the delimiting space b/w the two 
 operands of `set` become a not ignored and the whole 
 thing hence becomes a single operand.
-<br>
-<br>
+
 ## List of all errors
 ```
 LBL    CODE    FILE          ERROR
