@@ -14,13 +14,13 @@ Become a contributor to `Esoteric-Assembler`.
 ### Documentation
 1. Most lines that don't follow a convention of `C` coding must be commented, even if you think its purpose is obvious.
 2. Important functions must have a multi-line comment before the declaration, specifying its purpose, arguments, and return value.
-3. Single line comments should only be place after a line and must be aligned with all other S.L. comments.
+3. Single line comments if put after a line and must be aligned with all other S.L. comments.
 4. Please don't put S.L. comments below your line of code.
 
 ### Creating functions
 1. No hardcoding. If you realise you've hardcoded over 5 lines over 3 times, you better make a function for it.
 2. Any function that is used by more than one file should rest in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
-3. Do not create a function if it exists already in any of the source files.
+3. Do not create a function if a similar one exists already in any of the source files.
 4. This applies for even library functions.
 5. For example, use `allocateMem()` for `malloc()` or `calloc()` and use `reallocateMem()` for `realloc()`.
 
