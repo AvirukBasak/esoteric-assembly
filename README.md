@@ -101,7 +101,10 @@ NOTE: $20 will be parsed as decimal. For hex, use $0x20. This is
 ```
 
 ## More notes
-1. `hlp` works only in
+1. Interpreter uses a top-to-bottom code interpretation.
+2. All codes are read directly from file buffer instead of a string.
+3. Jump and function calls are disabled in console mode.
+4. Opcode `inv` exists but has been deprecated since `jif` got introduced
 
 ## List of all errors
 ```
