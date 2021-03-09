@@ -124,7 +124,8 @@ The following code is valid
 This code sets decimal 5 to register `a`.
 <br>
 <br>
-The following is invalid
+<br>
+The following code is invalid
 ```
 1. set "%a $5"
 ```
@@ -133,7 +134,7 @@ Output
 ERR> [LINE: 1] Invalid operand '%a $5' for opcode 'set'
 ```
 The trouble is that the delimiting space b/w the two 
-operands of `set` become a not ignored and the whole 
+operands of `set` doesn't get ignored and the whole 
 thing hence becomes a single operand.
 
 ## List of all errors
