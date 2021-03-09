@@ -100,7 +100,10 @@ NOTE: $20 will be parsed as decimal. For hex, use $0x20. This is
       modified as $ptr and used as &ptr.
 ```
 
-## List Of All Errors
+## More notes
+1. `hlp` works only in
+
+## List of all errors
 ```
 LBL    CODE    FILE          ERROR
 
@@ -127,7 +130,7 @@ E19    19      interpreter   Invalid opcode
 E20    20      global        Failed to allocate memory
 ```
 
-## List Of All Warnings
+## List of all warnings
 ``` 
 LBL    FILE          WARNING
 
