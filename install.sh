@@ -43,6 +43,9 @@ then
     exit 1
 fi
 
+VER="2021.3.30"
+SIZE="30"
+
 checkAndInst "gcc" "clang"
 echo "Compiling to '${PREFIX:0:27}/usr/bin/asm'..."
 gcc ./src/main.c -o "${PREFIX:0:27}/usr/bin/asm"
@@ -59,6 +62,6 @@ then
     termux-elf-cleaner "${PREFIX:0:27}/usr/bin/asm"
 fi
 echo 
-echo "Success! Installed 22 KB"
+echo "Success! Installed v$VER, $SIZE KB"
 echo "Run 'asm' to execute"
 echo "Done"
