@@ -33,7 +33,7 @@ Become a contributor to `Esoteric-Assembler`.
 
 ### Coding conventions
 1. All identifier name should clearly convey its purpose.
-2. Use of `scanf()` and `gets()` for input is strictly forbidden.
+2. Use of `scanf()` and `gets()` for input is strictly forbidden regardless of data type.
 3. Use `scanStr()` defined in [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) in association with `strtol()` for integer inputs.
 4. You cannot immediately use any dynamic memory allocation method (or any function that uses it) after using `unEscape()` in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
 5. You must use up or backup the value returned by `unEscape()` before doing a heap memory allocation as `unEscape()` returns a `dangling pointer`.
