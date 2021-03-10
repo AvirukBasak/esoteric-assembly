@@ -124,7 +124,7 @@ reality, these characters are ignored.
 ## Strings
 The following code is valid
 ```
-`1. "set" %a "$5"`
+1. "set" %a "$5"
 ```
 This code sets decimal 5 to register `a`.
 <br>
