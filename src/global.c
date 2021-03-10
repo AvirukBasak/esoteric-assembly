@@ -25,7 +25,7 @@ int RAM[1048576];                // RAM 4MB
 
 int dataPtr;                     // RAM data ptr
 int intBuffer;                   // this global variable stores numeric inputs (after '#')
-int garbageBuffer;               // garbage buffer to initialise selOprnd() pointer on event of an invalid register or address value
+int garbageBuffer;               // garbage buffer to initialise selOprnd () pointer on event of an invalid register or address value
 
 unsigned int lineNo;             // lineNo counter
 unsigned long int steps;         // steps counter
@@ -43,7 +43,7 @@ unsigned long int steps;         // steps counter
  *             string.
  * @return The substringed string
  */
-char *substr(char *str, int frm, int to) {
+char *substr (char *str, int frm, int to) {
     if (to >= 0) str[to] = '\0';                   // mark string ending using null char
     return &str[frm];                              // returns address of frm posn so that string data pointer is shifted
 }
@@ -51,91 +51,91 @@ char *substr(char *str, int frm, int to) {
 /* Quits program after closing open file and returning exitcode
  * @param exitcode
  */
-void quit(int exitcode) {
+void quit (int exitcode) {
     // exit only if console mode is of and exit code belongs to [0, 8] U {20}
     if (!console || (exitcode >= 0 && exitcode <= 8) || exitcode == 20) {
-        if (file != NULL) fclose(file);            // if file is NULL, there's no meed to close it
-        exit(exitcode);                            // exit with code
+        if (file != NULL) fclose (file);            // if file is NULL, there's no meed to close it
+        exit (exitcode);                            // exit with code
     }
 }
 
-/* OBSCURE: Wrapping malloc() and calloc() is useless as in an event of unavailable
- * memory and hence quit(20), the OS would have already begun killing random
+/* OBSCURE: Wrapping malloc () and calloc () is useless as in an event of unavailable
+ * memory and hence quit (20), the OS would have already begun killing random
  * processes. This program would be long dead by the time such an error occured.
  *
  * Allocates memory blocks in the heap
  * @param blocks Number of memory blocks to allocate
  * @param size   Size per block, ie datatype size
  * @param initialize If true, initializes each block with 0 by
- *                   calling calloc(). If false, calls malloc().
- *                   Note, calloc() is generally a bit slower than
- *                   malloc().
+ *                   calling calloc (). If false, calls malloc ().
+ *                   Note, calloc () is generally a bit slower than
+ *                   malloc ().
  * @return address of the base of allocated memory location
  */
-void *allocateMem(size_t blocks, size_t size, bool initialize) {
+void *allocateMem (size_t blocks, size_t size, bool initialize) {
     void *ptr;
-    if (initialize) ptr = calloc(blocks, size);
-    else ptr = malloc(blocks * size);
+    if (initialize) ptr = calloc (blocks, size);
+    else ptr = malloc (blocks * size);
     if (ptr == NULL) {
         fprintf (stderr, RED "ERR> " RST "Failed to allocate memory\n");
-        quit(20);
+        quit (20);
     }
     return ptr;
 }
 
-/* OBSCURE: wrapping realloc() is unescessary
+/* OBSCURE: wrapping realloc () is unescessary
  * Reallocates memory blocks in the heap
  * @param ptr    Pointer to the memory block that is to be reallocated
  * @param size   Size of the entire block ie no of (blocks * size of each)
  * @return address of the base of reallocated memory location
  */
-void *reallocateMem(void *ptr, size_t size) {
-    ptr = realloc(ptr, size);
+void *reallocateMem (void *ptr, size_t size) {
+    ptr = realloc (ptr, size);
     if (ptr == NULL) {
         fprintf (stderr, RED "ERR> " RST "Failed to allocate memory\n");
-        quit(20);
+        quit (20);
     }
     return ptr;
 }
 
-/* OBSCURE WARNING: value returned by unEscape() must be used immediately or before 
- * doing another unEscape() or memory allocation as unEscape() returns a dangling
+/* OBSCURE WARNING: value returned by unEscape () must be used immediately or before 
+ * doing another unEscape () or memory allocation as unEscape () returns a dangling
  * pointer. This is done to free up space so that the caller function can be bothered
  * only about implementation.
  * @param str The string to be unescaped
  * @return The unescaped string
  */
-char *unEscape(char *str) {
+char *unEscape (char *str) {
     
     /* allocate memory to out so that it is existing in heap
      * outside the normal function stack frame. By doing so, it
      * can be accessed globally using the pointer.
      */
-    char *out = allocateMem(1, sizeof(char), false);
+    char *out = allocateMem (1, sizeof (char), false);
     int iSize = 1, i = 0, j = 0;
     char c = str[i];
     while (c != '\0') {                  // loop till character is empty
         if (c == 9) {                    // if tab, replace with "\t"
             out[j++] = '\\';
-            out = reallocateMem(out, (++iSize) * sizeof(char));
+            out = reallocateMem (out, (++iSize) * sizeof (char));
             out[j++] = 't';
-            out = reallocateMem(out, (++iSize) * sizeof(char));
+            out = reallocateMem (out, (++iSize) * sizeof (char));
         }
         else if (c == 10) {              // if LF, replace with "\n"
             out[j++] = '\\';
-            out = reallocateMem(out, (++iSize) * sizeof(char));
+            out = reallocateMem (out, (++iSize) * sizeof (char));
             out[j++] = 'n';
-            out = reallocateMem(out, (++iSize) * sizeof(char));
+            out = reallocateMem (out, (++iSize) * sizeof (char));
         }
         else if (c == 13) {              // if CR, replace with "\r"
             out[j++] = '\\';
-            out = reallocateMem(out, (++iSize) * sizeof(char));
+            out = reallocateMem (out, (++iSize) * sizeof (char));
             out[j++] = 'r';
-            out = reallocateMem(out, (++iSize) * sizeof(char));
+            out = reallocateMem (out, (++iSize) * sizeof (char));
         }
         else {                           // else just copy
             out[j++] = c;                // increase j by 1
-            out = reallocateMem(out, (++iSize) * sizeof(char));
+            out = reallocateMem (out, (++iSize) * sizeof (char));
         }
         c = str[++i];                    // get next character
     }
@@ -148,6 +148,6 @@ char *unEscape(char *str) {
      * the location of out may get overwritten by the newly allocated
      * value as it is already marked free
      */
-    free(out);
+    free (out);
     return out;
 }

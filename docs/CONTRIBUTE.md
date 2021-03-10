@@ -5,8 +5,10 @@ Become a contributor to `Esoteric-Assembler`.
 1. [GitHub conventions](#github-conventions)
 2. [Documentation](#documentation)
 3. [Creating functions](#creating-functions)
-4. [Global variables, macros and types](#global-variables-macros-and-types)
-5. [Coding conventions](#coding-conventions)
+4. [Library headers](#library-headers)
+5. [Global variables, macros and types](#global-variables-macros-and-types)
+6. [Coding conventions](#coding-conventions)
+7. [Present ideas](#present-ideas)
 
 ### GitHub conventions
 1. [README.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/README.md) and [CONTRIBUTE.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) should be updated or checked for updates with every new commit.
@@ -23,11 +25,20 @@ Become a contributor to `Esoteric-Assembler`.
 3. Do not create a function if a similar one exists already in any of the source files.
 4. This applies for even library functions.
 5. For example, use `allocateMem()` for `malloc()` or `calloc()` and use `reallocateMem()` for `realloc()`.
-6. All functions must be declared in [headers.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers.h).
+6. All functions must be declared in [headers.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers/headers.h).
+
+### Library headers
+1. Apart from library headers whose `non-inclusion` gives a `warning`, no other library header can be included.
+2. This means `functions`, `typedef`s and `macro`s of headers viz `stdlib.h`, `stdbool.h`, `string.h`, etc. are to be declared.
+3. These declarations must be put only in [libheaders.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers/libheaders.h) file.
+4. Note that `stdio.h` is included as its non-inclusion gives warnings even if its contents are declared in [libheaders.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers/libheaders.h) file.
+5. This is done to exclude extra stuff that gets included if a library header is included.
+6. This in turn `reduces size` of object file and often the binary executable.
+
 
 ### Global variables, macros and types
-1. All `MACRO`s, `typedef`s and `library headers` (standard or third-party) must be included only in [headers.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers.h).
-2. No library is to be included in other files. [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) can only have the source and header files.
+1. All `macro`s, `typedef`s and `library headers` (standard or third-party) must be included only in [headers.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers.h).
+2. No library is to be included in other files. [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) can only have the source and project header files.
 3. All `global variables` must be defined only in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
 4. Every variable of an inbuilt type must be initialised in [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) in function `initialize()`.
 
@@ -44,4 +55,3 @@ Become a contributor to `Esoteric-Assembler`.
 
 ### Present ideas
 1. If you wanna present an idea (feature requests) or report a bug, create an issue with the proper template.
-

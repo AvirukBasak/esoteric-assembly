@@ -1,5 +1,5 @@
 // prints asm help text
-void printHelp(bool usage) {
+void printHelp (bool usage) {
     if (usage) {
         printf ("Usage:\n");
         printf ("  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n");
@@ -67,7 +67,7 @@ void printHelp(bool usage) {
  * @param s The string
  * @param size Length of the string
  */
-void prArray(char *s, unsigned int size) {
+void prArray (char *s, unsigned int size) {
     if (dev) {
         if (size == 0) {
             printf ("<" BLU "NULL" RST ">\n");
