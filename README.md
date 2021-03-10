@@ -7,7 +7,8 @@ An interpreter with assembly like syntax.
 3. [The test files](#the-test-files)
 4. [Source files](#source-files)
 5. [How to code?](#how-to-code)
-6. [Contribute](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
+6. [How this interpreter works?](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/WORKING.md)
+7. [Contribute](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
 
 ## Download links
 - Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.3). You'll find installation instructions there.
@@ -23,9 +24,12 @@ An interpreter with assembly like syntax.
 - Visit [ASM-Tests](https://github.com/AvirukBasak/ASM-Tests) repository for more test codes.
 
 ## Source files
+- [libheaders.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers/libheaders.h) Declaration of stuffs from library headers.
+- [headers.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers/headers.h) Declaration of project specific functions, types and macros.
 - [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c) Global variable declaration and general functions.
 - [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) Main and CLI argument evaluation functions.
 - [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) File handling and input functions.
+- [output.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/output.c) Contains functions centered around displaying text.
 - [interpreter.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/interpreter.c) Interpreter functions.
 
 ## How to code?
