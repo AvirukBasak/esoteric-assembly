@@ -7,10 +7,11 @@ An interpreter with assembly like syntax.
 3. [The test files](#the-test-files)
 4. [Source files](#source-files)
 5. [How to code?](#how-to-code)
-6. [Contribute](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
+6. [How this interpreter works?](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/WORKING.md)
+7. [Contribute](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
 
 ## Download links
-- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.Beta3). You'll find installation instructions there.
+- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.4). You'll find installation instructions there.
 - Download a ZIP file from [here](https://github.com/avirukbasak/Esoteric-Assembler/archive/main.zip).
 
 ## How to use?
@@ -23,9 +24,13 @@ An interpreter with assembly like syntax.
 - Visit [ASM-Tests](https://github.com/AvirukBasak/ASM-Tests) repository for more test codes.
 
 ## Source files
-- [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c) Global variable declaration and general functions.
+- [libheaders.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers/libheaders.h) Declaration of stuffs from library headers.
+- [headers.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers/headers.h) Declaration of project specific functions, types and macros.
+- [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c) Global variable declarations.
 - [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) Main and CLI argument evaluation functions.
+- [misc.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/misc.c) General functions.
 - [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) File handling and input functions.
+- [output.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/output.c) Contains functions centered around displaying text.
 - [interpreter.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/interpreter.c) Interpreter functions.
 
 ## How to code?
@@ -86,9 +91,9 @@ Mnemonics:            |
   call lbl            | Call label as function
   calt lbl            | Call label as function if FLAG true
   calf lbl            | Call label as function if FLAG false
-  inp op              | Input to operand
-  prn op              | Print operand as number
-  prc op              | Print operand as char
+  inp op              | Input decimal number to operand
+  prn op              | Print operand as decimal number
+  prc op              | Print operand as character
   prs "str"           | Print str as string
   nwl                 | Print new line character
   ret                 | Return from function
@@ -100,7 +105,41 @@ NOTE: $20 will be parsed as decimal. For hex, use $0x20. This is
       modified as $ptr and used as &ptr.
 ```
 
-## List Of All Errors
+## More notes
+1. Interpreter uses a top-to-bottom code interpretation.
+2. All codes are read directly from file buffer instead of a string.
+3. Jump and function calls are disabled in console mode.
+4. Opcode `inv` exists but has been deprecated since `jif` got introduced alongside `jit`.
+5. Although both `jumps` and `calls` operate on `labels`, using `ret` after a `jump` will terminate current function.
+6. If `ret` is used without a `call`, program will simply quit.
+7. Strings are supported as an operand only by `prs`.
+6. `hlp` is activated only in `console` mode.
+7. Not having `end` causes error `5`.
+
+## Delimiting characters
+Tabs, spaces, commas, newlines, carriage returns and 
+semicolons are used to delimit parts of the code. In 
+reality, these characters are ignored.
+
+## Strings
+```
+1. "set" %a "$5"
+```
+The above code is valid. This code sets register `a` to decimal `5`.
+<br>
+```
+2. set "%a $5"
+```
+The 2nd code is invalid.<br>
+Output:
+```
+ERR> [LINE: 2] Invalid operand '%a $5' for opcode 'set'
+```
+The trouble is that the delimiting space b/w the two 
+operands of `set` doesn't get ignored and the whole 
+thing hence becomes a single operand.
+
+## List of all errors
 ```
 LBL    CODE    FILE          ERROR
 
@@ -127,7 +166,7 @@ E19    19      interpreter   Invalid opcode
 E20    20      global        Failed to allocate memory
 ```
 
-## List Of All Warnings
+## List of all warnings
 ``` 
 LBL    FILE          WARNING
 
