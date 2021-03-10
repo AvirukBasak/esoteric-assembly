@@ -26,8 +26,9 @@ An interpreter with assembly like syntax.
 ## Source files
 - [libheaders.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers/libheaders.h) Declaration of stuffs from library headers.
 - [headers.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers/headers.h) Declaration of project specific functions, types and macros.
-- [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c) Global variable declaration and general functions.
+- [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c) Global variable declarations.
 - [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) Main and CLI argument evaluation functions.
+- [misc.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/misc.c) General functions.
 - [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) File handling and input functions.
 - [output.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/output.c) Contains functions centered around displaying text.
 - [interpreter.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/interpreter.c) Interpreter functions.

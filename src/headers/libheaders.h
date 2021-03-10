@@ -1,7 +1,7 @@
 /* This file contains prototypes of every library function
- * used in the source. This is done to reduce size of the
- * object file and often helps reduce executable binary size
- * by a few kilobytes.
+ | used in the source. This is done to reduce size of the
+ | object file and often helps reduce executable binary size
+ | by a few kilobytes.
  */
 
 // stdlib.h alternative

@@ -1,7 +1,11 @@
+/* This file contains:
+ | Functions related to console input
+ */
+
 // opens a file
 void openFile (char *path) {
     file = fopen (path, "r");                                          // r means read mode
-    if (file == NULL) {                                               // if NULL, means file not read
+    if (file == NULL) {                                                // if NULL, means file not read
         E4: fprintf (stderr, RED "ERR> " RST "Can't read file '%s'\n", unEscape (path));
         fprintf (stderr, RED "ERR> " RST "Check if file path exists and has read permission\n");
         quit (4);
@@ -61,34 +65,34 @@ void scanStr (FILE *ptr, char *str, unsigned int size) {
                 if (console) printf (GRN "asm> " RST);                // asm> code prompt
             }
             else {
-                if (dev || console) printf (YEL "inp> " RST);         // inp> input prompt
+                if (dev || console) printf (YEL "inp> " RST);          // inp> input prompt
             }
             c = readC (ptr);                                           // gets next character
             if (EOF(c)) eof (ptr);                                     // quit if eof
             else if (c != 13) ungetc (c, ptr);                         // else if c is not 13, bring read cursor back at location of c 
         }
         else if (c == 13) {
-            if (!input) ++lineNo;                                     // updates line no
+            if (!input) ++lineNo;                                      // updates line no
             c = readC (ptr);                                           // gets next character
             if (EOF(c)) eof (ptr);                                     // quit if eof
             else if (c != 10) ungetc (c, ptr);                         // else if c is not 10, bring read cursor back at location of c
         }
-        else if (c == '/') {                                          // checks if comment begins
-            if ( (c = readC (ptr)) != '*') ungetc (c, ptr);              // comment not begins, unget the *
+        else if (c == '/') {                                           // checks if comment begins
+            if ( (c = readC (ptr)) != '*') ungetc (c, ptr);            // comment not begins, unget the *
             else {
                 do {
                     c = readC (ptr);                                   // read comment character but ignore it
-                    if (c == 10) {                                    // update lineNo on LF
+                    if (c == 10) {                                     // update lineNo on LF
                         if (console) printf ("com> ");
                         if ( (c = readC (ptr)) != 13) ungetc (c, ptr);
-                        if (!input) ++lineNo;                         // update lineNo if 'input' flag isn't on. this flag indicates 'inp' opcode
+                        if (!input) ++lineNo;                          // update lineNo if 'input' flag isn't on. this flag indicates 'inp' opcode
                      }
                      else if (c == 13) {
                          
-                        if ( (c = readC (ptr)) != 10) ungetc (c, ptr);   // updates lineNo if newline is spotted
+                        if ( (c = readC (ptr)) != 10) ungetc (c, ptr); // updates lineNo if newline is spotted
                         if (!input) ++lineNo;
                      }
-                     else if (c == '*') {                             // closing comments
+                     else if (c == '*') {                              // closing comments
                         if ( (c = readC (ptr)) == '/') break;
                         else ungetc (c, ptr);
                      }
@@ -112,23 +116,23 @@ void scanStr (FILE *ptr, char *str, unsigned int size) {
     while ( (c = readC (ptr)) != -1 && c != 255) {
         
         /* if quoted is true, it means string is within quotes and
-         * so no stray character, newlines, spaces, etc are ignored
-         * till a second closing quote is spotted
+         | so no stray character, newlines, spaces, etc are ignored
+         | till a second closing quote is spotted
          */
         if ( (c == 13 || c == 10 || isStrayChar (c)) && !quoted) {
             
             /* once read and found the char is a dilimiter, push it back
-             * into the stream and break. when scanStr () is called next,
-             * it automatically ignores this character using the first loop
-             * before collecting the proper characters using this loop.
+             | into the stream and break. when scanStr () is called next,
+             | it automatically ignores this character using the first loop
+             | before collecting the proper characters using this loop.
              */
             ungetc (c, ptr);
             break;
         }
         
         /* if comment started, push the two comment start characters
-         * ie '/' and '*' into the stream and break, just like what's done
-         * for delimiting characters.
+         | ie '/' and '*' into the stream and break, just like what's done
+         | for delimiting characters.
          */
         else if (c == '/' && !quoted) {
             if ( (c = readC (ptr)) == '*') {
@@ -145,8 +149,8 @@ void scanStr (FILE *ptr, char *str, unsigned int size) {
         }
         
         /* if quote, invert current value of 'quoted' flag
-         * this flag is like a switch that controls the reading
-         * or ignoring of delimiters 
+         | this flag is like a switch that controls the reading
+         | or ignoring of delimiters 
          */
         else if (c == '"') {
             quoted = !quoted;
@@ -206,7 +210,7 @@ void scanStr (FILE *ptr, char *str, unsigned int size) {
     str[i] = '\0';
     
     /* print whatever is read in, prArray works only if 'dev' flag is on
-     * see global.c
+     | see global.c
      */
     prArray (str, strlen (str));
 }

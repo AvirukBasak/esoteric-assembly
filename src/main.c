@@ -1,15 +1,17 @@
 /* Version: 2021.3.10
- * Description: Another assembly simulator
+ | Description: Another assembly simulator
  */
+
+#define VER "v2021.3.10.4"
 
 #include "headers/headers.h"
 #include "global.c"
+#include "misc.c"
 #include "input.c"
 #include "output.c"
 #include "interpreter.c"
 
-#define VER "v2021.3.10.4"
-
+// initialize all global variables
 void initialize () {
     tab = NULL;
     tabIndex = 0;
@@ -26,6 +28,11 @@ void initialize () {
     steps = 0;
 }
 
+/* This function evaluates the value of the CLI argument options
+ | @param argsc No. of CLI arguments
+ | @param args  The arguments string SDA (char DDA)
+ | @param indx  The index of the option argument (starts with a '-')
+ */
 void evalOptions (int argsc, char **args, int indx) {
     // If indx argument is help
     if (!strcmp (args[indx], "--help") || !strcmp (args[indx], "-h")) {
@@ -42,8 +49,8 @@ void evalOptions (int argsc, char **args, int indx) {
             E1c: fprintf (stderr, RED "ERR> " RST "Too many arguments\n");
             quit (1);
         }
-        printf ("Esoteric Assembler " VER " Console\n");
-        printf ("NOTE: Function calls and jumps have been disabled.\n\n");
+        printf ("Esoteric Assembler " VER " Console\n"
+                "NOTE: Function calls and jumps have been disabled.\n\n");
         console = true;
     }
     // if indx argument is version
@@ -52,8 +59,8 @@ void evalOptions (int argsc, char **args, int indx) {
             E1d: fprintf (stderr, RED "ERR> " RST "Too many arguments\n");
             quit (1);
         }
-        printf ("Esoteric Assembler\n");
-        printf ("Version: " VER "\n");
+        printf ("Esoteric Assembler\n"
+                "Version: " VER "\n");
         quit (0);
     }
     // if it is dev
@@ -63,19 +70,22 @@ void evalOptions (int argsc, char **args, int indx) {
             quit (1);
         }
         /* incase dev is 1st argument, ie indx is 1, indx 2 may be left empty
-         * in that case this error msg is printed
+         | in that case this error msg is printed
          */
         if (args[2] == NULL) {
             E2a: fprintf (stderr, RED "ERR> " RST "No file path entered\n");
             quit (2);
         }
         // make sure dev isn't enabled accidentally
-        W1: printf (YEL "WRN> DEVELOPER (DEBUG) MODE\n" RST);
-        printf ("  - This mode is for debugging the interpreter and not the asm\n    script.\n");
-        printf ("  - This mode prints every token the interpreter reads in.\n");
-        printf ("  - Label table is printed in this mode.\n");
-        printf ("  - I/O prompts of asm script will look ugly so removing them is\n    recommended.\n");
-        printf (YEL "Enter 'n' for normal execution. Enable debugger? (y/n) " RST);
+        W1: printf (
+            YEL "WRN> DEVELOPER (DEBUG) MODE\n" RST
+                "  - This mode is for debugging the interpreter and not the asm\n"
+                "    script.\n"
+                "  - This mode prints every token the interpreter reads in.\n"
+                "  - Label table is printed in this mode.\n"
+                "  - I/O prompts of asm script will look ugly so removing them is\n"
+                "    recommended.\n"
+            YEL "Enter 'n' for normal execution. Enable debugger? (y/n) " RST);
         char s[8];
         scanStr (stdin, s, 8);
         if (s[0] == 'y' || s[0] == 'Y') {
@@ -116,19 +126,20 @@ void evalOptions (int argsc, char **args, int indx) {
  */
 int main (int argsc, char *args[]) {
     initialize ();                            // initialize variables
-    int arg = 1;                             // initialize arg with 1. arg refers to the filepath argument
+    int arg = 1;                              // initialize arg with 1. arg refers to the filepath argument
     /* If 1st argument (a string) is empty.
      | 0th argument is the executive command itself.
      */
     if (argsc == 1) {
-        printf ("Usage:\n");
-        printf ("  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n");
-        printf ("Options:\n");
-        printf ("  -h, --help       Display extended help text\n");
-        printf ("  -l, --labels     Display declared labels in tabular form\n");
-        printf ("  -c, --console    Console mode to execute codes from stdin\n");
-        printf ("  -v, --version    Display version information\n");
-        printf ("  -d, --dev        Developer mode to debug interpreter I/O\n");
+        printf (
+            "Usage:\n"
+            "  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n"
+            "Options:\n"
+            "  -h, --help       Display extended help text\n"
+            "  -l, --labels     Display declared labels in tabular form\n"
+            "  -c, --console    Console mode to execute codes from stdin\n"
+            "  -v, --version    Display version information\n"
+            "  -d, --dev        Developer mode to debug interpreter I/O\n");
         quit (0);
     }
     else if (argsc == 2) {            
@@ -151,13 +162,14 @@ int main (int argsc, char *args[]) {
         quit (1);
     }
     if (!console) openFile (args[arg]);                                     // if not console mode, open specified file path
-    else file = stdin;                                                     // file set to stdin for console mode
+    else file = stdin;                                                      // file set to stdin for console mode
     if (!console) genJmpTable ();                                           // generate jump table
     fseek (file, 0, SEEK_SET);                                              // goto file beginning
-    lineNo = 1;                                                            // set lineNo to line1
+    lineNo = 1;                                                             // set lineNo to line1
     if (console) printf (GRN "asm> " RST);                                  // prompt for console mode 
-    else if (dev) printf (YEL "SCAN FILE FOR CODES\n" RST);                // heading for dev mode
+    else if (dev) printf (YEL "SCAN FILE FOR CODES\n" RST);                 // heading for dev mode
     interpret ();                                                           // scan the file for codes and interpret them
     if (dev) printf (GRN "\nEXECUTION COMPLETE | %lu Steps\n" RST, steps);
     quit (0);                                                               // closes file if it isn't null, exits with code 0
+    return 0;
 }

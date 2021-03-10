@@ -14,14 +14,14 @@ Become a contributor to `Esoteric-Assembler`.
 1. [README.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/README.md) and [CONTRIBUTE.md](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) should be updated or checked for updates with every new commit.
 
 ### Documentation
-1. Most lines that don't follow a convention of `C` coding must be commented, even if you think its purpose is obvious.
+1. Most lines should be commented, even if you think its purpose is obvious.
 2. Important functions must have a multi-line comment before the declaration, specifying its purpose, arguments, and return value.
 3. Single line comments if put on same line must be aligned with all other S.L. comments.
 4. Please don't put S.L. comments below your line of code.
 
 ### Creating functions
 1. No hardcoding. If you realise you've hardcoded over 5 lines over 3 times, you better make a function for it.
-2. Any function that is used by more than one file should rest in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
+2. General functions should rest in [misc.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/misc.c).
 3. Do not create a function if a similar one exists already in any of the source files.
 4. This applies for even library functions.
 5. For example, use `allocateMem()` for `malloc()` or `calloc()` and use `reallocateMem()` for `realloc()`.
@@ -38,7 +38,7 @@ Become a contributor to `Esoteric-Assembler`.
 
 ### Global variables, macros and types
 1. All `macro`s, `typedef`s and `library headers` (standard or third-party) must be included only in [headers.h](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/headers.h).
-2. No library is to be included in other files. [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) can only have the source and project header files.
+2. No library is to be included in other files. [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) can only have the project specific header files.
 3. All `global variables` must be defined only in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
 4. Every variable of an inbuilt type must be initialised in [main.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/main.c) in function `initialize()`.
 
@@ -46,7 +46,7 @@ Become a contributor to `Esoteric-Assembler`.
 1. All identifier name should clearly convey its purpose.
 2. Use of `scanf()` and `gets()` for input is strictly forbidden regardless of data type.
 3. Use `scanStr()` defined in [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) in association with `strtol()` for integer inputs.
-4. You cannot immediately use any dynamic memory allocation method (or any function that uses it) after using `unEscape()` in [global.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/global.c).
+4. You cannot immediately use any dynamic memory allocation method (or any function that uses it) after using `unEscape()` in [misc.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/misc.c).
 5. You must use up or backup the value returned by `unEscape()` before doing a heap memory allocation as `unEscape()` returns a `dangling pointer`.
 6. `unEscape()` returns a dangling pointer to free up memory so that `free()` is not needed after every call to `unEscape()`.
 7. The above is an `OBSCURE` technique. Such is discouraged but not forbidden.

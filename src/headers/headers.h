@@ -1,13 +1,13 @@
 /* This header contains
- * All function declarations from each and every source files
- * Necessary inclusions of std/third-party libraries
- * Every macro
- * 
- * Un-included libraries have their stuffs declared in libheader.h
- * NOTE that stdio.h is compulsory unless you want to suffer
- *      warnings during compilation. Another reason of keeping
- *      stdio.h was the struct FILE couldn't be defined in
- *      libheaders.h file.
+ | All function declarations from each and every source file
+ | Necessary inclusions of std/third-party libraries
+ | Every macro
+ | 
+ | Un-included libraries have their stuffs declared in libheader.h
+ | NOTE that stdio.h is compulsory unless you want to suffer
+ |      warnings during compilation. Another reason of keeping
+ |      stdio.h was the struct FILE couldn't be defined in
+ |      libheaders.h file.
  */
 
 # ifndef HEADERS
@@ -27,13 +27,13 @@
 #       undef EOF
 #   endif
 #   define EOF(c) (c == -1 || c == 255)
-    
+#   
     // main.c
     void initialize ();
     void evalOptions (int argsc, char **args, int indx);
     int main (int argsc, char *args[]);
     
-    // global.c
+    // misc.c
     char *substr (char *str, int frm, int to);
     void quit (int exitcode);
     void *allocateMem (size_t blocks, size_t size, bool initialize);
@@ -58,5 +58,5 @@
     void gotoLabel (char *label);
     void evaluate (char *opcode);
     void interpret ();
-
+    
 # endif

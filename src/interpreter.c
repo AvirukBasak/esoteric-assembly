@@ -1,7 +1,11 @@
+/* This file contains:
+ | Functions for code interpretation
+ */
+
 /* Reads operands and checks if garbage
- * @param oprnd1, oprnd2 The operands to be read
- * @param size1, size2 The available string size
- * @return bool, true if garbage
+ | @param oprnd1, oprnd2 The operands to be read
+ | @param size1, size2 The available string size
+ | @return bool, true if garbage
  */
 bool ifReadOperandsAreGarbage (char *oprnd1, int size1, char *oprnd2, int size2) {
     scanStr (file, oprnd1, size1);                       // input 1st operand
@@ -10,10 +14,10 @@ bool ifReadOperandsAreGarbage (char *oprnd1, int size1, char *oprnd2, int size2)
 }
 
 /* multi-type operand selector, selects b/w ram addr, reg or num and returns a pointer
- * @param oprnd     The operand in string
- * @param w         If the operand is writable (in case it is a literal, it shouldn't be)
- * @return     pointer to either RAM addr, reg, numBuffer (where literals are stored),
- *             ptr, or garbageBuffer (for invalid operand values)
+ | @param oprnd     The operand in string
+ | @param w         If the operand is writable (in case it is a literal, it shouldn't be)
+ | @return     pointer to either RAM addr, reg, numBuffer (where literals are stored),
+ |             ptr, or garbageBuffer (for invalid operand values)
  */
 int *selOprnd (char *oprnd, bool w) {
     
@@ -47,7 +51,7 @@ int *selOprnd (char *oprnd, bool w) {
         }
         else {
             /* try converting from decimal
-             * strtol (ptr, endptr, base), if conversion fails, endptr is set to null
+             | strtol (ptr, endptr, base), if conversion fails, endptr is set to null
              */
             ramIndex = (int)strtol (substr (oprnd, 1, -1), &endptr, 10);
             
@@ -109,9 +113,9 @@ int *selOprnd (char *oprnd, bool w) {
     else {
         
         /* backing up unEscape (oprnd) as a dangling pointer can't be trusted
-         * if this isn't done unEscape (oprnd) is overwritten by unEscape (opcode)
-         * as the former becomes a dangling pointer, meaning its memory is already
-         * freed
+         | if this isn't done unEscape (oprnd) is overwritten by unEscape (opcode)
+         | as the former becomes a dangling pointer, meaning its memory is already
+         | freed
          */
         size_t size = strlen (unEscape (oprnd));
         char tmp[size];
@@ -147,7 +151,7 @@ void genJmpTable () {
                     quit (15);
                 }
             }
-            tab[tabIndex].cur = ftell (file);             // store it's cursor posn
+            tab[tabIndex].cur = ftell (file);            // store it's cursor posn
             tab[tabIndex++].line = lineNo;               // store it's line
         }
     } while (strcmp ("end", opcode));
@@ -171,8 +175,8 @@ void gotoLabel (char *label) {
     unsigned int lineNoBackup = lineNo;
     
     for (int i = 0; i < tabIndex; i++) {                 // traverse the table
-        if (!strcmp (label, tab[i].lbl)) {                // if lable is in table
-            fseek (file, tab[i].cur, SEEK_SET);           // set cursor to cursor pnt after label
+        if (!strcmp (label, tab[i].lbl)) {               // if lable is in table
+            fseek (file, tab[i].cur, SEEK_SET);          // set cursor to cursor pnt after label
             lineNo = tab[i].line;                        // set lineNo to line after label
             return;
         }
@@ -185,20 +189,20 @@ void gotoLabel (char *label) {
 void evaluate (char *opcode) {
     char oprnd1[65];
     char oprnd2[65];
-    unsigned int retCur;                                 // backup file cursor index for 'ret'
-    unsigned int retLineNo;                              // line number backup for 'ret'
+    unsigned int retCur;                                  // backup file cursor index for 'ret'
+    unsigned int retLineNo;                               // line number backup for 'ret'
 
     if (opcode[strlen (opcode) - 1] == ':');              // LABELS ignored
 
     else if (!strcmp (opcode, "jmp") || !strcmp (opcode, "jit") || !strcmp (opcode, "jif")) {
         
         scanStr (file, oprnd1, 64);
-        if (console) {                                   // loops and functions disabled when code is read from stdin (console)
+        if (console) {                                    // loops and functions disabled when code is read from stdin (console)
             W2c: printf (YEL "WRN> " RST "[LINE: %u] Opcode '%s' is disabled in console mode\n", lineNo, unEscape (opcode));
             return;
         }
         if (!strcmp (opcode, "jmp") || (!strcmp (opcode, "jit") && FLAG) || (!strcmp (opcode, "jif") && !FLAG)) {
-            retLineNo = lineNo;                          // backup the line index for 'ret' opcode
+            retLineNo = lineNo;                           // backup the line index for 'ret' opcode
             retCur = ftell (file);                        // backup the cursor index for 'ret' opcode
             gotoLabel (oprnd1);                           // goto label, ie function declaration
         }
@@ -212,7 +216,7 @@ void evaluate (char *opcode) {
     else if (!strcmp (opcode, "set")) {                   // SET_VALUE
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        *selOprnd (oprnd1, 0) = *selOprnd (oprnd2, 1);     // this method selects if the value is a reg, address, num or invalid
+        *selOprnd (oprnd1, 0) = *selOprnd (oprnd2, 1);    // this method selects if the value is a reg, address, num or invalid
     }
     else if (!strcmp (opcode, "add")) {                   // ADD
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
@@ -298,15 +302,15 @@ void evaluate (char *opcode) {
             return;
         
         if (dev) printf ("\n");
-        input = true;                                    // this disables line counter in scanStr ()
+        input = true;                                     // this disables line counter in scanStr ()
         scanStr (stdin, oprnd2, 64);                      // input from console, NOT file
-        input = false;                                   // re-enables line counter
+        input = false;                                    // re-enables line counter
         if (strlen (oprnd2) > 10) {                       // an int is generally <= 10 digit long
             E8c: fprintf (stderr, RED "ERR> " RST "Input too long\n");
             quit (8);
         }
             
-        if (dev) printf ("\n");                          // dev mode aesthetics
+        if (dev) printf ("\n");                           // dev mode aesthetics
         
         char *endptr;
         *selOprnd (oprnd1, 0) = (int)strtol (oprnd2, &endptr, 10);
@@ -321,7 +325,7 @@ void evaluate (char *opcode) {
         if (selOprnd (oprnd1, 1) == &garbageBuffer)       // checks if operand is valid, ie not a garbage
             return;
         
-        if (dev) printf (YEL "\nout> " RST);             // print dev mode output indicator
+        if (dev) printf (YEL "\nout> " RST);              // print dev mode output indicator
         else if (console) printf (YEL "out> " RST);
         
         printf ("%d", *selOprnd (oprnd1, 1));             // prints the number
@@ -350,8 +354,8 @@ void evaluate (char *opcode) {
         if (dev) printf (YEL "\nout> " RST);
         else if (console) printf (YEL "out> " RST);
         
-        printf ("%s", oprnd1);                           // prints the string 
-        if (dev || console) {                            // prints an inverted % just like zsh if output doesn't end with a newline
+        printf ("%s", oprnd1);                            // prints the string 
+        if (dev || console) {                             // prints an inverted % just like zsh if output doesn't end with a newline
             if (oprnd1[strlen (oprnd1) - 1] != 10) printf (INV "%%" RST "\n");
             if (dev) printf ("\n");
         }
@@ -395,7 +399,7 @@ void interpret () {
                 continue;
             }
             if (!strcmp (opcode, "call") || (!strcmp (opcode, "calt") && FLAG) || (!strcmp (opcode, "calf") && !FLAG)) {
-                retLineNo = lineNo;                      // backup the line index for 'ret' opcode
+                retLineNo = lineNo;                       // backup the line index for 'ret' opcode
                 retCur = ftell (file);                    // backup the cursor index for 'ret' opcode
                 gotoLabel (label);                        // goto label, ie function declaration
                 interpret ();                             // recursively call to execute code within function
