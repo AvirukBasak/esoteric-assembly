@@ -130,7 +130,7 @@ The above code is valid. This code sets decimal 5 to register `a`.
 ```
 2. set "%a $5"
 ```
-The following code is invalid.<br>
+The 2nd code is invalid.<br>
 Output:
 ```
 ERR> [LINE: 2] Invalid operand '%a $5' for opcode 'set'
