@@ -11,7 +11,7 @@ An interpreter with assembly like syntax.
 7. [Contribute](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
 
 ## Download links
-- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.3). You'll find installation instructions there.
+- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.4). You'll find installation instructions there.
 - Download a ZIP file from [here](https://github.com/avirukbasak/Esoteric-Assembler/archive/main.zip).
 
 ## How to use?
@@ -125,7 +125,7 @@ reality, these characters are ignored.
 ```
 1. "set" %a "$5"
 ```
-The above code is valid. This code sets decimal 5 to register `a`.
+The above code is valid. This code sets register `a` to decimal `5`.
 <br>
 ```
 2. set "%a $5"
