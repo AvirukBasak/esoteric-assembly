@@ -122,21 +122,18 @@ semicolons are used to delimit parts of the code. In
 reality, these characters are ignored.
 
 ## Strings
-The following code is valid
 ```
 1. "set" %a "$5"
 ```
-This code sets decimal 5 to register `a`.
+The above code is valid. This code sets decimal 5 to register `a`.
 <br>
-<br>
-<br>
-The following code is invalid
 ```
-1. set "%a $5"
+2. set "%a $5"
 ```
-Output
+The following code is invalid.<br>
+Output:
 ```
-ERR> [LINE: 1] Invalid operand '%a $5' for opcode 'set'
+ERR> [LINE: 2] Invalid operand '%a $5' for opcode 'set'
 ```
 The trouble is that the delimiting space b/w the two 
 operands of `set` doesn't get ignored and the whole 
