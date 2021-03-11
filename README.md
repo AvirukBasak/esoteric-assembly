@@ -84,7 +84,7 @@ Mnemonics:            |
   and  op1 op2        | Set op1 to AND value of operands
   or   op1 op2        | Set op1 to OR value of operands
   xor  op1 op2        | Set op1 to XOR value of operands
-  com  op             | Set operand to its 32 bit 1's complement
+  com  opn            | Set operand to its 32 bit 1's complement
   jmp  lbl            | Jump (unconditional) to a line after lbl
   jit  lbl            | Jump if (FLAG) true to line after lbl
   jif  lbl            | Jump if (FLAG) false to line after lbl

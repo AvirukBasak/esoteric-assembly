@@ -9,8 +9,17 @@
  */
 bool ifReadOperandsAreGarbage (char *oprnd1, int size1, char *oprnd2, int size2) {
     scanStr (file, oprnd1, size1);                       // input 1st operand
+    bool writable = false;
+    if (!strcmp (opcode, "ieq") ||
+        !strcmp (opcode, "ige") ||
+        !strcmp (opcode, "ile") ||
+        !strcmp (opcode, "igt") ||
+        !strcmp (opcode, "igt"))
+            writable = true;
+    if (selOprnd (oprnd1, writable) == &garbageBuffer)
+        return true;
     scanStr (file, oprnd2, size2);                       // input 2nd operand
-    return (selOprnd (oprnd1, 0) == &garbageBuffer || selOprnd (oprnd2, 1) == &garbageBuffer);
+    return selOprnd (oprnd2, 1) == &garbageBuffer;
 }
 
 /* multi-type operand selector, selects b/w ram addr, reg or num and returns a pointer
@@ -264,27 +273,32 @@ void evaluate (char *opcode) {
     else if (!strcmp (opcode, "ieq")) {                   // IS_EQUAL?
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        FLAG = *selOprnd (oprnd1, 0) == *selOprnd (oprnd2, 1);
+        FLAG = *selOprnd (oprnd1, 1) == *selOprnd (oprnd2, 1);
+        if (console) printf (YEL "out> %s\n" RST, FLAG ? BLU "true" : RED "false");
     }
     else if (!strcmp (opcode, "igt")) {                   // IS_GREATER_THAN?
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        FLAG = *selOprnd (oprnd1, 0) > *selOprnd (oprnd2, 1);
+        FLAG = *selOprnd (oprnd1, 1) > *selOprnd (oprnd2, 1);
+        if (console) printf (YEL "out> %s\n" RST, FLAG ? BLU "true" : RED "false");
     }
     else if (!strcmp (opcode, "ilt")) {                   // IS_LESS_THAN?
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        FLAG = *selOprnd (oprnd1, 0) < *selOprnd (oprnd2, 1);
+        FLAG = *selOprnd (oprnd1, 1) < *selOprnd (oprnd2, 1);
+        if (console) printf (YEL "out> %s\n" RST, FLAG ? BLU "true" : RED "false");
     }
     else if (!strcmp (opcode, "ige")) {                   // IS_GREATER_EQUAL?
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        FLAG = *selOprnd (oprnd1, 0) >= *selOprnd (oprnd2, 1);
+        FLAG = *selOprnd (oprnd1, 1) >= *selOprnd (oprnd2, 1);
+        if (console) printf (YEL "out> %s\n" RST, FLAG ? BLU "true" : RED "false");
     }
     else if (!strcmp (opcode, "ile")) {                   // IS_LESS_EQUAL?
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        FLAG = *selOprnd (oprnd1, 0) <= *selOprnd (oprnd2, 1);
+        FLAG = *selOprnd (oprnd1, 1) <= *selOprnd (oprnd2, 1);
+        if (console) printf (YEL "out> %s\n" RST, FLAG ? BLU "true" : RED "false");
     }
     // RAM resize
     else if (!strcmp (opcode, "ram")) {
