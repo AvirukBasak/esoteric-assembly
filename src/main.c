@@ -59,8 +59,9 @@ void evalOptions (int argsc, char **args, int indx) {
             E1d: fprintf (stderr, RED "ERR> " RST "Too many arguments\n");
             quit (1);
         }
-        printf ("Esoteric Assembler\n"
-                "Version: " VER "\n");
+        printf ("Esoteric Assembler " VER "\n"
+                "License: GNU General Public License (GPL) v3.0+\n"
+                "Authors: Oogle Glu\n");
         quit (0);
     }
     // if it is dev
