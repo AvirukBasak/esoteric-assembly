@@ -22,6 +22,8 @@ void initialize () {
     file = NULL;
     FLAG = false;
     a = b = c = d = 0;
+    RAM = allocateMem (1, sizeof (int), false);
+    ramSize = 1;
     dataPtr = 0;
     intBuffer = 0;
     lineNo = 1;

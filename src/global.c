@@ -19,7 +19,8 @@ FILE *file;                      // input file pointer
 bool FLAG;                       // boolean flag
 char opcode[65];                 // opcode of operation
 int a, b, c, d;                  // registers
-int RAM[1048576];                // RAM 4MB
+int *RAM;                        // RAM array
+size_t ramSize;
 
 int dataPtr;                     // RAM data ptr
 int intBuffer;                   // this global variable stores numeric inputs (after '#')

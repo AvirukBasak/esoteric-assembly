@@ -69,7 +69,7 @@ int *selOprnd (char *oprnd, bool w) {
                 }
             }
         }
-        if (ramIndex < 0 || ramIndex >= 1048576) {
+        if (ramIndex < 0 || ramIndex >= ramSize) {
             E11: fprintf (stderr, RED "ERR> " RST "[LINE: %u] Address out of bounds for: '%s'\n", lineNo, unEscape (substr (oprnd, 1, -1)));
             quit (11);
             return ptr;
@@ -285,6 +285,15 @@ void evaluate (char *opcode) {
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
         FLAG = *selOprnd (oprnd1, 0) <= *selOprnd (oprnd2, 1);
+    }
+    // RAM resize
+    else if (!strcmp (opcode, "ram")) {
+        scanStr (file, oprnd1, 64);
+        if (selOprnd (oprnd1, 1) == &garbageBuffer)       // checks if operand is valid, ie not a garbage
+            return;
+        
+        RAM = reallocateMem (RAM, (size_t)*selOprnd (oprnd1, 1) * sizeof (int));
+        ramSize = *selOprnd (oprnd1, 1);
     }
     else if (!strcmp (opcode, "inp")) {                   // INPUT (console, only numeric input)
     

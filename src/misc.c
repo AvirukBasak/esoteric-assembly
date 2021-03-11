@@ -50,7 +50,7 @@ void *allocateMem (size_t blocks, size_t size, bool initialize) {
     if (initialize) ptr = calloc (blocks, size);
     else ptr = malloc (blocks | size);
     if (ptr == NULL) {
-        fprintf (stderr, RED "ERR> " RST "Failed to allocate memory\n");
+        fprintf (stderr, RED "ERR> " RST "[LINE: %u] Failed to allocate memory\n", lineNo);
         quit (20);
     }
     return ptr;
@@ -65,7 +65,7 @@ void *allocateMem (size_t blocks, size_t size, bool initialize) {
 void *reallocateMem (void *ptr, size_t size) {
     ptr = realloc (ptr, size);
     if (ptr == NULL) {
-        fprintf (stderr, RED "ERR> " RST "Failed to allocate memory\n");
+        fprintf (stderr, RED "ERR> " RST "[LINE: %u] Failed to allocate memory\n", lineNo);
         quit (20);
     }
     return ptr;
