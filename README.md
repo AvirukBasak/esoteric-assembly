@@ -11,12 +11,12 @@ An interpreter with assembly like syntax.
 7. [Contribute](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
 
 ## Download links
-- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.4). You'll find installation instructions there.
+- Checkout out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.4). You'll find installation instructions there.
 - Download a ZIP file from [here](https://github.com/avirukbasak/Esoteric-Assembler/archive/main.zip).
+- Or get an executable from [builds](https://github.com/AvirukBasak/Esoteric-Assembler/tree/main/builds).
 
 ## How to use?
-- Once installed, run `asm path/to/file` where `asm` is the linux command (or the path to the binary executable).
-- Windows users need to compile the source manually as of now.
+- Execute as `asm path/to/file` where `asm` is the command (or the path to the binary executable).
 - Enter `asm --help` or `asm -h` for help text.
 
 ## The test files
