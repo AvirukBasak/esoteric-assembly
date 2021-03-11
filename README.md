@@ -11,12 +11,12 @@ An interpreter with assembly like syntax.
 7. [Contribute](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
 
 ## Download links
-- Get out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.4). You'll find installation instructions there.
+- Checkout out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.4). You'll find installation instructions there.
 - Download a ZIP file from [here](https://github.com/avirukbasak/Esoteric-Assembler/archive/main.zip).
+- Or get an executable from [builds](https://github.com/AvirukBasak/Esoteric-Assembler/tree/main/builds).
 
 ## How to use?
-- Once installed, run `asm path/to/file` where `asm` is the linux command (or the path to the binary executable).
-- Windows users need to compile the source manually as of now.
+- Execute as `asm path/to/file` where `asm` is the command (or the path to the binary executable).
 - Enter `asm --help` or `asm -h` for help text.
 
 ## The test files
@@ -40,20 +40,20 @@ Usage:
   asm [OPTION]
   asm [OPTION] [filepath]
 
-Options:
+Options:              |
   -h, --help          | Display this message
   -l, --labels        | Display declared labels in tabular form
   -c, --console       | Console mode to execute codes from stdin
   -v, --version       | Display version information
   -d, --dev           | Developer mode to debug interpreter I/O
 
-Operands:             |
+Operands:             | 
   %x                  | Indicates register 'x'
   &ad                 | Indicates address 'ad' of RAM
   $no                 | Decimal or hex literal 'no'
   ptr                 | RAM data pointer
 
-Escape sequences:     |
+Escape sequences:     | 
   \"                  | Quote escape
   \t                  | Tab escape
   \n                  | Newline feed escape
@@ -61,40 +61,41 @@ Escape sequences:     |
   \b or \<space>      | Space escape
   \<any character>    | Same as writing without '\'
 
-Registers:            |
+Registers:            | 
   operand, x = [a, d] | For storage
 
-RAM:                  |
+RAM:                  | 
   (32 x 1048576) bits | For storage (4MB)
 
-Mnemonics:            |
+Mnemonics:            | 
   /*comment*/         | Multi line comment
   Label:              | Labels
-  set op1 op2         | Set op1 to value of op2
-  add op1 op2         | Add op2 to op1 and store in op1
-  sub op1 op2         | Subtract op2 from op1 and store in op1
-  mul op1 op2         | Multiply op1 by op2 and store in op1
-  div op1 op2         | Divide op1 by op1 and store in op1
-  mod op1 op2         | Mod op1 by op2 and store in op1
-  ieq op1 op2         | If operands are equal, set FLAG true
-  ige op1 op2         | If op1 is greater or equal, set FLAG true
-  ile op1 op2         | If op1 is lesser or equal, set FLAG true
-  igt op1 op2         | If op1 is greater, set FLAG true
-  ilt op1 op2         | If op1 is lesser, set FLAG true
-  and op1 op2         | Set op1 to AND value of operands
-  or  op1 op2         | Set op1 to OR value of operands
-  xor op1 op2         | Set op1 to XOR value of operands
-  com op              | Set operand to its 32 bit 1's complement
-  jmp lbl             | Jump (unconditional) to a line after lbl
-  jit lbl             | Jump if (FLAG) true to line after lbl
-  jif lbl             | Jump if (FLAG) false to line after lbl
+  set  op1 op2        | Set op1 to value of op2
+  add  op1 op2        | Add op2 to op1 and store in op1
+  sub  op1 op2        | Subtract op2 from op1 and store in op1
+  mul  op1 op2        | Multiply op1 by op2 and store in op1
+  div  op1 op2        | Divide op1 by op1 and store in op1
+  mod  op1 op2        | Mod op1 by op2 and store in op1
+  ieq  op1 op2        | If operands are equal, set FLAG true
+  ige  op1 op2        | If op1 is greater or equal, set FLAG true
+  ile  op1 op2        | If op1 is lesser or equal, set FLAG true
+  igt  op1 op2        | If op1 is greater, set FLAG true
+  ilt  op1 op2        | If op1 is lesser, set FLAG true
+  and  op1 op2        | Set op1 to AND value of operands
+  or   op1 op2        | Set op1 to OR value of operands
+  xor  op1 op2        | Set op1 to XOR value of operands
+  com  opn            | Set operand to its 32 bit 1's complement
+  jmp  lbl            | Jump (unconditional) to a line after lbl
+  jit  lbl            | Jump if (FLAG) true to line after lbl
+  jif  lbl            | Jump if (FLAG) false to line after lbl
   call lbl            | Call label as function
   calt lbl            | Call label as function if FLAG true
   calf lbl            | Call label as function if FLAG false
-  inp op              | Input decimal number to operand
-  prn op              | Print operand as decimal number
-  prc op              | Print operand as character
-  prs "str"           | Print str as string
+  ram  opn            | Resize total RAM to 'opn' int cells
+  inp  opn            | Input to operand
+  prn  opn            | Print operand as number
+  prc  opn            | Print operand as char
+  prs  "str"          | Print str as string
   nwl                 | Print new line character
   ret                 | Return from function
   hlp                 | Display help text (only console mode)

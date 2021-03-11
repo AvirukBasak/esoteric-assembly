@@ -2,7 +2,7 @@
  | Description: Another assembly simulator
  */
 
-#define VER "v2021.3.10.4"
+#define VER "v2021.3.12"
 
 #include "headers/headers.h"
 #include "global.c"
@@ -22,6 +22,8 @@ void initialize () {
     file = NULL;
     FLAG = false;
     a = b = c = d = 0;
+    RAM = allocateMem (1, sizeof (int), false);
+    ramSize = 1;
     dataPtr = 0;
     intBuffer = 0;
     lineNo = 1;
