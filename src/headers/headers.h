@@ -16,12 +16,12 @@
 #   include <stdio.h>
 #   include "libheaders.h"
 #
-#   define YEL "\e[33m"
-#   define RED "\e[31m"
-#   define GRN "\e[32m"
-#   define BLU "\e[34m"
-#   define INV "\e[7;1m"
-#   define RST "\e[0m"
+#   define YEL "\033[33m"
+#   define RED "\033[31m"
+#   define GRN "\033[32m"
+#   define BLU "\033[34m"
+#   define INV "\033[7;1m"
+#   define RST "\033[0m"
 #
 #   ifdef EOF
 #       undef EOF

@@ -71,56 +71,45 @@ void *reallocateMem (void *ptr, size_t size) {
     return ptr;
 }
 
-/* OBSCURE WARNING: value returned by unEscape () must be used immediately or before 
- | doing another unEscape () or memory allocation as unEscape () returns a dangling
- | pointer. This is done to free up space so that the caller function can be bothered
- | only about implementation.
+/* This method replaces escaped character with their escape
+ | sequences.
  | @param str The string to be unescaped
- | @return The unescaped string
+ | @param size The size of str including the NULL character
  */
 char *unEscape (char *str) {
-    
-    /* allocate memory to out so that it is existing in heap
-     | outside the normal function stack frame. By doing so, it
-     | can be accessed globally using the pointer.
-     */
-    char *out = allocateMem (1, sizeof (char), false);
-    int iSize = 1, i = 0, j = 0;
-    char c = str[i];
-    while (c != '\0') {                  // loop till character is empty
-        if (c == 9) {                    // if tab, replace with "\t"
-            out[j++] = '\\';
-            out = reallocateMem (out, (++iSize) | sizeof (char));
-            out[j++] = 't';
-            out = reallocateMem (out, (++iSize) | sizeof (char));
+    int i = 0, j = 0;
+    size_t size = 64;
+    char bkp [strlen (str) + 1];
+    strcpy (bkp, str);
+    char c = bkp[i];
+    while (c != '\0' && j <= size) {             // loop till character is empty
+        if (c == 9) {                            // if tab, replace with "\t"
+            str[j++] = '\\';
+            if (j > size) break;
+            str[j++] = 't';
         }
-        else if (c == 10) {              // if LF, replace with "\n"
-            out[j++] = '\\';
-            out = reallocateMem (out, (++iSize) | sizeof (char));
-            out[j++] = 'n';
-            out = reallocateMem (out, (++iSize) | sizeof (char));
+        else if (c == 10) {                      // if LF, replace with "\n"
+            str[j++] = '\\';
+            if (j > size) break;
+            str[j++] = 'n';
         }
-        else if (c == 13) {              // if CR, replace with "\r"
-            out[j++] = '\\';
-            out = reallocateMem (out, (++iSize) | sizeof (char));
-            out[j++] = 'r';
-            out = reallocateMem (out, (++iSize) | sizeof (char));
+        else if (c == 13) {                      // if CR, replace with "\r"
+            str[j++] = '\\';
+            if (j > size) break;
+            str[j++] = 'r';
         }
-        else {                           // else just copy
-            out[j++] = c;                // increase j by 1
-            out = reallocateMem (out, (++iSize) | sizeof (char));
+        else {                                   // else just copy
+            str[j++] = c;                        // increase j by 1
         }
-        c = str[++i];                    // get next character
+        c = bkp[++i];                            // get next character
     }
-    out[j] = '\0';                       // end string with a null
-    
-    /* OBSCURE: free memory of out before returning.
-     | this only marks the memory location of out unallocated
-     | but doesn't overwrite it with 0. Be warned that this means
-     | if out is referenced after doing another memory allocation,
-     | the location of out may get overwritten by the newly allocated
-     | value as it is already marked free
-     */
-    free (out);
-    return out;
+    if (j > size) {
+        str[j-1] = '\0';
+        E8c: fprintf (stderr, RED "ERR> " RST "[LINE: %u] Execeeded %lu character limit\n"
+                              RED "ERR> " RST "Interpreter ran out of memory while un-escaping string:\n"
+                                        "     '%s'...\n", lineNo, size, str);
+        quit (8);
+    }
+    str[j] = '\0';                               // end string with a null
+    return str;
 }
