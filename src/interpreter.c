@@ -111,16 +111,7 @@ int *selOprnd (char *oprnd, bool w) {
         }
     }
     else {
-        
-        /* backing up unEscape (oprnd) as a dangling pointer can't be trusted
-         | if this isn't done unEscape (oprnd) is overwritten by unEscape (opcode)
-         | as the former becomes a dangling pointer, meaning its memory is already
-         | freed
-         */
-        size_t size = strlen (unEscape (oprnd));
-        char tmp[size];
-        strcpy (tmp, unEscape (oprnd));
-        E14: fprintf (stderr, RED "ERR> " RST "[LINE: %u] Invalid operand: '%s' for opcode: '%s'\n", lineNo, tmp, unEscape (opcode));
+        E14: fprintf (stderr, RED "ERR> " RST "[LINE: %u] Invalid operand: '%s' for opcode: '%s'\n", lineNo, unEscape (oprnd), unEscape (opcode));
         quit (14);
         return ptr;
     }
@@ -210,8 +201,8 @@ void evaluate (char *opcode) {
     else if (!strcmp (opcode, "inv")) {                   // INVERT_FLAG
         FLAG = !FLAG;
         
-        W3: printf (YEL "WRN> " RST "[LINE: %u] Opcode 'inv' is deprecated\n", lineNo);
-        printf (YEL "WRN> " RST "Use 'jit' i.e. JUMP_IF_TRUE or 'jif' i.e. JUMP_IF_FALSE\n");
+        W3: printf (YEL "WRN> " RST "[LINE: %u] Opcode 'inv' is deprecated\n"
+                        "     Use 'jit' i.e. JUMP_IF_TRUE or 'jif' i.e. JUMP_IF_FALSE\n", lineNo);
     }
     else if (!strcmp (opcode, "set")) {                   // SET_VALUE
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))

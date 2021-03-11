@@ -46,12 +46,8 @@ Become a contributor to `Esoteric-Assembler`.
 1. All identifier name should clearly convey its purpose.
 2. Use of `scanf()` and `gets()` for input is strictly forbidden regardless of data type.
 3. Use `scanStr()` defined in [input.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/input.c) in association with `strtol()` for integer inputs.
-4. You cannot immediately use any dynamic memory allocation method (or any function that uses it) after using `unEscape()` defined in [misc.c](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/src/misc.c).
-5. You must use up or backup the value returned by `unEscape()` before doing a heap memory allocation as `unEscape()` returns a `dangling pointer`.
-6. `unEscape()` returns a dangling pointer to free up memory so that `free()` is not needed after every call to `unEscape()`.
-7. The above is an `OBSCURE` technique. Such is discouraged but not forbidden.
-8. In the case of using an obscure technique, mention why it was used, precautions (and if possible, the alternative) in comments with the word `OBSCURE:` when starting the comment.
-9. `OBSCURE` techniques are meant to be tricky to handle, even risky. Bug squashing in these can be very difficult.
+4. In the case of using an obscure technique, mention why it was used, precautions (and if possible, the alternative) in comments with the word `OBSCURE:` when starting the comment.
+5. `OBSCURE` techniques are meant to be tricky to handle, even risky. Bug squashing in these can be very difficult.
 
 ### Present ideas
 1. If you wanna present an idea (feature requests) or report a bug, create an issue with the proper template.
