@@ -4,16 +4,16 @@
 jmp MAIN
 
 /* the function starts here */
-SQ:
-    mul &1024 &1024
-    set %a &1024
+getSq:
+    mul &0 &0
+    set %a &0
     ret
 
 MAIN:
     prs "Enter number: "
     inp %a
-    set &1024 %a
-    call SQ
+    set &0 %a
+    call getSq
     prs "Result = "
     prn %a
     nwl
