@@ -6,7 +6,7 @@
 /* OBSCURE: String was not copied for two reasons:
  |     This process saves the time taken to copy using a loop
  |     This process saves memory of an extra string
- *
+ | 
  | Cuts a string from position specified
  | @param str String to be substringed. Note that value
  |            of str is destroyed if to > -1
@@ -35,7 +35,7 @@ void quit (int exitcode) {
 /* OBSCURE: Wrapping malloc () and calloc () is useless as in an event of unavailable
  | memory and hence quit (20), the OS would have already begun killing random
  | processes. This program would be long dead by the time such an error occured.
- *
+ | 
  | Allocates memory blocks in the heap
  | @param blocks Number of memory blocks to allocate
  | @param size   Size per block, ie datatype size

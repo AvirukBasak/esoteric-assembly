@@ -11,7 +11,7 @@ An interpreter with assembly like syntax.
 7. [Contribute](https://github.com/AvirukBasak/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
 
 ## Download links
-- Checkout out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.10.4). You'll find installation instructions there.
+- Checkout out our latest release [here](https://github.com/avirukbasak/Esoteric-Assembler/releases/tag/v2021.3.14). You'll find installation instructions there.
 - Download a ZIP file from [here](https://github.com/avirukbasak/Esoteric-Assembler/archive/main.zip).
 - Or get an executable from [builds](https://github.com/AvirukBasak/Esoteric-Assembler/tree/main/builds).
 
@@ -20,7 +20,7 @@ An interpreter with assembly like syntax.
 - Enter `asm --help` or `asm -h` for help text.
 
 ## The test files
-- Folder [Tests](https://github.com/AvirukBasak/Esoteric-Assembler/tree/main/Tests) contains codes for trial.
+- Folder [Demo](https://github.com/AvirukBasak/Esoteric-Assembler/tree/main/Demo) contains codes for trial.
 - Visit [ASM-Tests](https://github.com/AvirukBasak/ASM-Tests) repository for more test codes.
 
 ## Source files

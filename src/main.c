@@ -1,8 +1,8 @@
-/* Version: 2021.3.10
+/* Version: 2021.3.14
  | Description: Another assembly simulator
  */
 
-#define VER "v2021.3.12"
+#define VER "v2021.3.14"
 
 #include "headers/headers.h"
 #include "global.c"
@@ -136,7 +136,9 @@ int main (int argsc, char *args[]) {
     if (argsc == 1) {
         printf (
             "Usage:\n"
-            "  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n"
+            "  asm [filepath]\n"
+            "  asm [OPTION]\n"
+            "  asm [OPTION] [filepath]\n\n"
             "Options:\n"
             "  -h, --help       Display extended help text\n"
             "  -l, --labels     Display declared labels in tabular form\n"

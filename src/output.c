@@ -6,7 +6,9 @@
 void printHelp (bool usage) {
     if (usage) printf (
         "Usage:\n"
-        "  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n"
+        "  asm [filepath]\n"
+        "  asm [OPTION]\n"
+        "  asm [OPTION] [filepath]\n\n"
         "Options:              |\n"
         "  -h, --help          | Display this message\n"
         "  -l, --labels        | Display declared labels in tabular form\n"
