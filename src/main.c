@@ -136,7 +136,9 @@ int main (int argsc, char *args[]) {
     if (argsc == 1) {
         printf (
             "Usage:\n"
-            "  asm [filepath]\n  asm [OPTION]\n  asm [OPTION] [filepath]\n\n"
+            "  asm [filepath]\n"
+            "  asm [OPTION]\n"
+            "  asm [OPTION] [filepath]\n\n"
             "Options:\n"
             "  -h, --help       Display extended help text\n"
             "  -l, --labels     Display declared labels in tabular form\n"
