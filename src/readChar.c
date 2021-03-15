@@ -2,7 +2,7 @@
 #include <termios.h>
 #include <stdio.h>
 
-static struct termios old, current;
+struct termios old, current;
 
 /* Initialize new terminal i/o settings
  * @param echo Set echo on or off
