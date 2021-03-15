@@ -12,17 +12,28 @@
 
 # ifndef HEADERS
 #   define HEADERS
-#
+#   
 #   include <stdio.h>
 #   include "libheaders.h"
+#   
+#   ifndef _WIN32
+#      define YEL "\033[33m"
+#      define RED "\033[31m"
+#      define GRN "\033[32m"
+#      define BLU "\033[34m"
+#      define INV "\033[7;1m"
+#      define RST "\033[0m"
+#   endif
 #
-#   define YEL "\033[33m"
-#   define RED "\033[31m"
-#   define GRN "\033[32m"
-#   define BLU "\033[34m"
-#   define INV "\033[7;1m"
-#   define RST "\033[0m"
-#
+#   ifdef _WIN32
+#      define YEL ""
+#      define RED ""
+#      define GRN ""
+#      define BLU ""
+#      define INV ""
+#      define RST ""
+#   endif
+#   
 #   ifdef EOF
 #       undef EOF
 #   endif
