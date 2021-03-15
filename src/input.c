@@ -21,7 +21,7 @@ void eof (FILE *ptr) {
 signed short int readC (FILE *ptr) {
     signed short int c;
     if (ptr == stdin) {
-         c = getchar ();
+         c = getchar();
     }
     else {
          c = fgetc (ptr);
