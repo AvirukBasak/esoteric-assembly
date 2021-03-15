@@ -18,7 +18,7 @@ FILE *file;                      // input file pointer
 
 bool FLAG;                       // boolean flag
 char opcode[65];                 // opcode of operation
-int a, b, c, d;                  // registers
+register int a, b, c, d;         // registers, keyword register (hopefully) stores values in the register
 int *RAM;                        // RAM array
 size_t ramSize;
 
