@@ -2,7 +2,7 @@
  | Description: Another assembly simulator
  */
 
-#define VER "v2021.3.14"
+#define VER "v2021.3.15"
 
 #include "headers/headers.h"
 #include "global.c"
