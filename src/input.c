@@ -19,7 +19,13 @@ void eof (FILE *ptr) {
 }
 
 signed short int readC (FILE *ptr) {
-    signed short int c = fgetc (ptr);
+    signed short int c;
+    if (ptr == stdin) {
+         c = getchar ();
+    }
+    else {
+         c = fgetc (ptr);
+    }
     if (ptr == stdin && EOF(c)) {
         c = 10;
         printf ("\n");

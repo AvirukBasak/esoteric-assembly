@@ -14,6 +14,7 @@
 #   define HEADERS
 #   
 #   include <stdio.h>
+#   include <curses.h>
 #   include "libheaders.h"
 #   
 #   ifndef _WIN32
