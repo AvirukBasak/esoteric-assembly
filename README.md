@@ -62,10 +62,13 @@ Escape sequences:     |
   \<any character>    | Same as writing without '\'
 
 Registers:            | 
-  operand, x = [a, d] | For storage
+  operand, x = a to d | For storage
 
 RAM:                  | 
-  (32 x 1048576) bits | For storage (4MB)
+  Default 1 cell      | Address 0 i.e. `&0`
+  Variable cells      | For storage (32 Bits per cell)
+
+Number of RAM cells can be changed using opcode `ram`.
 
 Mnemonics:            | 
   /*comment*/         | Multi line comment
@@ -91,7 +94,7 @@ Mnemonics:            |
   call lbl            | Call label as function
   calt lbl            | Call label as function if FLAG true
   calf lbl            | Call label as function if FLAG false
-  ram  opn            | Resize total RAM to 'opn' int cells
+  ram  opn            | Resize total RAM to 'opn' int sized cells
   inp  opn            | Input to operand
   prn  opn            | Print operand as number
   prc  opn            | Print operand as char
