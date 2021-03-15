@@ -1,4 +1,6 @@
-
+/* This code was taken from StackOverflow
+ * https://stackoverflow.com/questions/7469139/what-is-the-equivalent-to-getch-getche-in-linux
+ */
 #include <termios.h>
 #include <stdio.h>
 
