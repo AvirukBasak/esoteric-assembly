@@ -8,7 +8,7 @@ struct TABLE {
     char lbl[65];
 };
 struct TABLE *tab;               // this will allow us to access any label based on its cursor posn
-register int tabIndex;           // index of last label in table
+int tabIndex;                    // index of last label in table
 bool console;                    // console mode
 bool input;                      // marks input, so that lineNo isn't upadated
 bool printLbl;                   // labels mode
@@ -18,11 +18,11 @@ FILE *file;                      // input file pointer
 
 bool FLAG;                       // boolean flag
 char opcode[65];                 // opcode of operation
-register int a, b, c, d;         // registers, keyword register (hopefully) stores values in the register
+int a, b, c, d;                  // registers
 int *RAM;                        // RAM array
 size_t ramSize;
 
-register int dataPtr;            // RAM data ptr
+int dataPtr;                     // RAM data ptr
 int intBuffer;                   // this global variable stores numeric inputs (after '#')
 int garbageBuffer;               // garbage buffer to initialise selOprnd () pointer on event of an invalid register or address value
 
