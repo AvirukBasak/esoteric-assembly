@@ -176,6 +176,6 @@ LBL    FILE          WARNING
 
 W1     main          Dev mode
 W2     interpreter   Opcode is disabled
-W3     interpreter   Opcode 'inv' is deprecated
+W3     interpreter   Opcode is deprecated
 
 ```
