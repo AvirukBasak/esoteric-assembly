@@ -145,37 +145,36 @@ thing hence becomes a single operand.
 
 ## List of all errors
 ```
-LBL    CODE    FILE          ERROR
+LBL    CODE    ERROR
 
-E1     1       main          Too many or too few CLI arguments
-E2     2       main          No file path entered
-E3     3       main          Invalid option
-E4     4       input         Can't read file
-E5     5       input         Unexpected EOF
-E6     6       input         Invalid new line escape seq
-E7     7       input         Invalid carriage return escape seq
-E8     8       input, 
-               interpreter   Input exceeded limit or too long
-E9     9       interpreter   Invalid register name
-E10    10      interpreter   Invalid RAM address
-E11    11      interpreter   Address out of bounds
-E12    12      interpreter   Invalid literal
-E13    13      interpreter   Can't assign to literal
-E14    14      interpreter   Invalid operand
-E15    15      interpreter   Duplicate labels
-E16    16      interpreter   No such label
-E17    17      interpreter   Can't divide by zero
-E18    18      interpreter   Invalid decimal input
-E19    19      interpreter   Invalid opcode
-E20    20      global        Failed to allocate memory
+E1     1       Too many or too few CLI arguments
+E2     2       No file path entered
+E3     3       Invalid option
+E4     4       Can't read file
+E5     5       Unexpected EOF
+E6     6       Invalid new line escape seq
+E7     7       Invalid carriage return escape seq
+E8     8       Input exceeded limit or too long
+E9     9       Invalid register name
+E10    10      Invalid RAM address
+E11    11      Address out of bounds
+E12    12      Invalid literal
+E13    13      Can't assign to literal
+E14    14      Invalid operand
+E15    15      Duplicate labels
+E16    16      No such label
+E17    17      Can't divide by zero
+E18    18      Invalid decimal input
+E19    19      Invalid opcode
+E20    20      Failed to allocate memory
 ```
 
 ## List of all warnings
 ``` 
-LBL    FILE          WARNING
+LBL     WARNING
 
-W1     main          Dev mode
-W2     interpreter   Opcode is disabled
-W3     interpreter   Opcode 'inv' is deprecated
+W1      Dev mode
+W2      Opcode is disabled
+W3      Opcode is deprecated
 
 ```
