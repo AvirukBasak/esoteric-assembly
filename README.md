@@ -9,6 +9,7 @@ An interpreter with assembly like syntax.
 5. [How to code?](#how-to-code)
 6. [How this interpreter works?](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/WORKING.md)
 7. [Contribute](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CONTRIBUTING.md)
+8. [Code of conduct](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CODE_OF_CONDUCT.md)
 
 ## Download links
 - Checkout out our latest release [here](https://github.com/OogleGlu/Esoteric-Assembler/releases/tag/v2021.3.15). You'll find installation instructions there.
