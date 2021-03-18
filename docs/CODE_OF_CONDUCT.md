@@ -7,10 +7,11 @@
 ### Code? Very simple:
 - English only
 - No curses
+- No threats
 - No verbal abuses
 - That means no racist remarks
 - No sexual remarks
-- Don't quarrel, coding cannot be the cause of a quarrel (arguing is different).
+- Don't quarrel or be a cause of it, coding cannot be the cause of a quarrel (arguing is different).
 
 ### Report
 Report at <a href="mailto:peter2003smith@gmail.com">
