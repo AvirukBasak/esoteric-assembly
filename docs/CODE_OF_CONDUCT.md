@@ -21,3 +21,4 @@ Report at <a href="mailto:peter2003smith@gmail.com">
 - Voting will be done and either the following chosen
 - Cool down
 - Removal
+- Undoubtedly the trouble maker can't vote.
