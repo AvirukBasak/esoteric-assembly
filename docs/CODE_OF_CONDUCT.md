@@ -18,4 +18,4 @@ Please try using English only.
 - Or report at <a href="mailto:peter2003smith@gmail.com">peter2003smith@gmail.com</a> about the trouble maker with the GitHub ID.
 
 ### How they are dealt with
-A decision against the trouble maker will be taken by those who have a clean record.
+A decision regarding the `reported` will be taken by those who have a clean record.
