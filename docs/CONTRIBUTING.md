@@ -11,7 +11,7 @@ Become a contributor to `Esoteric-Assembler`.
 7. [Present ideas](#present-ideas)
 
 ### GitHub conventions
-1. [README.md](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/README.md) and [CONTRIBUTE.md](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md) should be updated or checked for updates with every new commit.
+1. [README.md](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/README.md) and [CONTRIBUTING.md](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CONTRIBUTING.md) should be updated or checked for updates with every new commit.
 
 ### Documentation
 1. Most lines should be commented, even if you think its purpose is obvious.
