@@ -43,7 +43,7 @@ then
     exit 1
 fi
 
-VER="2021.3.15"
+VER="2021.3.25"
 SIZE="26"
 
 checkAndInst "gcc" "clang"
