@@ -4,8 +4,8 @@
 
 // opens a file
 void openFile (char *path) {
-    file = fopen (path, "r");                                          // r means read mode
-    if (file == NULL) {                                                // if NULL, means file not read
+    file = fopen (path, "r");                                         // r means read mode
+    if (file == NULL) {                                               // if NULL, means file not read
         E4: fprintf (stderr, RED "ERR> " RST "Can't read file '%s'\n"
                                  "     Check if file path exists and has read permission\n", path);
         quit (4);
@@ -33,7 +33,8 @@ bool isStrayChar (signed short int c) {
     return (c == ' ' || 
             c == '\t'||
             c == ',' || 
-            c == ';' );
+            c == ';' ||
+            c == '#' );
 }
 
 /* All this to incorporate line numbers counting
@@ -60,10 +61,10 @@ void scanStr (FILE *ptr, char *str, unsigned int size) {
      // VERY IMPORTANT WARNING: readC () will NOT update reader cursor once it reaches EOF.
     while ( (c = readC (ptr)) == 13 || c == 10 || c == '/' || isStrayChar (c) || EOF(c)) {
          
-        if (c == 10) {                                                // updates lineNo if newline is spotted
+        if (c == 10) {                                                 // updates lineNo if newline is spotted
             if (!input) {
-                ++lineNo;                                             // updates line no
-                if (console) printf (GRN "asm> " RST);                // asm> code prompt
+                ++lineNo;                                              // updates line no
+                if (console) printf (GRN "asm> " RST);                 // asm> code prompt
             }
             else {
                 if (dev || console) printf (YEL "inp> " RST);          // inp> input prompt
@@ -72,18 +73,32 @@ void scanStr (FILE *ptr, char *str, unsigned int size) {
             if (EOF(c)) eof (ptr);                                     // quit if eof
             else if (c != 13) ungetc (c, ptr);                         // else if c is not 13, bring read cursor back at location of c 
         }
+        
         else if (c == 13) {
             if (!input) ++lineNo;                                      // updates line no
             c = readC (ptr);                                           // gets next character
             if (EOF(c)) eof (ptr);                                     // quit if eof
             else if (c != 10) ungetc (c, ptr);                         // else if c is not 10, bring read cursor back at location of c
         }
+        
+        else if (c == '#') {                                           // checks if S.L. comment begins
+            do {
+                c = readC (ptr);                                       // read comment character but ignore it
+                if (c == 10) {
+                    if (console) printf (GRN "asm> " RST);
+                    if ( (c = readC (ptr)) != 13) ungetc (c, ptr);
+                    if (!input) ++lineNo;                              // update lineNo if 'input' flag isn't on. this flag indicates 'inp' opcode
+                    break;
+                }
+            } while (true);
+        }
+        
         else if (c == '/') {                                           // checks if comment begins
             if ( (c = readC (ptr)) != '*') ungetc (c, ptr);            // comment not begins, unget the *
             else {
                 do {
                     c = readC (ptr);                                   // read comment character but ignore it
-                    if (c == 10) {                                     // update lineNo on LF
+                    if (c == 10) {
                         if (console) printf ("com> ");
                         if ( (c = readC (ptr)) != 13) ungetc (c, ptr);
                         if (!input) ++lineNo;                          // update lineNo if 'input' flag isn't on. this flag indicates 'inp' opcode
@@ -98,7 +113,7 @@ void scanStr (FILE *ptr, char *str, unsigned int size) {
                         else ungetc (c, ptr);
                      }
                      else if (EOF(c)) eof (ptr);
-                } while (1);
+                } while (true);
             }
         }
         else if (EOF(c)) eof (ptr);
@@ -127,6 +142,14 @@ void scanStr (FILE *ptr, char *str, unsigned int size) {
              | it automatically ignores this character using the first loop
              | before collecting the proper characters using this loop.
              */
+            ungetc (c, ptr);
+            break;
+        }
+        
+        /* if single line comment started, push back the # character into stdin
+         * and break. this means finishing reading the string.
+         */
+        else if (c == '#' && !quoted) {
             ungetc (c, ptr);
             break;
         }
