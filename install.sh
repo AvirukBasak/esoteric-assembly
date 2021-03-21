@@ -43,12 +43,12 @@ then
     exit 1
 fi
 
-VER="2021.3.15"
+VER="2021.3.25"
 SIZE="26"
 
 checkAndInst "gcc" "clang"
 echo "Compiling to '${PREFIX:0:27}/usr/bin/asm'..."
-gcc -O ./src/main.c -o "${PREFIX:0:27}/usr/bin/asm"
+gcc -O "$1" "$2" "$3" "$4" "$5" ./src/main.c -o "${PREFIX:0:27}/usr/bin/asm"
 echo "Setting permission 755..."
 chmod 755 "${PREFIX:0:27}/usr/bin/asm"
 

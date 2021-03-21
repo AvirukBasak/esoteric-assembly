@@ -5,6 +5,8 @@
  */
 
 // stdlib.h alternative
+typedef unsigned long size_t;
+
 void *malloc (size_t size);
 void *calloc (size_t blocks, size_t size);
 void *realloc (void *ptr, size_t size);
@@ -20,6 +22,6 @@ int strcmp (const char *s1, const char *s2);
 char *strcpy (char *s1, const char *s2);
 
 // stdbool.h alternative
-typedef unsigned char bool;
-#define true (1)
-#define false (0)
+#define bool _Bool
+#define true 1
+#define false 0

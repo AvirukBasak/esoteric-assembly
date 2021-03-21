@@ -8,18 +8,18 @@
  | @return bool, true if garbage
  */
 bool ifReadOperandsAreGarbage (char *oprnd1, int size1, char *oprnd2, int size2) {
-    scanStr (file, oprnd1, size1);                       // input 1st operand
+    scanStr (file, oprnd1, size1);                        // input 1st operand
     bool writable = false;
     if (!strcmp (opcode, "ieq") ||
         !strcmp (opcode, "ige") ||
         !strcmp (opcode, "ile") ||
         !strcmp (opcode, "igt") ||
-        !strcmp (opcode, "igt"))
+        !strcmp (opcode, "igt")  )
             writable = true;
     if (selOprnd (oprnd1, writable) == &garbageBuffer)
         return true;
-    scanStr (file, oprnd2, size2);                       // input 2nd operand
-    return selOprnd (oprnd2, 1) == &garbageBuffer;
+    scanStr (file, oprnd2, size2);                        // input 2nd operand
+    return selOprnd (oprnd2, true) == &garbageBuffer;
 }
 
 /* multi-type operand selector, selects b/w ram addr, reg or num and returns a pointer
@@ -151,12 +151,12 @@ void genJmpTable () {
                     quit (15);
                 }
             }
-            tab[tabIndex].cur = ftell (file);            // store it's cursor posn
-            tab[tabIndex++].line = lineNo;               // store it's line
+            tab[tabIndex].cur = ftell (file);             // store it's cursor posn
+            tab[tabIndex++].line = lineNo;                // store it's line
         }
     } while (strcmp ("end", opcode));
     
-    if (printLbl) {                                      // print label table
+    if (printLbl) {                                       // print label table
         if (tabIndex == 0) {
             printf (RED "\nNo labels to print\n" RST); 
         }
@@ -174,10 +174,10 @@ void genJmpTable () {
 void gotoLabel (char *label) {
     unsigned int lineNoBackup = lineNo;
     
-    for (int i = 0; i < tabIndex; i++) {                 // traverse the table
-        if (!strcmp (label, tab[i].lbl)) {               // if lable is in table
-            fseek (file, tab[i].cur, SEEK_SET);          // set cursor to cursor pnt after label
-            lineNo = tab[i].line;                        // set lineNo to line after label
+    for (int i = 0; i < tabIndex; i++) {                  // traverse the table
+        if (!strcmp (label, tab[i].lbl)) {                // if lable is in table
+            fseek (file, tab[i].cur, SEEK_SET);           // set cursor to cursor pnt after label
+            lineNo = tab[i].line;                         // set lineNo to line after label
             return;
         }
     }
@@ -216,103 +216,105 @@ void evaluate (char *opcode) {
     else if (!strcmp (opcode, "set")) {                   // SET_VALUE
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        *selOprnd (oprnd1, 0) = *selOprnd (oprnd2, 1);    // this method selects if the value is a reg, address, num or invalid
+        
+        // this method selects from the values of a reg, address, num or invalid
+        *selOprnd (oprnd1, false) = *selOprnd (oprnd2, true);
     }
     else if (!strcmp (opcode, "add")) {                   // ADD
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        *selOprnd (oprnd1, 0) += *selOprnd (oprnd2, 1);
+        *selOprnd (oprnd1, false) += *selOprnd (oprnd2, true);
     }
     else if (!strcmp (opcode, "sub")) {                   // SUBTRACT
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        *selOprnd (oprnd1, 0) -= *selOprnd (oprnd2, 1);
+        *selOprnd (oprnd1, false) -= *selOprnd (oprnd2, true);
     }
     else if (!strcmp (opcode, "mul")) {                   // MULTIPLY
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        *selOprnd (oprnd1, 0) *= *selOprnd (oprnd2, 1);
+        *selOprnd (oprnd1, false) *= *selOprnd (oprnd2, true);
     }
     else if (!strcmp (opcode, "div")) {                   // DIVIDE
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        if (!*selOprnd (oprnd2, 1)) {
+        if (!*selOprnd (oprnd2, true)) {
             E17a: fprintf (stderr, RED "ERR> " RST "[LINE: %u] Cannot divide by zero\n", lineNo);
             quit (17);
         }
-        *selOprnd (oprnd1, 0) /= *selOprnd (oprnd2, 1);
+        *selOprnd (oprnd1, false) /= *selOprnd (oprnd2, true);
     }
     else if (!strcmp (opcode, "mod")) {                   // MOD
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        if (!*selOprnd (oprnd2, 1)) {
+        if (!*selOprnd (oprnd2, true)) {
             E17b: fprintf (stderr, RED "ERR> " RST "[LINE: %u] Cannot divide by zero\n", lineNo);
             quit (17);
         }
-        *selOprnd (oprnd1, 0) %= *selOprnd (oprnd2, 1);
+        *selOprnd (oprnd1, false) %= *selOprnd (oprnd2, true);
     }
     else if (!strcmp (opcode, "and")) {                   // AND
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        *selOprnd (oprnd1, 0) &= *selOprnd (oprnd2, 1);
+        *selOprnd (oprnd1, false) &= *selOprnd (oprnd2, true);
     }
     else if (!strcmp (opcode, "or")) {                    // OR
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        *selOprnd (oprnd1, 0) |= *selOprnd (oprnd2, 1);
+        *selOprnd (oprnd1, false) |= *selOprnd (oprnd2, true);
     }
     else if (!strcmp (opcode, "xor")) {                   // XOR
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        *selOprnd (oprnd1, 0) ^= *selOprnd (oprnd2, 1);
+        *selOprnd (oprnd1, false) ^= *selOprnd (oprnd2, true);
     }
     else if (!strcmp (opcode, "com")) {                   // [sizeof (int) * 8] Bit 1's complement
         scanStr (file, oprnd1, 64);
-        *selOprnd (oprnd1, 0) = ~*selOprnd (oprnd1, 0);
+        *selOprnd (oprnd1, false) = ~*selOprnd (oprnd1, false);
     }
     else if (!strcmp (opcode, "ieq")) {                   // IS_EQUAL?
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        FLAG = *selOprnd (oprnd1, 1) == *selOprnd (oprnd2, 1);
+        FLAG = *selOprnd (oprnd1, true) == *selOprnd (oprnd2, true);
         if (console) printf (YEL "out> %s\n" RST, FLAG ? BLU "true" : RED "false");
     }
     else if (!strcmp (opcode, "igt")) {                   // IS_GREATER_THAN?
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        FLAG = *selOprnd (oprnd1, 1) > *selOprnd (oprnd2, 1);
+        FLAG = *selOprnd (oprnd1, true) > *selOprnd (oprnd2, true);
         if (console) printf (YEL "out> %s\n" RST, FLAG ? BLU "true" : RED "false");
     }
     else if (!strcmp (opcode, "ilt")) {                   // IS_LESS_THAN?
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        FLAG = *selOprnd (oprnd1, 1) < *selOprnd (oprnd2, 1);
+        FLAG = *selOprnd (oprnd1, true) < *selOprnd (oprnd2, true);
         if (console) printf (YEL "out> %s\n" RST, FLAG ? BLU "true" : RED "false");
     }
     else if (!strcmp (opcode, "ige")) {                   // IS_GREATER_EQUAL?
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        FLAG = *selOprnd (oprnd1, 1) >= *selOprnd (oprnd2, 1);
+        FLAG = *selOprnd (oprnd1, true) >= *selOprnd (oprnd2, true);
         if (console) printf (YEL "out> %s\n" RST, FLAG ? BLU "true" : RED "false");
     }
     else if (!strcmp (opcode, "ile")) {                   // IS_LESS_EQUAL?
         if (ifReadOperandsAreGarbage (oprnd1, 64, oprnd2, 64))
             return;
-        FLAG = *selOprnd (oprnd1, 1) <= *selOprnd (oprnd2, 1);
+        FLAG = *selOprnd (oprnd1, true) <= *selOprnd (oprnd2, true);
         if (console) printf (YEL "out> %s\n" RST, FLAG ? BLU "true" : RED "false");
     }
     // RAM resize
     else if (!strcmp (opcode, "ram")) {
         scanStr (file, oprnd1, 64);
-        if (selOprnd (oprnd1, 1) == &garbageBuffer)       // checks if operand is valid, ie not a garbage
+        if (selOprnd (oprnd1, true) == &garbageBuffer)    // checks if operand is valid, ie not a garbage
             return;
         
-        RAM = reallocateMem (RAM, (size_t)*selOprnd (oprnd1, 1) * sizeof (int));
-        ramSize = *selOprnd (oprnd1, 1);
+        RAM = reallocateMem (RAM, (size_t)*selOprnd (oprnd1, true) * sizeof (int));
+        ramSize = *selOprnd (oprnd1, true);
     }
     else if (!strcmp (opcode, "inp")) {                   // INPUT (console, only numeric input)
     
         scanStr (file, oprnd1, 64);
-        if (selOprnd (oprnd1, 0) == &garbageBuffer)       // checks if operand is valid, ie not a garbage
+        if (selOprnd (oprnd1, false) == &garbageBuffer)   // checks if operand is valid, ie not a garbage
             return;
         
         if (dev) printf ("\n");
@@ -327,7 +329,7 @@ void evaluate (char *opcode) {
         if (dev) printf ("\n");                           // dev mode aesthetics
         
         char *endptr;
-        *selOprnd (oprnd1, 0) = (int)strtol (oprnd2, &endptr, 10);
+        *selOprnd (oprnd1, false) = (int)strtol (oprnd2, &endptr, 10);
         if (*endptr) {
             E18: fprintf (stderr, RED "ERR> " RST "Invalid decimal input: '%s'\n", unEscape (oprnd2));
             quit (18);
@@ -336,13 +338,13 @@ void evaluate (char *opcode) {
     else if (!strcmp (opcode, "prn")) {                   // PRINT_NUM (print as number)
     
         scanStr (file, oprnd1, 64);
-        if (selOprnd (oprnd1, 1) == &garbageBuffer)       // checks if operand is valid, ie not a garbage
+        if (selOprnd (oprnd1, true) == &garbageBuffer)    // checks if operand is valid, ie not a garbage
             return;
         
         if (dev) printf (YEL "\nout> " RST);              // print dev mode output indicator
         else if (console) printf (YEL "out> " RST);
         
-        printf ("%d", *selOprnd (oprnd1, 1));             // prints the number
+        printf ("%d", *selOprnd (oprnd1, true));          // prints the number
         
         if (dev) printf ("\n\n");
         else if (console) printf ("\n");
@@ -350,13 +352,13 @@ void evaluate (char *opcode) {
     else if (!strcmp (opcode, "prc")) {                   // PRINT_CHAR (print as character)
     
         scanStr (file, oprnd1, 64);
-        if (selOprnd (oprnd1, 1) == &garbageBuffer)       // checks if operand is valid, ie not a garbage
+        if (selOprnd (oprnd1, true) == &garbageBuffer)    // checks if operand is valid, ie not a garbage
             return;
         
         if (dev) printf (YEL "\nout> " RST);
         else if (console) printf (YEL "out> " RST);
         
-        printf ("%c", *selOprnd (oprnd1, 1));             // prints the character
+        printf ("%c", *selOprnd (oprnd1, true));          // prints the character
         
         if (dev) printf ("\n\n");
         else if (console) printf ("\n");
@@ -370,7 +372,7 @@ void evaluate (char *opcode) {
         
         printf ("%s", oprnd1);                            // prints the string 
         if (dev || console) {                             // prints an inverted % just like zsh if output doesn't end with a newline
-            if (oprnd1[strlen (oprnd1) - 1] != 10) printf (INV "%%" RST "\n");
+            if (oprnd1[strlen (oprnd1) - 1] != '\n') printf (INV "%%" RST "\n");
             if (dev) printf ("\n");
         }
     }

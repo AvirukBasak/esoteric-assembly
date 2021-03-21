@@ -35,7 +35,9 @@ void printHelp (bool usage) {
         "  Variable cells      | For storage (32 Bits per cell)\n\n"
         "Number of RAM cells can be changed using opcode `ram`.\n\n"
         "Mnemonics:            | \n"
-        "  /*comment*/         | Multi line comment\n"
+        "  #!/path/to/asm      | Execute asm script directly from shell\n"
+        "  # comment           | Single line comment\n"
+        "  /* comment */       | Multi line comment\n"
         "  Label:              | Labels\n"
         "  set  op1 op2        | Set op1 to value of op2\n"
         "  add  op1 op2        | Add op2 to op1 and store in op1\n"
@@ -91,9 +93,9 @@ void prArray (char *s, unsigned int size) {
         else printf ("<" GRN);
         for (int i = 0; i < size; i++) {
             c = s[i];
-            if (c == 9) printf ("\\t");
-            else if (c == 10) printf ("\\n");
-            else if (c == 13) printf ("\\r");
+            if (c == '\t') printf ("\\t");
+            else if (c == '\n') printf ("\\n");
+            else if (c == '\r') printf ("\\r");
             else printf ("%c", c);
         }
         printf (RST ">\t\t{" YEL);

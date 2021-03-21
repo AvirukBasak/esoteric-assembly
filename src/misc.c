@@ -17,8 +17,8 @@
  | @return The substringed string
  */
 char *substr (char *str, int frm, int to) {
-    if (to >= 0) str[to] = '\0';                   // mark string ending using null char
-    return &str[frm];                              // returns address of frm posn so that string data pointer is shifted
+    if (to >= 0) str[to] = '\0';                          // mark string ending using null char
+    return &str[frm];                                     // returns address of frm posn so that string data pointer is shifted
 }
 
 /* Quits program after closing open file and returning exitcode
@@ -27,8 +27,8 @@ char *substr (char *str, int frm, int to) {
 void quit (int exitcode) {
     // exit only if console mode is of and exit code belongs to [0, 8] U {20}
     if (!console || (exitcode >= 0 && exitcode <= 8) || exitcode == 20) {
-        if (file != NULL) fclose (file);            // if file is NULL, there's no meed to close it
-        exit (exitcode);                            // exit with code
+        if (file != NULL) fclose (file);                  // if file is NULL, there's no meed to close it
+        exit (exitcode);                                  // exit with code
     }
 }
 
@@ -82,26 +82,26 @@ char *unEscape (char *str) {
     char bkp [strlen (str) + 1];
     strcpy (bkp, str);
     char c = bkp[i];
-    while (c != '\0' && j <= size) {             // loop till character is empty
-        if (c == 9) {                            // if tab, replace with "\t"
+    while (c != '\0' && j <= size) {                      // loop till character is empty
+        if (c == '\t') {                                  // if tab, replace with "\t"
             str[j++] = '\\';
             if (j > size) break;
             str[j++] = 't';
         }
-        else if (c == 10) {                      // if LF, replace with "\n"
+        else if (c == '\n') {                             // if LF, replace with "\n"
             str[j++] = '\\';
             if (j > size) break;
             str[j++] = 'n';
         }
-        else if (c == 13) {                      // if CR, replace with "\r"
+        else if (c == '\r') {                             // if CR, replace with "\r"
             str[j++] = '\\';
             if (j > size) break;
             str[j++] = 'r';
         }
-        else {                                   // else just copy
-            str[j++] = c;                        // increase j by 1
+        else {                                            // else just copy
+            str[j++] = c;                                 // increase j by 1
         }
-        c = bkp[++i];                            // get next character
+        c = bkp[++i];                                     // get next character
     }
     if (j > size) {
         str[j-1] = '\0';
@@ -110,6 +110,6 @@ char *unEscape (char *str) {
                                         "     '%s'...\n", lineNo, size, str);
         quit (8);
     }
-    str[j] = '\0';                               // end string with a null
+    str[j] = '\0';                                        // end string with a null
     return str;
 }

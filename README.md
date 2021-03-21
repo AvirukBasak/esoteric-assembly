@@ -72,6 +72,8 @@ RAM:                  |
 Number of RAM cells can be changed using opcode `ram`.
 
 Mnemonics:            | 
+  #!/path/to/asm      | Execute asm script directly from shell
+  # comment           | Single line comment
   /*comment*/         | Multi line comment
   Label:              | Labels
   set  op1 op2        | Set op1 to value of op2
