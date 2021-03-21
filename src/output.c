@@ -93,9 +93,9 @@ void prArray (char *s, unsigned int size) {
         else printf ("<" GRN);
         for (int i = 0; i < size; i++) {
             c = s[i];
-            if (c == 9) printf ("\\t");
-            else if (c == 10) printf ("\\n");
-            else if (c == 13) printf ("\\r");
+            if (c == '\t') printf ("\\t");
+            else if (c == '\n') printf ("\\n");
+            else if (c == '\r') printf ("\\r");
             else printf ("%c", c);
         }
         printf (RST ">\t\t{" YEL);

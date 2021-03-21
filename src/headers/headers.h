@@ -53,7 +53,7 @@
     
     // input.c
     void openFile (char *path);
-    void eof (FILE *ptr);
+    void eof ();
     signed short int readC (FILE *ptr);
     bool isStrayChar (signed short int c);
     void scanStr (FILE *ptr, char *str, unsigned int size);

@@ -83,17 +83,17 @@ char *unEscape (char *str) {
     strcpy (bkp, str);
     char c = bkp[i];
     while (c != '\0' && j <= size) {                      // loop till character is empty
-        if (c == 9) {                                     // if tab, replace with "\t"
+        if (c == '\t') {                                  // if tab, replace with "\t"
             str[j++] = '\\';
             if (j > size) break;
             str[j++] = 't';
         }
-        else if (c == 10) {                               // if LF, replace with "\n"
+        else if (c == '\n') {                             // if LF, replace with "\n"
             str[j++] = '\\';
             if (j > size) break;
             str[j++] = 'n';
         }
-        else if (c == 13) {                               // if CR, replace with "\r"
+        else if (c == '\r') {                             // if CR, replace with "\r"
             str[j++] = '\\';
             if (j > size) break;
             str[j++] = 'r';

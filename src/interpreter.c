@@ -305,7 +305,7 @@ void evaluate (char *opcode) {
     // RAM resize
     else if (!strcmp (opcode, "ram")) {
         scanStr (file, oprnd1, 64);
-        if (selOprnd (oprnd1, true) == &garbageBuffer)       // checks if operand is valid, ie not a garbage
+        if (selOprnd (oprnd1, true) == &garbageBuffer)    // checks if operand is valid, ie not a garbage
             return;
         
         RAM = reallocateMem (RAM, (size_t)*selOprnd (oprnd1, true) * sizeof (int));
@@ -352,7 +352,7 @@ void evaluate (char *opcode) {
     else if (!strcmp (opcode, "prc")) {                   // PRINT_CHAR (print as character)
     
         scanStr (file, oprnd1, 64);
-        if (selOprnd (oprnd1, true) == &garbageBuffer)       // checks if operand is valid, ie not a garbage
+        if (selOprnd (oprnd1, true) == &garbageBuffer)    // checks if operand is valid, ie not a garbage
             return;
         
         if (dev) printf (YEL "\nout> " RST);
@@ -372,7 +372,7 @@ void evaluate (char *opcode) {
         
         printf ("%s", oprnd1);                            // prints the string 
         if (dev || console) {                             // prints an inverted % just like zsh if output doesn't end with a newline
-            if (oprnd1[strlen (oprnd1) - 1] != 10) printf (INV "%%" RST "\n");
+            if (oprnd1[strlen (oprnd1) - 1] != '\n') printf (INV "%%" RST "\n");
             if (dev) printf ("\n");
         }
     }
