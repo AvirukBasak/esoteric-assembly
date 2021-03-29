@@ -7,13 +7,17 @@ An interpreter with assembly like syntax.
 3. [The test files](#the-test-files)
 4. [Source files](#source-files)
 5. [How to code?](#how-to-code)
-6. [How this interpreter works?](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/WORKING.md)
-7. [Contribute](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CONTRIBUTE.md)
+6. [More notes](#more-notes)
+7. [Delimiting characters](#delimiting-characters)
+8. [Strings](#strings)
+9. [How this interpreter works?](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/WORKING.md)
+10. [Contribute](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CONTRIBUTING.md)
+11. [Code of conduct](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CODE_OF_CONDUCT.md)
 
 ## Download links
-- Checkout out our latest release [here](https://github.com/OogleGlu/Esoteric-Assembler/releases/tag/v2021.3.15). You'll find installation instructions there.
+- Checkout out our latest release [here](https://github.com/OogleGlu/Esoteric-Assembler/releases/tag/v2021.3.30). You'll find installation instructions there.
 - Download a ZIP file from [here](https://github.com/OogleGlu/Esoteric-Assembler/archive/main.zip).
-- Or get an executable from [builds](https://github.com/OogleGlu/Esoteric-Assembler/tree/main/builds).
+- Or get an executable from [bin](https://github.com/OogleGlu/Esoteric-Assembler/tree/main/bin).
 
 ## How to use?
 - Execute as `asm path/to/file` where `asm` is the command (or the path to the binary executable).
@@ -71,6 +75,8 @@ RAM:                  |
 Number of RAM cells can be changed using opcode `ram`.
 
 Mnemonics:            | 
+  #!/path/to/asm      | Execute asm script directly from shell
+  # comment           | Single line comment
   /*comment*/         | Multi line comment
   Label:              | Labels
   set  op1 op2        | Set op1 to value of op2
