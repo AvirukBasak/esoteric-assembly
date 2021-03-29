@@ -9,9 +9,10 @@ An interpreter with assembly like syntax.
 5. [How to code?](#how-to-code)
 6. [More notes](#more-notes)
 7. [Strings](#strings)
-8. [How this interpreter works?](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/WORKING.md)
-9. [Contribute](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CONTRIBUTING.md)
-10. [Code of conduct](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CODE_OF_CONDUCT.md)
+8. [Delimiting characters](#delimiting-characters)
+9. [How this interpreter works?](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/WORKING.md)
+10. [Contribute](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CONTRIBUTING.md)
+11. [Code of conduct](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CODE_OF_CONDUCT.md)
 
 ## Download links
 - Checkout out our latest release [here](https://github.com/OogleGlu/Esoteric-Assembler/releases/tag/v2021.3.30). You'll find installation instructions there.
