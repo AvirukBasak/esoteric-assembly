@@ -12,7 +12,7 @@ An interpreter with assembly like syntax.
 8. [Code of conduct](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CODE_OF_CONDUCT.md)
 
 ## Download links
-- Checkout out our latest release [here](https://github.com/OogleGlu/Esoteric-Assembler/releases/tag/v2021.3.25). You'll find installation instructions there.
+- Checkout out our latest release [here](https://github.com/OogleGlu/Esoteric-Assembler/releases/tag/v2021.3.30). You'll find installation instructions there.
 - Download a ZIP file from [here](https://github.com/OogleGlu/Esoteric-Assembler/archive/main.zip).
 - Or get an executable from [bin](https://github.com/OogleGlu/Esoteric-Assembler/tree/main/bin).
 
