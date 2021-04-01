@@ -4,12 +4,6 @@
  | by a few kilobytes.
  */
 
-// stdlib.h alternative
-# ifdef size_t
-#     undef size_t
-# endif
-# define size_t unsigned long;
-
 void *malloc (size_t size);
 void *calloc (size_t blocks, size_t size);
 void *realloc (void *ptr, size_t size);
