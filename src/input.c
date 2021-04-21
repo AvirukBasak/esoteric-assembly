@@ -4,7 +4,7 @@
 
 // opens a file
 void openFile (char *path) {
-    file = fopen (path, "r");                                         // r means read mode
+    file = fopen (path, "rb");                                        // r means read mode
     if (file == NULL) {                                               // if NULL, means file not read
         E4: fprintf (stderr, RED "ERR> " RST "Can't read file '%s'\n"
                                  "     Check if file path exists and has read permission\n", path);

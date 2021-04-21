@@ -10,7 +10,7 @@ set &0 $0x40
 /* space bw chars */
 set &1 $0x20
 
-/* compare i and j reg ie %a and %b 
+/* compare i and j reg ie %a and %b
  * with %d which is set to 10
  */
 iLoop:
