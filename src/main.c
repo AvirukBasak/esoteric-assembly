@@ -1,8 +1,8 @@
-/* Version: 2021.3.30
+/* Version: 2021.4.20
  | Description: Another assembly simulator
  */
 
-#define VER "v2021.3.30"
+#define VER "v2021.4.20"
 
 #include "headers/headers.h"
 #include "global.c"
