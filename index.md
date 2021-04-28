@@ -10,9 +10,11 @@ An interpreter with assembly like syntax.
 6. [More notes](#more-notes)
 7. [Delimiting characters](#delimiting-characters)
 8. [Strings](#strings)
-9. [How this interpreter works?](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/WORKING.md)
-10. [Contribute](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CONTRIBUTING.md)
-11. [Code of conduct](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CODE_OF_CONDUCT.md)
+9. [List of all errors](#list-of-all-errors)
+10. [List of all warnings](#list-of-all-warnings)
+11. [How this interpreter works?](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/WORKING.md)
+12. [Contribute](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CONTRIBUTING.md)
+13. [Code of conduct](https://github.com/OogleGlu/Esoteric-Assembler/blob/main/docs/CODE_OF_CONDUCT.md)
 
 ## Download links
 - Checkout out our latest release [here](https://github.com/OogleGlu/Esoteric-Assembler/releases/tag/v2021.4.20). You'll find installation instructions there.
@@ -83,7 +85,7 @@ Mnemonics:            |
   add  op1 op2        | Add op2 to op1 and store in op1
   sub  op1 op2        | Subtract op2 from op1 and store in op1
   mul  op1 op2        | Multiply op1 by op2 and store in op1
-  div  op1 op2        | Divide op1 by op1 and store in op1
+  div  op1 op2        | Divide op1 by op2 and store in op1
   mod  op1 op2        | Mod op1 by op2 and store in op1
   ieq  op1 op2        | If operands are equal, set FLAG true
   ige  op1 op2        | If op1 is greater or equal, set FLAG true
