@@ -48,7 +48,7 @@ SIZE="26"
 
 checkAndInst "gcc" "clang"
 echo "Compiling to '${PREFIX:0:27}/usr/bin/asm'..."
-gcc -Wall -Ofast -o "${PREFIX:0:27}/usr/bin/asm" ./src/main.c
+gcc -Ofast -o "${PREFIX:0:27}/usr/bin/asm" ./src/main.c
 echo "Setting permission 755..."
 chmod 755 "${PREFIX:0:27}/usr/bin/asm"
 
