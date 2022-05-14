@@ -43,8 +43,8 @@ then
     exit 1
 fi
 
-VER="2021.4.20"
-SIZE="26"
+VER="2022.5.14"
+SIZE="30"
 
 checkAndInst "gcc" "clang"
 echo "Compiling to '${PREFIX:0:27}/usr/bin/asm'..."
