@@ -2,7 +2,8 @@
  | Description: Another assembly simulator
  */
 
-#define VER "v2021.4.20"
+#define VER "v2022.5.14"
+#define AUTHOR "Aviruk Basak"
 
 #include "headers/headers.h"
 #include "global.c"
@@ -63,7 +64,7 @@ void evalOptions (int argsc, char **args, int indx) {
         }
         printf ("Esoteric Assembler " VER "\n"
                 "License: GNU General Public License (GPL) v3.0+\n"
-                "Authors: Oogle Glu\n");
+                "Authors: " AUTHOR "\n");
         quit (0);
     }
     // if it is dev
