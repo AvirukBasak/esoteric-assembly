@@ -1,4 +1,4 @@
-# esoteric-assembler
+# esoteric-assembly
 An interpreter with assembly like syntax.
 
 ## Index
