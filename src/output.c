@@ -2,6 +2,9 @@
  | Functions related to console output
  */
 
+#include "headers/headers.h"
+#include "headers/global.h"
+
 // prints asm help text
 void printHelp (bool usage) {
     if (usage) printf (

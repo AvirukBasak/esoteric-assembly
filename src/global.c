@@ -2,11 +2,9 @@
  | All global variables
  */
 
-struct TABLE {
-    int cur;
-    unsigned int line;
-    char lbl[65];
-};
+#include "headers/headers.h"
+#include "headers/global.h"
+
 struct TABLE *tab;               // this will allow us to access any label based on its cursor posn
 int tabIndex;                    // index of last label in table
 bool console;                    // console mode

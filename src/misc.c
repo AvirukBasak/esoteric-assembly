@@ -3,6 +3,9 @@
  | These are general functions or functions used in more than 1 file
  */
 
+#include "headers/headers.h"
+#include "headers/global.h"
+
 /* OBSCURE: String was not copied for two reasons:
  |     This process saves the time taken to copy using a loop
  |     This process saves memory of an extra string

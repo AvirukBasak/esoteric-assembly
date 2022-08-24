@@ -6,11 +6,7 @@
 #define AUTHOR "Aviruk Basak"
 
 #include "headers/headers.h"
-#include "global.c"
-#include "misc.c"
-#include "input.c"
-#include "output.c"
-#include "interpreter.c"
+#include "headers/global.h"
 
 // initialize all global variables
 void initialize () {

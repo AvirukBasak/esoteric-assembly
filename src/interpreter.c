@@ -2,6 +2,9 @@
  | Functions for code interpretation
  */
 
+#include "headers/headers.h"
+#include "headers/global.h"
+
 /* Reads operands and checks if garbage
  | @param oprnd1, oprnd2 The operands to be read
  | @param size1, size2 The available string size

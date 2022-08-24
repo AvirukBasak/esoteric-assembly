@@ -12,10 +12,10 @@
 
 # ifndef HEADERS
 #   define HEADERS
-#   
+#
 #   include <stdio.h>
 #   include "libheaders.h"
-#   
+#
 #   ifndef _WIN32
 #      define YEL     "\033[33m"
 #      define RED     "\033[31m"
@@ -33,12 +33,18 @@
 #      define INV     ""
 #      define RST     ""
 #   endif
-#   
+#
 #   ifdef EOF
 #       undef EOF
 #   endif
 #   define EOF(c) (c == -1 || c == 255)
-#   
+
+    struct TABLE {
+        int cur;
+        unsigned int line;
+        char lbl[65];
+    };
+
     // main.c
     void initialize ();
     void evalOptions (int argsc, char **args, int indx);

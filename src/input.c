@@ -2,6 +2,9 @@
  | Functions related to console input
  */
 
+#include "headers/headers.h"
+#include "headers/global.h"
+
 // opens a file
 void openFile (char *path) {
     file = fopen (path, "rb");                                        // r means read mode
