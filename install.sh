@@ -2,7 +2,7 @@
 checkAndInst() {
     if ! which "$1" > /dev/null
     then
-        echo "Package $1 is not installed!"
+        echo "Package $2 is not installed!"
         read -p "Install? (y/n) "
         if [ "$REPLY" = "y" ]
         then
